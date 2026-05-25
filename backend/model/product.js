@@ -1,0 +1,65 @@
+import mongoose from "mongoose";
+const Schema = mongoose.Schema;
+
+const productSchema = new Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      minlength: 3,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    category: {
+      type: String,
+      required: true,
+      enum: [
+        "Skincare",
+        "Makeup",
+        "Haircare",
+        "Fragrance",
+        "Bath & Body",
+        "Tools & Accessories",
+        "Supplements",
+      ],
+    },
+    brand: {
+      type: String,
+      required: true,
+    },
+    price: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
+    images: [
+      {
+        url: {
+          type: String,
+          required: true,
+        },
+        filename: String,
+      },
+    ],
+    ingredients: [String],
+    reviews: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "ProductReview",
+      },
+    ],
+  },
+  { timestamps: true }
+);
+
+productSchema.post("findOneAndDelete", async (product) => {
+  if (product) {
+    const ProductReview = require("./productReview");
+    await ProductReview.deleteMany({ _id: { $in: product.reviews } });
+  }
+});
+
+const Product = mongoose.model("Product", productSchema);
+export default Product;
