@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
 import userRouter from "./routes/user.route.js";
+import reviewRouter from "./routes/productReview.route.js";
 
 dotenv.config();
 
@@ -9,6 +10,7 @@ dotenv.config();
 const app = express();
 app.use(express.json()); 
 app.use("/skinova",userRouter);
+app.use("/skinova",reviewRouter);
 
 
 const MONGO_URL = process.env.MONGO_URL;

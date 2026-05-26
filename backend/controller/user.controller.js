@@ -38,7 +38,6 @@ export const RegisterUser = async (req, res) => {
   }
 };
 
-
 export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -66,8 +65,8 @@ export const loginUser = async (req, res) => {
       expiresIn: "7d",
     });
 
-    console.log(token);
-    await User.updateOne({ token: token });
+    user.token = token;
+    await user.save();
 
     return res.status(httpStatus.OK).json({
       message: "User login successful!",
@@ -77,8 +76,6 @@ export const loginUser = async (req, res) => {
     return res.status(httpStatus.UNAUTHORIZED).json({ message: error.message });
   }
 };
-
-
 
 export const addProduct = async(req,res) => {
   try {
@@ -93,11 +90,46 @@ export const addProduct = async(req,res) => {
   }
 }
 
+export const getAllProducts = async(req,res) => {
+  try {
+    const allProducts = await Product.find();
+    if(!allProducts) return res.status(httpStatus.NOT_FOUND).json({message: "NOT FOUND!"});
+    return res.status(httpStatus.OK).json(allProducts);
+  } catch (error) {
+    return res.status(httpStatus.BAD_REQUEST).json({ message: error.message });
+  }
+}
+// searchProducts ********
+
+export const getProductsByCategory = async(req,res) => {
+  try {
+    const products = await Product.find({
+      category: req.params.category
+    });
+    if(!products) return res.status(httpStatus.NOT_FOUND).json({message:"not found!"});
+    
+    return res.status(httpStatus.OK).json(products);
+
+  } catch (error) {
+    return res.status(httpStatus.BAD_REQUEST).json({message: error.message});
+  }
+}
 
 export const getProduct  = async(req,res) => {
   const {id} = req.params;
   try {
-    const product = await Product.findById(id);
+    const product = await Product.findById(id).populate({
+      path: "reviews",
+
+      options:{
+        sort:{ createdAt:-1 }
+      },
+      
+      populate: {
+        path: "user",
+        select: "fullname profileImage"
+      }
+    });
     if(!product) {
       return res.status(httpStatus.NOT_FOUND).json({message: "No Such Product!"});
     }
@@ -107,18 +139,46 @@ export const getProduct  = async(req,res) => {
   }
 }
 
-
 export const deleteProduct = async(req,res) => {
   const { id } = req.params;
   try{
+    
+    await ProductRreview.deleteMany({
+      product:id
+    });
+    
     const product = await Product.findByIdAndDelete(id);
-
+    
     return res.status(httpStatus.OK).json({message: "Product deleted!"});
+
 
   } catch (error) {
     return res.status(httpStatus.NOT_FOUND).json({ message: error.message });
   }
 }
 
+export const editProduct = async(req,res) => {
+  try {
+    const { id } = req.params;
+    const updatedProduct = await Product.findById(req.params,req.body,{
+      new:true,
+      runValidators:true
+    });
+
+    if(!updatedProduct){
+        return res.status(httpStatus.NOT_FOUND).json({
+          message:"Product not found"
+        });
+      }
+
+      return res.status(httpStatus.OK).json({
+        message:"Product updated successfully",
+        updatedProduct
+      });
+
+  } catch (error) {
+    return res.status(httpStatus.BAD_REQUEST).json({ message: error.message });  
+  }
+}
 
 

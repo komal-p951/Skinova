@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import ProductReview from "./productReview.js";
 const Schema = mongoose.Schema;
 
 const productSchema = new Schema(
@@ -54,12 +55,23 @@ const productSchema = new Schema(
   { timestamps: true }
 );
 
-productSchema.post("findOneAndDelete", async (product) => {
-  if (product) {
-    const ProductReview = require("./productReview");
-    await ProductReview.deleteMany({ _id: { $in: product.reviews } });
-  }
-});
+// productSchema.post("findOneAndDelete", async (product) => {
+//   if (product) {
+//     await ProductReview.deleteMany({ _id: { $in: product.reviews } });
+//   }
+// });
+productSchema.post(
+   "findOneAndDelete",
+   async function(product){
+
+      if(product){
+         await ProductReview.deleteMany({
+            _id:{ $in: product.reviews }
+         });
+      }
+
+   }
+);
 
 const Product = mongoose.model("Product", productSchema);
 export default Product;
