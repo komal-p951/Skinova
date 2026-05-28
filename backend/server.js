@@ -3,6 +3,8 @@ import express from "express";
 import mongoose from "mongoose";
 import userRouter from "./routes/user.route.js";
 import reviewRouter from "./routes/productReview.route.js";
+import cartRouter from "./routes/cart.route.js";
+import wishListRouter from "./routes/wishlist.route.js";
 
 dotenv.config();
 
@@ -10,6 +12,8 @@ dotenv.config();
 const app = express();
 app.use(express.json()); 
 app.use("/skinova",userRouter);
+app.use("/skinova",wishListRouter);
+app.use("/skinova",cartRouter);
 app.use("/skinova",reviewRouter);
 
 

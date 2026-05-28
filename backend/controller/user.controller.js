@@ -79,7 +79,7 @@ export const loginUser = async (req, res) => {
 
 export const addProduct = async(req,res) => {
   try {
-    const {...Data } = req.body;
+    const Data = req.body;
     const product = new Product();
     Object.assign(product,Data);
     await product.save();
@@ -160,7 +160,7 @@ export const deleteProduct = async(req,res) => {
 export const editProduct = async(req,res) => {
   try {
     const { id } = req.params;
-    const updatedProduct = await Product.findById(req.params,req.body,{
+    const updatedProduct = await Product.findByIdAndUpdate(id,req.body,{
       new:true,
       runValidators:true
     });
@@ -180,5 +180,4 @@ export const editProduct = async(req,res) => {
     return res.status(httpStatus.BAD_REQUEST).json({ message: error.message });  
   }
 }
-
 
