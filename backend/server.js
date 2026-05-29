@@ -12,9 +12,9 @@ dotenv.config();
 const app = express();
 app.use(express.json()); 
 app.use("/skinova",userRouter);
-app.use("/skinova",wishListRouter);
-app.use("/skinova",cartRouter);
-app.use("/skinova",reviewRouter);
+app.use("/skinova/wishlist",wishListRouter);
+app.use("/skinova/cart",cartRouter);
+app.use("/skinova/reviews",reviewRouter);
 
 
 const MONGO_URL = process.env.MONGO_URL;

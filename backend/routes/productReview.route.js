@@ -4,7 +4,7 @@ import { isLogginUser } from '../middleware/islogginUser.js';
 
 const router = Router();
 
-router.route("/:id/reviews").post(isLogginUser,addReview);
-router.route("/:id/reviews/:reviewId").delete(isLogginUser,deleteReview);
+router.route("/:productId").post(isLogginUser,addReview);
+router.route("/:productId/:reviewId").delete(isLogginUser,deleteReview);
 
 export default router;

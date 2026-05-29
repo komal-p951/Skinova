@@ -2,10 +2,19 @@ import User from "../model/user.js";
 import Product from "../model/product.js";
 import httpStatus from "http-status";
 
+export const getCartProducts = async(req,res) => {
+  try {
+    const user = await User.findById(req.user._id).populate("cart.product");
+    return res.status(httpStatus.OK).json(user.cart);
+  } catch (error) {
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({message: error.message});
+  }
+}
+
 export const addToCart = async(req,res) => {
   try {
-    const user = await User.findById(req.user._id);
     const { id } = req.params;
+    const user = await User.findById(req.user._id);
     const product = await Product.findById(id);
     if(!product){
       return res.status(httpStatus.NOT_FOUND).json({ message: "NOT FOUND!"});
@@ -50,3 +59,5 @@ export const deleteFromCart = async(req,res) => {
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({message: error.message});
   }
 }
+
+

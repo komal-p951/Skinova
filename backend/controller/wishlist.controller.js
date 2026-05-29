@@ -2,6 +2,15 @@ import User from "../model/user.js";
 import Product from "../model/product.js";
 import httpStatus from "http-status";
 
+export const getWishListProduct = async(req,res) => {
+  try {
+    const user = await User.findById(req.user._id).populate("wishlist");
+    // console.log(user.wishlist);
+    return res.json(user.wishlist);
+  } catch (error) {
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({message: error.message});
+  }
+}
 
 export const addToWishList = async(req,res) => {
   try {

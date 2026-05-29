@@ -77,18 +77,32 @@ export const loginUser = async (req, res) => {
   }
 };
 
-export const addProduct = async(req,res) => {
+export const getAllUsers = async(req, res) => {
   try {
-    const Data = req.body;
-    const product = new Product();
-    Object.assign(product,Data);
-    await product.save();
+    const users = await User.find({role:"customer"});
 
-    return res.status(httpStatus.CREATED).json({message: "Product Added Successfully!"});
+    if(users.length == 0)return res.json({message:"No user found !"});
+
+    return res.json(users);
   } catch (error) {
-    return res.status(httpStatus.BAD_REQUEST).json({ message: error.message });
+    return res.status(httpStatus.UNAUTHORIZED).json({ message: error.message });
   }
 }
+
+// export const deleteBadReviews = async(req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const product = await Product.findById(id);
+//     if(!product){
+//       return res.status(httpStatus.NOT_FOUND).json({message: "Product Not Found!"});
+//     }
+//     console.log(product.reviews);
+//     return res.json({message: "hii"});
+//   } catch (error) {
+//     return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({message: error.message});
+//   }
+// }
+
 
 export const getAllProducts = async(req,res) => {
   try {
@@ -139,6 +153,19 @@ export const getProduct  = async(req,res) => {
   }
 }
 
+export const addProduct = async(req,res) => {
+  try {
+    const Data = req.body;
+    const product = new Product();
+    Object.assign(product,Data);
+    await product.save();
+
+    return res.status(httpStatus.CREATED).json({message: "Product Added Successfully!"});
+  } catch (error) {
+    return res.status(httpStatus.BAD_REQUEST).json({ message: error.message });
+  }
+}
+
 export const deleteProduct = async(req,res) => {
   const { id } = req.params;
   try{
@@ -180,4 +207,3 @@ export const editProduct = async(req,res) => {
     return res.status(httpStatus.BAD_REQUEST).json({ message: error.message });  
   }
 }
-

@@ -55,11 +55,6 @@ const productSchema = new Schema(
   { timestamps: true }
 );
 
-// productSchema.post("findOneAndDelete", async (product) => {
-//   if (product) {
-//     await ProductReview.deleteMany({ _id: { $in: product.reviews } });
-//   }
-// });
 productSchema.post(
    "findOneAndDelete",
    async function(product){
