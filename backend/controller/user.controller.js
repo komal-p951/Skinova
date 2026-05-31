@@ -89,19 +89,36 @@ export const getAllUsers = async(req, res) => {
   }
 }
 
-// export const deleteBadReviews = async(req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const product = await Product.findById(id);
-//     if(!product){
-//       return res.status(httpStatus.NOT_FOUND).json({message: "Product Not Found!"});
-//     }
-//     console.log(product.reviews);
-//     return res.json({message: "hii"});
-//   } catch (error) {
-//     return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({message: error.message});
-//   }
-// }
+export const getProfile = async(req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select("-password");
+    if(!user){
+      return res.status(httpStatus.NOT_FOUND).json({ message:"User Not Found!" });
+    }
+    return res.status(httpStatus.OK).json(user);
+  } catch (error) {
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ message:error.message });
+  }
+}
+
+
+export const updatedProfileData = async(req,res) => {
+  try {
+    const data = req.body;
+    const user = await User.findById(req.user.id).select("-password");
+    if(!user){
+      return res.status(httpStatus.NOT_FOUND).json({ message:"User Not Found!" });
+    }
+
+    Object.assign(user,data);
+
+    await user.save();
+
+    return res.json({message:"Profile updated successfully!",user});
+  } catch (error) {
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ message:error.message });
+  }
+}
 
 
 export const getAllProducts = async(req,res) => {
@@ -113,7 +130,8 @@ export const getAllProducts = async(req,res) => {
     return res.status(httpStatus.BAD_REQUEST).json({ message: error.message });
   }
 }
-// searchProducts ********
+
+
 
 export const getProductsByCategory = async(req,res) => {
   try {

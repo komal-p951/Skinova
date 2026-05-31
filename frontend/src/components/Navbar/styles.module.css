@@ -1,0 +1,37 @@
+.navbar{
+    z-index: 100;
+    background: #fff;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 1rem;
+    display: flex;
+    position: sticky;
+    top: 0;
+    border-bottom: 1px solid wheat;
+}
+
+.logo{
+    font-size:28px;
+    font-weight:700;
+    color:#e91e63;
+}
+
+.nav_ico{
+    display:flex;
+    gap:20px;
+    font-size:20px;
+    cursor:pointer;
+}
+.right{
+    display: flex;
+    gap: 4rem;
+    align-items: center;
+}
+.login{
+    padding-inline: 3rem;
+    background: #714f65;
+    padding-block: 0.8rem;
+    border-radius: 10px;
+    color: #fffafa;
+    font-size: large;
+}
