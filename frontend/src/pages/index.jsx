@@ -5,7 +5,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import {useRouter} from "next/router";
 import Navbar from "@/components/Navbar/Navbar";
 
-
 export default function Home() {
   const router = useRouter();
   return (

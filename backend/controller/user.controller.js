@@ -31,7 +31,7 @@ export const RegisterUser = async (req, res) => {
 
     await newUser.save();
 
-    return res.status(httpStatus.CREATED).json({ message: "User Created" });
+    return res.status(httpStatus.CREATED).json({ message: "User Registered Successfully!" });
 
   } catch (error) {
     return res.status(httpStatus.BAD_REQUEST).json({ message: error.message });
@@ -69,7 +69,7 @@ export const loginUser = async (req, res) => {
     await user.save();
 
     return res.status(httpStatus.OK).json({
-      message: "User login successful!",
+      message: "User Login Successfully!",
       token: token,
     });
   } catch (error) {
