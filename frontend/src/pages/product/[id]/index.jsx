@@ -1,12 +1,12 @@
 import DashboardLayout from '@/layout/DashboardLayout';
 import React from 'react'
 
-function Cart() {
+function Product() {
   return (
     <DashboardLayout>
-      Cart
+      single product Details component
     </DashboardLayout>
   )
 }
 
-export default Cart;
+export default Product;

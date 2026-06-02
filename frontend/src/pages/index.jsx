@@ -4,13 +4,15 @@ import { Geist, Geist_Mono } from "next/font/google";
 // import styles from "@/pages";
 import {useRouter} from "next/router";
 import Navbar from "@/components/Navbar/Navbar";
+import Footer from "@/components/Footer/Footer";
+import Products from "./products";
 
 export default function Home() {
   const router = useRouter();
   return (
    <>
     <div>
-      <Navbar/>
+      <Products></Products>
     </div>
    </>
   );

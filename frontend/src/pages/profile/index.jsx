@@ -1,9 +1,12 @@
+import DashboardLayout from '@/layout/DashboardLayout';
 import React from 'react'
 
 function Profile() {
   return (
-    <div>
-    </div>
+    <DashboardLayout>
+      Profile images
+      profile user name
+    </DashboardLayout>
   )
 }
 

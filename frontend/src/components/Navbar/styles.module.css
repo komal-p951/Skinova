@@ -11,9 +11,14 @@
 }
 
 .logo{
-    font-size:28px;
-    font-weight:700;
-    color:#e91e63;
+    color: #714f65;
+    font-size: 55px;
+    padding-inline: 2.5rem;
+    padding-block: 0.8rem;
+    font-weight: 700;
+}
+.logo Image{
+    background: white;
 }
 
 .nav_ico{
@@ -24,7 +29,7 @@
 }
 .right{
     display: flex;
-    gap: 4rem;
+    gap: 2rem;
     align-items: center;
 }
 .login{

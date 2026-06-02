@@ -1,71 +1,87 @@
-import styles from './styles.module.css';
+import styles from "./styles.module.css";
 import { useEffect, useState } from "react";
-import { clientServer } from '@/index';
-import { useRouter } from 'next/router';
+import { clientServer } from "@/index";
+import { useRouter } from "next/router";
 
 export default function LoginRegister() {
   const router = useRouter();
   const [isLogin, setIsLogin] = useState(true);
-  const[formData,setFormData] = useState({
-    fullname:"",
-    username:"",
-    email:"",
-    phone:"",
-    password:""
+  const [formData, setFormData] = useState({
+    fullname: "",
+    username: "",
+    email: "",
+    phone: "",
+    password: "",
   });
-  const [message,setMessage] = useState("");
+  const [message, setMessage] = useState("");
+  const [errorMessage,setErrorMessage] = useState("");
 
   const handleInputChange = (e) => {
-    const {name ,value} = e.target;
-    setFormData({...formData,[name]: value});
-  }
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
-  const handleRegister = async(e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      let res = await clientServer.post("/auth",formData);
+      let res = await clientServer.post("/auth", formData);
       setMessage(res.data.message);
-      
+
       setFormData({
-        fullname:"",
-        username:"",
-        email:"",
-        phone:"",
-        password:""
+        fullname: "",
+        username: "",
+        email: "",
+        phone: "",
+        password: "",
       });
       setIsLogin(true);
-      
-      router.push("/login");
+      setErrorMessage("");
     } catch (error) {
-      return error.response?.data?.message || "something went wrong!";
+      setErrorMessage(error?.response?.data?.message || "something went wrong!");
     }
-  }
+  };
 
-  const handleLogin = async(e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      let res = await clientServer.post("/login",formData);
-      
+      let res = await clientServer.post("/login", formData);
+      localStorage.setItem("token",res.data.token);
+
       setFormData({
-        email:"",
-        password:""
+        fullname: "",
+        username: "",
+        email: "",
+        phone: "",
+        password: "",
       });
+      setMessage(res.data.message);
+      setErrorMessage("");
       router.push("/");
     } catch (error) {
-      return error.response?.data?.message || "something went wrong!";
+      setErrorMessage(error?.response?.data?.message || "something went wrong!");
     }
-  }
+  };
 
- 
+  setTimeout(() => {
+    setMessage("");
+  }, 8000);
 
   return (
     <div className={styles.auth_container}>
-
-      <div className={styles.message}>{message}</div>
+      {message.length > 0 ? (
+        <div className={styles.message}>{message}</div>
+      ) : (
+        <div
+          style={{
+            width: "300px",
+            height: "30px",
+            paddingTop: "1rem",
+            marginBottom: "25px",
+          }}
+        ></div>
+      )}
 
       <div className={styles.auth_card}>
-
-
         {/* Left Side */}
         <div className={styles.left_panel}>
           <div className={styles.logo}>
@@ -76,15 +92,12 @@ export default function LoginRegister() {
 
           <div className={styles.left_content}>
             <h2>Welcome to Skinova</h2>
-            <p>
-              Your journey to healthy and glowing skin starts here.
-            </p>
+            <p>Your journey to healthy and glowing skin starts here.</p>
           </div>
         </div>
 
         {/* Right Side */}
         <div className={styles.right_panel}>
-
           <div className={styles.tabs}>
             <button
               className={isLogin ? styles.active : ""}
@@ -100,9 +113,7 @@ export default function LoginRegister() {
               Register
             </button>
           </div>
-
-          
-
+          {errorMessage ? <div style={{color:"red",}}>{errorMessage}</div> : <></> }
 
           {isLogin ? (
             <>
@@ -125,7 +136,7 @@ export default function LoginRegister() {
                   onChange={handleInputChange}
                 />
 
-                <button className={styles.main_btn} type='submit'>
+                <button className={styles.main_btn} type="submit">
                   Login
                 </button>
               </form>
@@ -134,13 +145,9 @@ export default function LoginRegister() {
                 <span>or continue with</span>
               </div>
 
-          
-
               <p className={styles.switch_text}>
                 New here?
-                <span onClick={() => setIsLogin(false)}>
-                  Create Account
-                </span>
+                <span onClick={() => setIsLogin(false)}>Create Account</span>
               </p>
             </>
           ) : (
@@ -148,7 +155,6 @@ export default function LoginRegister() {
               <h2>Create Account</h2>
 
               <form className={styles.form} onSubmit={handleRegister}>
-
                 <input
                   type="text"
                   placeholder="Full Name"
@@ -189,21 +195,18 @@ export default function LoginRegister() {
                   onChange={handleInputChange}
                 />
 
-                <button type='submit' className={styles.main_btn}>
+                <button type="submit" className={styles.main_btn}>
                   Register
                 </button>
               </form>
 
               <p className={styles.switch_text}>
                 Already have an account?
-                <span onClick={() => setIsLogin(true)}>
-                  Login
-                </span>
+                <span onClick={() => setIsLogin(true)}>Login</span>
               </p>
             </>
           )}
         </div>
-
       </div>
     </div>
   );
