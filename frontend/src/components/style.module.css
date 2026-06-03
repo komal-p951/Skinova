@@ -1,0 +1,11 @@
+.prod{
+    width: 400px;
+    height: fit-content;
+    border: 2px solid black;
+}
+
+.prod img{
+    height: 265px;
+    width: 300px;
+    
+}

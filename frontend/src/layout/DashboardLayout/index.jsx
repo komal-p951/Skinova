@@ -8,7 +8,7 @@ export default function DashboardLayout({children}) {
     <>
       <Navbar/>
       {children}
-      <div className={styles.footer}><Footer/></div>
+      <Footer/>
     </>
   )
 }

@@ -1,0 +1,19 @@
+.suggested_products{
+    display: grid;
+    place-items: center;
+    grid-template-columns: repeat(3,600px);
+    column-gap: 8px;
+    row-gap: 10px;
+}
+
+@media screen and (max-width:920px) {
+    .suggested_products{
+    grid-template-columns: 1fr 1fr;
+}
+}
+
+@media screen and (max-width:520px) {
+    .suggested_products{
+    grid-template-columns: 1fr;
+}
+}
