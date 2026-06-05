@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./styles.module.css";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { CircleUser, Heart, ShoppingCart } from "lucide-react";
 
 export default function Navbar() {
@@ -33,7 +31,7 @@ export default function Navbar() {
           router.push("/login");
         }}>Login</div>
         }
-        <div className={styles.nav_ico}>AI</div>
+        {/* <div className={styles.nav_ico}>AI</div> */}
         </div>
       </nav>
     </div>

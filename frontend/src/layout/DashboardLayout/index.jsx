@@ -8,7 +8,7 @@ export default function DashboardLayout({children}) {
     <>
       <Navbar/>
       {children}
-      <Footer/>
+      {/* <Footer/> */}
     </>
   )
 }

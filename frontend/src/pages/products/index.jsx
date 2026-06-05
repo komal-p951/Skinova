@@ -6,28 +6,127 @@ import Slider from "@/components/slider/slider";
 import ProductCard from "@/components/ProductCard";
 import { clientServer } from "@/index";
 
-
 export default function Products() {
   const [products, setProducts] = useState([]);
   useEffect(() => {
-    const product = async() => {
+    const product = async () => {
       const products = await clientServer.get("/");
       setProducts(products.data);
       console.log(products.data);
-    }
+    };
 
     product();
-  },[]);
-
+  }, []);
 
   return (
     <DashboardLayout>
-      <Slider/>
-      {/* <div className={styles.suggested_products}>
-        {products.map((product) => (
-          <ProductCard key={product._id} product={product}/>
-        ))}
-      </div> */}
+      <div className={styles.homeContainer}>
+        <div className={styles.topContainer}>
+          <Slider />
+        </div>
+
+        <div className={styles.midContainer}>
+          <img src="/images/bar.jpeg" alt="" />
+        </div>
+
+        <div className={styles.bottomContainer}>
+          <div className={styles.productContainer}>
+            <h1 className={styles.center}>MAKEUP & BEUTY</h1>
+            <div className={styles.makeup}>
+              {products
+                .filter((product) => product.category === "Makeup")
+                .slice(0, 4)
+                .map((product) => (
+                  <ProductCard key={product._id} product={product} />
+                ))}
+            </div>
+          </div>
+
+          <div className={styles.productContainer}>
+            <h1 className={styles.center}>MAKEUP & BEUTY</h1>
+            <div className={styles.makeup}>
+              {products
+                .filter((product) => product.category === "Tools & Accessories")
+                .slice(0, 4)
+                .map((product) => (
+                  <ProductCard key={product._id} product={product} />
+                ))}
+            </div>
+          </div>
+
+          <div className={styles.productContainer}>
+            <h1 className={styles.center}>MAKEUP & BEUTY</h1>
+            <div className={styles.makeup}>
+              {products
+                .filter((product) => product.category === "Skincare")
+                .slice(0, 4)
+                .map((product) => (
+                  <ProductCard key={product._id} product={product} />
+                ))}
+            </div>
+          </div>
+
+          <div className={styles.productContainer}>
+            <h1 className={styles.center}>MAKEUP & BEUTY</h1>
+            <div className={styles.makeup}>
+              {products
+                .filter((product) => product.category === "Haircare")
+                .slice(0, 4)
+                .map((product) => (
+                  <ProductCard key={product._id} product={product} />
+                ))}
+            </div>
+          </div>
+
+          <div className={styles.productContainer}>
+            <h1 className={styles.center}>MAKEUP & BEUTY</h1>
+            <div className={styles.makeup}>
+              {products
+                .filter((product) => product.category === "Fragrance")
+                .slice(0, 4)
+                .map((product) => (
+                  <ProductCard key={product._id} product={product} />
+                ))}
+            </div>
+          </div>
+
+          <div className={styles.productContainer}>
+            <h1 className={styles.center}>MAKEUP & BEUTY</h1>
+            <div className={styles.makeup}>
+              {products
+                .filter((product) => product.category === "Bath & Body")
+                .slice(0, 4)
+                .map((product) => (
+                  <ProductCard key={product._id} product={product} />
+                ))}
+            </div>
+          </div>
+
+          <div className={styles.productContainer}>
+            <h1 className={styles.center}>MAKEUP & BEUTY</h1>
+            <div className={styles.makeup}>
+              {products
+                .filter((product) => product.category === "Supplements")
+                .slice(0, 4)
+                .map((product) => (
+                  <ProductCard key={product._id} product={product} />
+                ))}
+            </div>
+          </div>
+        </div>
+      </div>
     </DashboardLayout>
   );
+}
+
+// .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // latest first
+//   .slice(0, 5);
+
+{
+  /* <div className={styles.makeup}>
+  <h1>Tools & Accessories</h1>
+  {products.filter((product) => product.category === "Tools & Accessories").slice(0,3).map((product) => (
+    <ProductCard key={product._id} product={product}/>
+  ))}
+</div> */
 }

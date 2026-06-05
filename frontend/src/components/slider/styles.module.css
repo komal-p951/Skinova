@@ -1,24 +1,18 @@
 
 .trending_products{
     width: 100%;
-    height: 500px;
     overflow: hidden;
 }
 
 .sliderimg img{
-    width: 400px; 
-    height: 400px;
-    margin: 1rem;
+    width: 98%; 
+    height: 40%;
+    min-height: 250px;
     border-radius: 2rem;
 }
 .sliderimg{
-    background: linear-gradient(135deg, #a8879e, #a48499, #9f7f96);
-    text-align: end;
-    color: rgb(238, 238, 238);
-    width: 96.4% !important;
-    margin: 2rem;
+    margin: 1.5rem;
     display: flex;
-    justify-content: space-evenly;
 }
 .aboutProduct{
     display: flex;
@@ -27,15 +21,11 @@
     align-items: center;
     padding-left: 1.5rem;
 }
-.first{
-    font-size: 3.5rem;
-    font-family: sans-serif;
-}
-.second{
-    font-size: 2rem;
-    font-family: cursive;
-}
-.third{
-    font-size: 2rem;
-    font-family: monospace;
+ @media (min-width: 920px) {
+  :global(.swiper-slide) {
+    width: 500px !important;
+  }
+  .trending_products{
+    height: 310px;
+  }
 }
