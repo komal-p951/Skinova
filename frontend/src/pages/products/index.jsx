@@ -43,7 +43,7 @@ export default function Products() {
           </div>
 
           <div className={styles.productContainer}>
-            <h1 className={styles.center}>MAKEUP & BEUTY</h1>
+            <h1 className={styles.center}>Tools & Accessories</h1>
             <div className={styles.makeup}>
               {products
                 .filter((product) => product.category === "Tools & Accessories")
@@ -55,7 +55,7 @@ export default function Products() {
           </div>
 
           <div className={styles.productContainer}>
-            <h1 className={styles.center}>MAKEUP & BEUTY</h1>
+            <h1 className={styles.center}>Skincare Products</h1>
             <div className={styles.makeup}>
               {products
                 .filter((product) => product.category === "Skincare")
@@ -67,7 +67,7 @@ export default function Products() {
           </div>
 
           <div className={styles.productContainer}>
-            <h1 className={styles.center}>MAKEUP & BEUTY</h1>
+            <h1 className={styles.center}>Haircare Products</h1>
             <div className={styles.makeup}>
               {products
                 .filter((product) => product.category === "Haircare")
@@ -79,7 +79,7 @@ export default function Products() {
           </div>
 
           <div className={styles.productContainer}>
-            <h1 className={styles.center}>MAKEUP & BEUTY</h1>
+            <h1 className={styles.center}>Fragrance</h1>
             <div className={styles.makeup}>
               {products
                 .filter((product) => product.category === "Fragrance")
@@ -91,7 +91,7 @@ export default function Products() {
           </div>
 
           <div className={styles.productContainer}>
-            <h1 className={styles.center}>MAKEUP & BEUTY</h1>
+            <h1 className={styles.center}>Bath & Body</h1>
             <div className={styles.makeup}>
               {products
                 .filter((product) => product.category === "Bath & Body")
@@ -103,7 +103,7 @@ export default function Products() {
           </div>
 
           <div className={styles.productContainer}>
-            <h1 className={styles.center}>MAKEUP & BEUTY</h1>
+            <h1 className={styles.center}>Supplements</h1>
             <div className={styles.makeup}>
               {products
                 .filter((product) => product.category === "Supplements")

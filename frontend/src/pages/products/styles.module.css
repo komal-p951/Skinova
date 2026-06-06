@@ -15,11 +15,12 @@
 }
 .bottomContainer{
   margin-top: 20px;
+  margin-left: 1rem;
 }
 
  .center {
   text-align: center;
-  margin-block: 1.2rem;
+  padding-top: 2rem;
 } 
 .makeup {
   display: grid;
@@ -30,22 +31,21 @@
   margin: 1rem;
 }
 .productContainer{
-  border: 2px solid red;
   border-radius: 25px;
-  color: white;
   margin-bottom: 1rem;
+  color: #714f65;
 }
 @media screen and  (width <= 1192px){
-  .makeup {
-    background: yellow;
-  }
     .makeup{
         grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-        margin: 1.5rem 0rem 1.5rem 1.5rem;
+        gap: 2.8rem;
+        margin: 1.5rem;
     }
   .midContainer img{
     height: 115px;
     min-height: 118px;
+  }
+  .bottomContainer{
+    margin: 12px;
   }
 }
