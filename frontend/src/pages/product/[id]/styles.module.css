@@ -1,46 +1,57 @@
-.mainContainer{
-  border: 1px solid red;
+ .mainContainer{
+  /* border: 1px solid red; */
 }
 .discount{
   border: 1px solid yellowgreen;
-  height: 140px;
+  height: 10rem;
 }
 .discount img{
   min-height: 120px;
   height: 135px;
-  width: 100%;
+  width: 100vw;
 }
 .path{
-  color: #714f65;;
+  color: #714f65;
+  margin-left: 7rem;
 }
 
 .mainMidContainer{
   margin-top: 2rem;
-  height: 70vh;
   border: 2px solid yellow;
+  justify-content: center;
   display: flex;
+  align-items: center;
+  margin-inline: 3rem;
 }
 .leftContainer{
   border: 1px solid blue;
-  height: 65vh;
-  width: 50vw;
+  /* height: 35rem; */
+  width: 50%;
   display: flex;
+  padding-inline: 2rem;
   justify-content: space-evenly;
 }
 
 .rightContainer{
   border: 1px solid blue;
-  height: 65vh;
-  width: 50vw;
+  /* height: 35rem; */
+  width: 50%;
+  font-family: Arial, Helvetica, sans-serif;
+  padding-left: 2rem;
+  padding-block: 2rem;
+}
+.productName{
+  font-size: 1.8rem;
+  font-weight: 600;
+  line-height: 20px;
 }
 
 .mainImage{
   border: 1px solid tomato;
-  height: 57vh;
-  object-fit: contain;
+  height: 34rem;
 }
 .mainImage img{
-  height: 65vh;
+  height: 34rem;
   object-fit: cover;
 }
 
@@ -49,13 +60,26 @@
   flex-direction: column;
 }
 .similarImage img{
-  height: 21.6vh;
+  height: 11.3rem;
+}
+.price{
+  font-size: x-large;
+  font-family: sans-serif;
+  font-weight: 600;
+}
+.originalPrice{
+  text-decoration: line-through;
+}
+.savePrice{
+  padding: 4px;
+  padding-inline: 8px;
+  background: wheat;
+  color: #714f65;
 }
 
 .topBar{
   display: flex;
   justify-content: space-between;
-  margin-inline: 18px;
   align-items: center;
   margin-top: 1rem;
 }
@@ -77,7 +101,7 @@
   padding: 2px;
 }
 .icon{
-  border: 1px solid rgba(184, 133, 75, 0.815);
+  border: 1px solid #714f65;
   border-radius: 50%;
   height: 50px;
   width: 50px;
@@ -90,7 +114,7 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  margin-left: 15px;
+  margin-left: 1rem;
   margin-top: 3rem;
   
 }
@@ -106,19 +130,137 @@
   border-radius: 5px;
   padding: 2px;
 }
-
-.mainReviewContainer{
-
+.priceDev{
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 1rem;
 }
+.price:nth-child(1){
+  padding-left: 0.8rem;
+}
+
+.quantity{
+  margin: 2rem 0 2rem 0.8rem;
+}
+
+.quantity h4{
+  margin-bottom: 12px;
+}
+
+.quantityBox{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 10rem;
+  background: #c4a985;
+  display: flex;
+  justify-content: center;
+  border-radius: 8px;
+}
+.quantityBox span{
+  cursor: pointer;
+}
+.quantityBox p{
+  border: none;
+  background: wheat;
+  text-align: center;
+  padding-block: 0.6rem;
+  width: 5rem;
+}
+.addToCartBtn{
+  color: #fff;
+    cursor: pointer;
+    background: linear-gradient(135deg, #7d5a71 0%, #714f65 100%);
+    border-radius: 8px;
+    justify-content: center;
+    align-items: center;
+    min-height: 38px;
+    padding: 14px;
+    font-weight: 600;
+    transition: all .3s;
+    display: flex;
+    width: 15rem;
+}
+.addToCartBtn:hover{
+  transform: scale(1.02);
+}
+@media screen and (width <= 1124px) {
+  .mainContainer{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .mainMidContainer{
+    flex-wrap: wrap;
+  }
+  .leftContainer{
+    width: 100%;
+    justify-content: center;
+    gap: 2rem;
+  }
+  .rightContainer{
+    width: 100%;
+    margin-top: 3rem;
+    padding-inline: 5rem;
+  }
+  .mainReviewContainer{
+    width: 100%;
+  }
+}
+@media screen and (width <= 576) {
+  .path{
+    margin-left: 10rem;
+  }
+  .discount img{
+    width: auto;
+  }
+  .rightContainer{
+    padding-left: 13rem;
+  }
+  .leftContainer{
+    padding-left: 13rem;
+  }
+}
+
+/* review and ratings */
+.reviewsContainer{
+  border: 2px solid black;
+}
+.reviewName{
+  font-size: xx-large;
+  margin-left: 5rem;
+  margin-bottom: 1rem;
+}
+.allReviews{
+  border: 1px solid red;
+  font-family: Arial, Helvetica, sans-serif;
+  
+}
+.mainReviewContainer{
+  margin-inline: 4rem;
+  margin-top: 2.5rem;
+  margin-bottom: 7rem;
+}
+.averageReviews{
+  display: flex;
+  justify-content: space-evenly;
+}
+
+
+  /* gpt styles */
+
+
 
 /* @media screen and (width < 900px) {
   .mainMidContainer{
     flex-direction: column;
   }
-} */
+}
 
-/* {
-/* .container {
+.container {
   max-width: 1400px;
   margin: 0 auto;
   padding: 20px;
@@ -795,5 +937,5 @@ Responsive Design
   .relatedGrid {
     grid-template-columns: repeat(2, 1fr);
   }
+}
 } */
-/* } */

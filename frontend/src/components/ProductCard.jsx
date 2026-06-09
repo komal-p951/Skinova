@@ -3,6 +3,11 @@ import styles from './style.module.css';
 import { useRouter } from 'next/navigation';
 
 export default function ProductCard({product}) {
+  [...document.querySelectorAll('*')].forEach(el => {
+  if (el.offsetWidth > window.innerWidth) {
+    console.log(el, el.offsetWidth);
+  }
+});
   const [isHovered, setIsHovered] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
   const router = useRouter();

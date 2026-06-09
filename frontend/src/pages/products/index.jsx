@@ -7,12 +7,12 @@ import ProductCard from "@/components/ProductCard";
 import { clientServer } from "@/index";
 
 export default function Products() {
+  
   const [products, setProducts] = useState([]);
   useEffect(() => {
     const product = async () => {
       const products = await clientServer.get("/");
       setProducts(products.data);
-      console.log(products.data);
     };
 
     product();
