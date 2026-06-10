@@ -210,7 +210,7 @@
     width: 100%;
   }
 }
-@media screen and (width <= 576) {
+@media screen and (width <= 576px) {
   .path{
     margin-left: 10rem;
   }

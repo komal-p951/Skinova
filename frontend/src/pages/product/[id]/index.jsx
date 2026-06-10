@@ -32,12 +32,12 @@ function Product() {
 
   let price = product?.price;
 
-  let totalReviewRatingCount = product?.reviews?.reduce((acc,review) => acc + review.rating,0);
+  // let totalReviewRatingCount = product?.reviews?.reduce((acc,review) => acc + review.rating,0);
 
-  const avgRating = product?.reviews?.length > 0 ? totalReviewRatingCount/product?.reviews?.length : 0;
+  // const avgRating = product?.reviews?.length > 0 ? totalReviewRatingCount/product?.reviews?.length : 0;
   // console.log(avgRating.toFixed(1));
 
-  console.log(product.reviews)
+  // console.log(product.reviews)
 
   return (
     <DashboardLayout>
@@ -118,39 +118,40 @@ function Product() {
             </div>
           </div>
 
+          <div className={styles.reviewName}>Ratings & Reviews</div>
           <div className={styles.mainReviewContainer}>
-            <div className={styles.reviewName}>Ratings & Reviews</div>
-            <div className={styles.reviewsContainer}>
-              <div className={styles.averageReviews}>
-                <div className={styles.first}>
-                <span>{avgRating.toFixed(1)}</span>
-                  <div>
-                    {[...Array(5)].map((_,i) => 
-                    i < avgRating ? (
-                      <FaStar key={i}/>
-                    ) :
-                    (
-                      <FaRegStar key={i}/>
-                    ))}
-                  </div>
-                  <p>based on {product?.reviews?.length} reviews</p>
-                </div>
-                <div className={styles.second}>
-                </div>
-              </div>
-              <div className={styles.allReviews}>
-                {product?.reviews?.map((review) => <ReviewCard key={review._id} review={review}></ReviewCard>)}
-              </div>
-            </div>
+            <ReviewCard reviews={product.reviews}/>
           </div>
-
-          {/* <ReviewCard/> */}
         </div>
     </DashboardLayout>
   );
 }
 // (console.log("comment = ",review.comment,"rating = ",review.rating))
 export default Product;
+{/* <div className={styles.reviewsContainer}>
+  <div className={styles.averageReviews}>
+    <div className={styles.first}>
+    <span>{avgRating.toFixed(1)}</span>
+      <div>
+        {[...Array(5)].map((_,i) => 
+        i < avgRating ? (
+          <FaStar key={i}/>
+        ) :
+        (
+          <FaRegStar key={i}/>
+        ))}
+      </div>
+      <p>based on {product?.reviews?.length} reviews</p>
+    </div>
+    <div className={styles.second}>
+    </div>
+  </div>
+  <div className={styles.allReviews}>
+    {product?.reviews?.map((review) => <ReviewCard key={review._id} review={review}></ReviewCard>)}
+  </div>
+</div> */}
+
+{/* <ReviewCard/> */}
 
 
 
