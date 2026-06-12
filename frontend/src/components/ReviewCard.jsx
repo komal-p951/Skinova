@@ -1,11 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BadgeCheck, Pencil, Star } from 'lucide-react';
 import styles from './style.module.css';
 import { FaRegStar, FaStar } from 'react-icons/fa';
-
+import { clientServer } from '..';
+import { useRouter } from 'next/router';
 
 export default function ReviewCard({reviews}) {
-console.log(reviews);
+  const [open,setOpen] = useState(false);
+
+  const[reviewdata,setReviewdata] = useState({
+    rating:1,
+    comment:""
+  });
+  const router = useRouter();
+  const token = localStorage.getItem("token");
+
+  const handlesubmit = async() => {
+    try {
+      const id = router.query.id;
+
+      let res = await clientServer.post(`/reviews/${id}`, {
+        rating:reviewdata.rating,
+        comment:reviewdata.comment
+      }, {
+        headers: {
+          Authorization: token
+        }
+      });
+
+      console.log(res.data);
+    } catch (error) {
+      console.log(error?.response?.data?.message);
+    }
+  }
 
   let totalReviewRatingCount = reviews?.reduce((acc,review) => acc + review.rating,0);
 
@@ -22,9 +49,13 @@ console.log(reviews);
     let now = Date.now();
     let past = new Date(dateString);
     let diff = Math.floor((now - past) / (1000 * 60 * 60 * 24))
-    return `${diff} Days ago`;
+    if(diff < 1) return "Today";
+    else if(diff > 1 &&diff < 7) return `${diff} Days ago`;
+    else if(diff >= 7 && diff < 30) return `${Math.floor(diff/7)} Weeks ago`;
+    else if(diff >= 30 && diff < 365) return `${Math.floor(diff/30)} Months ago`;
+    else return `${Math.floor(diff/365)} Years ago`;
   }
-  console.log(formatDate("2026-05-28T08:07:43.309Z"))
+
 
   return (
     <div className={styles.reviewContainer}>
@@ -34,7 +65,7 @@ console.log(reviews);
           <p>real reviews from our happy customers</p>
         </div>
 
-        <hr />
+        <hr className={styles.hr}/>
         <div className={styles.reviewProgressCard}>
           <div className={styles.avgReview}>
             <p className={styles.avgRating}>{avgRating.toFixed(1)}</p>
@@ -44,7 +75,7 @@ console.log(reviews);
               <FaStar key={i} color='#a3748b'/>
             ) :
             (
-              <FaRegStar key={i} color='gray'/>
+              <FaRegStar key={i} color='grey'/>
             ))}
             </div>
             <p>based on {reviews?.length} reviews</p>
@@ -58,7 +89,47 @@ console.log(reviews);
           </div>
 
         </div>
-        <div className={styles.reviewAddBtn}><Pencil/>write a Review</div>
+        {token && <div className={styles.reviewAddBtn} onClick={() => 
+          setOpen(true)}><Pencil/>write a Review</div>}
+
+        {open &&  (
+          <div className={styles.overlay} onClick={() => {
+            setOpen(false);
+          }}>
+            <div onClick={(e) => e.stopPropagation()} className={styles.commentContainer}>
+              <div className={styles.addreview}>
+                <div className={styles.heading}>
+                  <h2>Write a Review</h2>
+                  <p>Share your experience with this product</p>
+                </div>
+                <div className={styles.writereview}>
+                  
+                  <div>
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <FaStar
+                      key={star}
+                      size={25}
+                      onClick={() => setReviewdata({...reviewdata,rating:star})}
+                      style={{ cursor: "pointer", marginRight: "5px" }}
+                      color={star <= reviewdata.rating ? "#a3748b" : "#d3d3d3"}
+                    />
+                  ))}
+
+                </div>
+
+                  <label htmlFor="review">Your Review</label>
+                  <textarea rows={8} cols={5} type="text" id='review' placeholder='write your review here' value={reviewdata.comment} onChange={(e) => {
+                    setReviewdata({
+                      ...reviewdata,
+                      comment:e.target.value
+                    })
+                  }}/>
+                </div>
+                <div className={styles.addreviewbtn} onClick={handlesubmit}>add review</div>
+              </div>
+            </div>
+          </div> 
+        )}
 
       </div>
 
@@ -75,7 +146,14 @@ console.log(reviews);
                 </div>
 
               </div>
-              <div className={styles.reviewStar}>⭐⭐⭐⭐⭐</div>
+              <div className={styles.reviewStar}>
+                {[...Array(5)].map((_,i) => 
+                i < review?.rating ? (
+                  <FaStar color='#a3748b'/>
+                ) : (
+                  <FaRegStar color='grey'/>
+                ))}
+              </div>
               <div className={styles.reviewCardbody}>
 
                 <p>{review?.comment}</p>
