@@ -1,19 +1,40 @@
 import React, { useEffect, useState } from "react";
 import styles from "./styles.module.css";
 import { useRouter } from "next/navigation";
-import { CircleUser, Heart, ShoppingCart } from "lucide-react";
+import { CircleUser, Heart, Plus, ShoppingCart } from "lucide-react";
+import { jwtDecode } from "jwt-decode";
+import { clientServer } from "@/index";
 
 export default function Navbar() {
   const [isloggedIn,setIsloggedIn] = useState(false);
+  const [token, setToken] = useState("");
+  const [isOwner ,setIsOwner] = useState(false);
   const router = useRouter();
+  
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if(token){
+    const storedToken = localStorage.getItem("token");
+    if(storedToken){
+      setToken(storedToken);
       setIsloggedIn(true);
     }else{
       setIsloggedIn(false);
     }
   },[]);
+
+  useEffect(() => {
+    if(token){
+      try {
+        let data = jwtDecode(token);
+        if(data.role === 'author'){
+          setIsOwner(true);
+        } 
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+  },[token]);
+
+
 {/* <Image src="/skinova.png" height={100} width={200} alt="logoimage" loading="eager"></Image> */}
   return (
     <div>
@@ -22,9 +43,10 @@ export default function Navbar() {
         <div className={styles.right}>
         {isloggedIn ? 
         <>
-           <span onClick={() => router.push("/profile")}><CircleUser/></span>
-           <span onClick={()=> router.push("/cart")}><ShoppingCart /> </span>
-           <span onClick={() => router.push("/wishlist")}><Heart /></span>
+          {isOwner && <div onClick={() => router.push("/addProduct")} className={styles.addproductbtn} style={{cursor:"pointer"}}><Plus />Add New Product</div>}
+           <span onClick={() => router.push("/profile")} style={{cursor:"pointer"}}><CircleUser/></span>
+           <span onClick={()=> router.push("/cart")} style={{cursor:"pointer"}}><ShoppingCart /> </span>
+           <span onClick={() => router.push("/wishlist")} style={{cursor:"pointer"}}><Heart /></span>
         </> 
         : 
         <div className={styles.login} onClick={() => {

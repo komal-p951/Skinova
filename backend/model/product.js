@@ -44,6 +44,20 @@ const productSchema = new Schema(
         filename: String,
       },
     ],
+    quantity:{
+      required:true,
+      type:Number,
+    },
+    SkinType: {
+      type: String,
+      enum: [
+        "Dry",
+        "Oily",
+        "Sensitive",
+        "Combination",
+        "Normal"
+      ]
+    },
     ingredients: [String],
     reviews: [
       {

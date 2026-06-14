@@ -9,7 +9,7 @@ function Slider() {
     <>
       <div className={styles.trending_products}>
         <Swiper
-          // modules={[Autoplay]}
+          modules={[Autoplay]}
           loop={true}
           className={styles.swiper}
           spaceBetween={20}

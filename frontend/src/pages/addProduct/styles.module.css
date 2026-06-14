@@ -1,0 +1,146 @@
+.container{
+    font-family: Arial, Helvetica, sans-serif;
+}
+.product{
+    margin-block: 1.5rem;
+    line-height: 2rem;
+}
+.addProductContainer{
+    display: flex;
+    height: 38rem;
+}
+.leftContainer{
+    border: 1px solid red;
+    display: flex;
+    flex-direction: column;
+    flex: 0.4;
+    padding-inline: 1.5rem;
+}
+.uploadImageContainer{
+    border: 1px solid rgb(76, 90, 56);
+    height: 15rem;
+    width: 90%;
+    border-radius: 1rem;
+}
+.uploadedImages{
+    border: 1px solid blueviolet;
+    height: 10rem;
+    margin-block: 1rem;
+}
+.rightContainer{
+    border: 1px solid red;
+    padding-inline: 1.5rem;
+    flex: 0.6;
+}
+.firstR{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+.input{
+    border-radius: 6px;
+    height: 2.2rem;
+    border: 1px solid #b79d6b;
+    padding-inline: 0.4rem;
+    font-size: medium;
+}
+.divInput{
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+.secondR{
+    display: flex;
+    margin-block: 1rem;
+    gap: 1rem;
+}
+.thirdR{
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+.fourthR{
+    display: flex;
+    gap: 1rem;
+    margin-block:1rem;
+}
+.textarea{
+    border-radius: 6px;
+    border: 1px solid #b79d6b;
+    padding-inline: 0.4rem;
+    font-size: medium;
+}
+
+.box {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-block: 1rem;
+}
+
+.tag {
+    background: #f5f5f5;
+    padding: 8px 12px;
+    border-radius: 6px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.tag span {
+    cursor: pointer;
+    height: 1.2rem;
+}
+.tag span svg{
+    color: #714f65;
+    height: 1.2rem;
+}
+.addIngredientBtn{
+    color: #fff;
+    cursor: pointer;
+    background: linear-gradient(135deg, #7d5a71 0%, #714f65 100%);
+    border-radius: 8px;
+    justify-content: center;
+    align-items: center;
+    gap: .5rem;
+    height: 2rem;
+    min-height: 38px;
+    padding-inline: .8rem;
+    font-family: Arial, Helvetica, sans-serif;
+    transition: all .3s;
+    display: flex;
+}
+.skinTypesOptions{
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+}
+.checkOption{
+    display: flex;
+    gap: 10px;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+/* .checkOption */
+.checkOption > input[type="checkbox"] {
+  appearance: none;
+  width: 20px;
+  height: 19px;
+  border: 1px solid #714f65 ;
+  border-radius: 4px;
+}
+
+.checkOption > input[type="checkbox"]:checked::after {
+    background-color: #714f65;
+    border-color: #714f65;
+    content: "✔";
+    color: white;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

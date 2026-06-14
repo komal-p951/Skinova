@@ -61,7 +61,7 @@ export const loginUser = async (req, res) => {
       });
     }
 
-    const token = jwt.sign({ id: user._id }, process.env.SECRET, {
+    const token = jwt.sign({ id: user._id, role : user.role}, process.env.SECRET, {
       expiresIn: "7d",
     });
 
@@ -70,7 +70,7 @@ export const loginUser = async (req, res) => {
 
     return res.status(httpStatus.OK).json({
       message: "User Login Successfully!",
-      token: token,
+      token: token
     });
   } catch (error) {
     return res.status(httpStatus.UNAUTHORIZED).json({ message: error.message });

@@ -1,19 +1,46 @@
-import React, { useState } from 'react';
-import { BadgeCheck, Pencil, Star } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { BadgeCheck, EllipsisVertical, Pencil, Star, Trash } from 'lucide-react';
 import styles from './style.module.css';
 import { FaRegStar, FaStar } from 'react-icons/fa';
 import { clientServer } from '..';
 import { useRouter } from 'next/router';
+import { jwtDecode } from 'jwt-decode';
 
-export default function ReviewCard({reviews}) {
+export default function ReviewCard({reviews,fetchReviews}) {
   const [open,setOpen] = useState(false);
-
+  const[token,setToken] = useState("");
+  const router = useRouter();
+  const [userId,setUserId] = useState("");
   const[reviewdata,setReviewdata] = useState({
     rating:1,
     comment:""
   });
-  const router = useRouter();
-  const token = localStorage.getItem("token");
+  const [isOwner, setIsOwner] = useState(false);
+ 
+  useEffect(() => {
+  const storedToken = localStorage.getItem("token");
+  if (storedToken) {
+    setToken(storedToken);
+  }
+}, []);
+
+useEffect(() => {
+  if (token) {
+    try {
+      let data = jwtDecode(token);
+      console.log(data);
+      const role = data.role;
+      if(role == "author"){
+        setIsOwner(true);
+      }
+      setUserId(data.id);
+    } catch (err) {
+      console.error("Invalid token", err);
+    }
+  }
+}, [token]);
+
+
 
   const handlesubmit = async() => {
     try {
@@ -27,8 +54,28 @@ export default function ReviewCard({reviews}) {
           Authorization: token
         }
       });
+      setReviewdata({
+        rating:1,
+        comment:""
+      });
+      fetchReviews();
+      setOpen(false);
+    } catch (error) {
+      console.log(error?.response?.data?.message);
+    }
+  }
 
-      console.log(res.data);
+  const handleDeleteReview = async(reviewId) => {
+    try {
+      const productId = router.query.id;
+
+      let res = await clientServer.delete(`/reviews/${productId}/${reviewId}`,{
+        headers: {
+          Authorization: token
+        }
+      })
+      fetchReviews();
+
     } catch (error) {
       console.log(error?.response?.data?.message);
     }
@@ -38,11 +85,11 @@ export default function ReviewCard({reviews}) {
 
   const avgRating = reviews?.length > 0 ? totalReviewRatingCount/reviews?.length : 0;
 
-  const fiveStarsRatings = reviews?.filter((review) => review.rating === 5).length;
-  const fourStarsRatings = reviews?.filter((review) => review.rating === 4).length;
-  const threeStarsRatings = reviews?.filter((review) => review.rating === 3).length;
-  const twoStarsRatings = reviews?.filter((review) => review.rating === 2).length;
-  const oneStarsRatings = reviews?.filter((review) => review.rating === 1).length;
+  const fiveStarsRatings = reviews?.filter(review => review.rating === 5)?.length;
+  const fourStarsRatings = reviews?.filter(review => review.rating === 4)?.length;
+  const threeStarsRatings = reviews?.filter(review => review.rating === 3)?.length;
+  const twoStarsRatings = reviews?.filter(review => review.rating === 2)?.length;
+  const oneStarsRatings = reviews?.filter(review => review.rating === 1)?.length;
   const totalReviews = reviews?.length;
 
   function formatDate (dateString) {
@@ -136,7 +183,7 @@ export default function ReviewCard({reviews}) {
       <div className={styles.bottomContainer}>
         <div className={styles.allReviews}>
           {reviews?.map((review) => (
-            <div className={styles.reviewCard}>
+            <div key={review._id} className={styles.reviewCard} >
               <div className={styles.reviewCardhead}>
                 <p className={styles.username}>{review?.user?.fullname.slice(0,1).toUpperCase()}</p>
 
@@ -145,13 +192,15 @@ export default function ReviewCard({reviews}) {
                   <p style={{opacity:"0.6"}}>{formatDate(review?.createdAt)}</p>
                 </div>
 
+                {(userId === review?.user?._id || isOwner) &&  <div style={{marginLeft:"1.5rem",color:"#c1586a",cursor:"pointer"}} onClick={() => handleDeleteReview(review._id)}><Trash /></div>}
+
               </div>
               <div className={styles.reviewStar}>
                 {[...Array(5)].map((_,i) => 
                 i < review?.rating ? (
-                  <FaStar color='#a3748b'/>
+                  <FaStar color='#a3748b' key={i}/>
                 ) : (
-                  <FaRegStar color='grey'/>
+                  <FaRegStar color='grey' key={i}/>
                 ))}
               </div>
               <div className={styles.reviewCardbody}>

@@ -11,33 +11,25 @@ import { FaRegStar, FaStar } from 'react-icons/fa';
 function Product() {
   let [count,setCount] = useState(1);
   const [product, setProduct] = useState({});
+  // const [reviews,setReviews] = useState([]);
   const router = useRouter();
   const { id } = router.query;
   
-  useEffect(() => {
+  
+  let fetchdata = async()=> {
 
     if(!id)return;
+    let response = await clientServer.get(`/${id}`);
+    setProduct(response.data);
 
-    let fetchdata = async()=> {
-
-      let response = await clientServer.get(`/${id}`);
-
-      // console.log("id is => ", id);
-      setProduct(response.data);
-    }
+  }
+  useEffect(() => {
     fetchdata();
   },[id]);
 
   let originalPrice = Math.round(product.price*1.15);
 
   let price = product?.price;
-
-  // let totalReviewRatingCount = product?.reviews?.reduce((acc,review) => acc + review.rating,0);
-
-  // const avgRating = product?.reviews?.length > 0 ? totalReviewRatingCount/product?.reviews?.length : 0;
-  // console.log(avgRating.toFixed(1));
-
-  // console.log(product.reviews)
 
   return (
     <DashboardLayout>
@@ -120,7 +112,7 @@ function Product() {
 
           <div className={styles.reviewName}>Ratings & Reviews</div>
           <div className={styles.mainReviewContainer}>
-            <ReviewCard reviews={product.reviews}/>
+            <ReviewCard  reviews={product?.reviews} fetchReviews={fetchdata}/>
           </div>
         </div>
     </DashboardLayout>
@@ -233,256 +225,3 @@ export default Product;
 
 //   const discount = 15;
 //   const originalPrice = Math.round(product.price * 1.15);
-
-
-
-
-
-
-
-  
-{/* <div className={styles.container}> */}
-        {/* Breadcrumb */}
-        {/* <div className={styles.breadcrumb}>
-          <span onClick={() => router.push('/')}>Home</span>
-          <span>/</span>
-          <span onClick={() => router.push('/products')}>Products</span>
-          <span>/</span> */}
-          {/* *************** when we click on this, we entered in category products which have same category   ***************** */}
-          {/* <span>{product.category}</span>
-          <span>/</span>
-          <span>{product.name}</span>
-        </div> */}
-
-        {/* <div className={styles.productWrapper}> */}
-          {/* Left Section - Images */}
-          {/* <div className={styles.imageSection}>
-            <div className={styles.mainImage}>
-              <img
-                src="/images/bathbody1.jpg"
-                alt={product.name}
-                className={styles.productImage}
-              />
-              <div className={styles.discountBadge}>{discount}% OFF</div>
-            </div> */}
-
-            {/* Thumbnail Images */}
-            {/* <div className={styles.thumbnails}>
-              {[0, 1, 2].map((index) => (
-                <div
-                  key={index}
-                  className={`${styles.thumbnail} ${
-                    selectedImage === index ? styles.active : ''
-                  }`}
-                  onClick={() => setSelectedImage(index)}
-                >
-                  <img src="/images/bathbody1.jpg" alt={`View ${index + 1}`} />
-                </div>
-              ))}
-            </div>
-          </div> */}
-
-          {/* Right Section - Details */}
-          {/* <div className={styles.detailsSection}> */}
-            {/* Header */}
-            {/* <div className={styles.header}>
-              <div className={styles.brandCategory}>
-                <span className={styles.brand}>{product.brand}</span>
-                <span className={styles.category}>{product.category}</span>
-              </div>
-              <button
-                className={`${styles.wishlistBtn} ${
-                  isWishlisted ? styles.wishlisted : ''
-                }`}
-                onClick={() => setIsWishlisted(!isWishlisted)}
-              >
-                <Heart
-                  size={24}
-                  fill={isWishlisted ? 'currentColor' : 'none'}
-                />
-              </button>
-            </div> */}
-
-            {/* Title */}
-            {/* <h1 className={styles.title}>{product.name}</h1> */}
-
-            {/* Rating */}
-            {/* <div className={styles.ratingSection}>
-              <div className={styles.stars}>
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    size={18}
-                    fill="#FFB800"
-                    color="#FFB800"
-                    className={styles.star}
-                  />
-                ))}
-              </div>
-              <span className={styles.reviewCount}>(128 Reviews)</span>
-              <span className={styles.inStock}>In Stock</span>
-            </div> */}
-
-            {/* Price */}
-            {/* <div className={styles.priceSection}>
-              <span className={styles.currentPrice}>₹{product.price}</span>
-              <span className={styles.originalPrice}>₹{originalPrice}</span>
-              <span className={styles.savings}>You save ₹{originalPrice - product.price}</span>
-            </div> */}
-
-            {/* Description */}
-            {/* <p className={styles.description}>{product.description}</p> */}
-
-            {/* Ingredients */}
-            {/* {product.ingredients && product.ingredients.length > 0 && (
-              <div className={styles.ingredientsSection}>
-                <h3 className={styles.sectionTitle}>Key Ingredients</h3>
-                <div className={styles.ingredientsList}>
-                  {product.ingredients.slice(0, 5).map((ingredient, index) => (
-                    <span key={index} className={styles.ingredientTag}>
-                      {ingredient}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )} */}
-
-            {/* Quantity & Action Buttons */}
-            {/* <div className={styles.actionSection}>
-              <div className={styles.quantityControl}>
-                <label>Quantity:</label>
-                <div className={styles.quantitySelector}>
-                  <button
-                    onClick={() => handleQuantityChange(-1)}
-                    className={styles.quantityBtn}
-                  >
-                    −
-                  </button>
-                  <input
-                    type="text"
-                    value={quantity}
-                    readOnly
-                    className={styles.quantityInput}
-                  />
-                  <button
-                    onClick={() => handleQuantityChange(1)}
-                    className={styles.quantityBtn}
-                  >
-                    +
-                  </button>
-                </div>
-              </div> */}
-
-              {/* Add to Cart Button */}
-              {/* <button
-                className={`${styles.addToCartBtn} ${
-                  isAdded ? styles.addedState : ''
-                }`}
-                onClick={handleAddToCart}
-              >
-                {isAdded ? (
-                  <>
-                    <Check size={20} />
-                    <span>Added to Cart</span>
-                  </>
-                ) : (
-                  <>
-                    <ShoppingCart size={20} />
-                    <span>Add to Cart</span>
-                  </>
-                )}
-              </button>
-            </div> */}
-
-            {/* Benefits/Features */}
-            {/* <div className={styles.benefits}>
-              <div className={styles.benefit}>
-                <Check size={20} />
-                <span>100% Authentic</span>
-              </div>
-              <div className={styles.benefit}>
-                <Check size={20} />
-                <span>Free Shipping on orders above ₹500</span>
-              </div>
-              <div className={styles.benefit}>
-                <Check size={20} />
-                <span>Easy Returns within 14 days</span>
-              </div>
-            </div>
-          </div>
-        </div> */}
-
-        {/* Reviews Section */}
-        {/* <div className={styles.reviewsSection}>
-          <div className={styles.reviewsHeader}>
-            <h2>Customer Reviews</h2>
-            <button className={styles.writeReviewBtn}>Write a Review</button>
-          </div>
-
-          <div className={styles.reviewsContainer}>
-            <div className={styles.ratingOverview}>
-              <div className={styles.overallRating}>
-                <div className={styles.rating}>4.5</div>
-                <div className={styles.ratingText}>Based on 128 reviews</div>
-              </div>
-
-              <div className={styles.ratingBreakdown}>
-                {[5, 4, 3, 2, 1].map((stars) => (
-                  <div key={stars} className={styles.ratingRow}>
-                    <span className={styles.starLabel}>{stars} ★</span>
-                    <div className={styles.progressBar}>
-                      <div
-                        className={styles.progress}
-                        style={{
-                          width: `${(stars === 5 ? 70 : stars === 4 ? 20 : 5) + '%'}`,
-                        }}
-                      ></div>
-                    </div>
-                    <span className={styles.percentage}>
-                      {stars === 5 ? '70' : stars === 4 ? '20' : '5'}%
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className={styles.reviewsList}>
-              <ReviewCard
-                reviewer="Sarah M."
-                rating={5}
-                date="2 days ago"
-                title="Absolutely Amazing!"
-                comment="This product has completely transformed my skincare routine. Highly recommended!"
-              />
-              <ReviewCard
-                reviewer="John D."
-                rating={4}
-                date="1 week ago"
-                title="Great Quality"
-                comment="Very happy with my purchase. Good packaging and fast delivery."
-              />
-              <ReviewCard
-                reviewer="Emma L."
-                rating={5}
-                date="2 weeks ago"
-                title="Best Purchase Ever"
-                comment="Worth every penny. Results are visible within a week of use."
-              />
-            </div>
-          </div>
-        </div> */}
-
-        {/* Related Products Section */}
-        {/* <div className={styles.relatedSection}>
-          <h2>Related Products</h2>
-          <div className={styles.relatedGrid}>
-            {[1, 2, 3, 4].map((item) => (
-              <div key={item} className={styles.relatedCard}>
-                <img src="/images/bathbody1.jpg" alt={`Related ${item}`} />
-                <p className={styles.relatedName}>Related Product {item}</p>
-                <p className={styles.relatedPrice}>₹1,299</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div> */}
