@@ -90,7 +90,7 @@
 }
 
 .addToCartBtn:hover {
-    background: #ff6b6b;
+    background: #714f65;
     color: white;
     transform: scale(1.05);
 }
@@ -231,7 +231,7 @@
 .reviewAddBtn{
   color: #fff;
     cursor: pointer;
-    background: linear-gradient(135deg, #7d5a71 0%, #714f65 100%);
+    background: linear-gradient(135deg, #a8879e, #a48499, #9f7f96);
     border-radius: 8px;
     justify-content: center;
     gap: 0.5rem;

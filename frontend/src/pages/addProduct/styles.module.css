@@ -1,26 +1,47 @@
 .container{
     font-family: Arial, Helvetica, sans-serif;
+    background: aliceblue;
+    padding-block: 2rem;
+}
+.message{
+    width: 30rem;
+    position: absolute;
+    align-self: center;
+    justify-self: center;
+    top: 8rem;
+    padding-block: 1rem;
+    text-align: center;
+    border-radius: 1.5rem;
 }
 .product{
-    margin-block: 1.5rem;
+    margin-block: 1rem;
     line-height: 2rem;
 }
 .addProductContainer{
     display: flex;
-    height: 38rem;
+    margin: 2rem;
+    gap: 0.5rem;
 }
 .leftContainer{
-    border: 1px solid red;
+    /* border: 1px solid red; */
     display: flex;
     flex-direction: column;
     flex: 0.4;
     padding-inline: 1.5rem;
+    border-radius: 1rem;
+    background: white;
 }
 .uploadImageContainer{
     border: 1px solid rgb(76, 90, 56);
-    height: 15rem;
-    width: 90%;
+    height: 18rem;
     border-radius: 1rem;
+    margin-inline: 2rem;
+    background: aliceblue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
 }
 .uploadedImages{
     border: 1px solid blueviolet;
@@ -28,9 +49,11 @@
     margin-block: 1rem;
 }
 .rightContainer{
-    border: 1px solid red;
+    /* border: 1px solid red; */
     padding-inline: 1.5rem;
     flex: 0.6;
+    border-radius: 1rem;
+    background: white;
 }
 .firstR{
     display: flex;
@@ -39,10 +62,17 @@
 }
 .input{
     border-radius: 6px;
-    height: 2.2rem;
-    border: 1px solid #b79d6b;
+    height: 2.5rem;
+    border: 1px solid aliceblue;
     padding-inline: 0.4rem;
     font-size: medium;
+    box-shadow: 3px 3px 3px #f0f8ff;
+}
+.input:focus{
+    outline: none;
+    color: #714f65;
+    border: 2px solid #714f65a1;
+    box-shadow: 2px 2px 2px #8f818a9a;
 }
 .divInput{
     display: flex;
@@ -66,9 +96,16 @@
 }
 .textarea{
     border-radius: 6px;
-    border: 1px solid #b79d6b;
+    border: 1px solid #f0f8ff;
     padding-inline: 0.4rem;
-    font-size: medium;
+    font-size: large;
+    box-shadow: 3px 3px 3px #f0f8ff;
+}
+.textarea:focus{
+    outline: none;
+    color: #714f65;
+    border: 2px solid #714f65a1;
+    box-shadow: 3px 3px 3px #8f818a9a;
 }
 
 .box {
@@ -76,9 +113,10 @@
     gap: 10px;
     flex-wrap: wrap;
     padding: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid #f0f8ff;
     border-radius: 8px;
     margin-block: 1rem;
+    box-shadow: 3px 3px 3px #f0f8ff;
 }
 
 .tag {
@@ -98,10 +136,10 @@
     color: #714f65;
     height: 1.2rem;
 }
-.addIngredientBtn{
+.browsfilesbtn, .addIngredientBtn, .btn{
     color: #fff;
     cursor: pointer;
-    background: linear-gradient(135deg, #7d5a71 0%, #714f65 100%);
+    background: linear-gradient(135deg, #a8879e, #a48499, #9f7f96);
     border-radius: 8px;
     justify-content: center;
     align-items: center;
@@ -112,6 +150,7 @@
     font-family: Arial, Helvetica, sans-serif;
     transition: all .3s;
     display: flex;
+    border: none;
 }
 .skinTypesOptions{
     display: flex;
@@ -126,7 +165,7 @@
     cursor: pointer;
 }
 /* .checkOption */
-.checkOption > input[type="checkbox"] {
+.checkOption > input[type="radio"] {
   appearance: none;
   width: 20px;
   height: 19px;
@@ -134,7 +173,7 @@
   border-radius: 4px;
 }
 
-.checkOption > input[type="checkbox"]:checked::after {
+.checkOption > input[type="radio"]:checked::after {
     background-color: #714f65;
     border-color: #714f65;
     content: "✔";
@@ -143,4 +182,34 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+.uploadsvg svg {
+    height: 4rem;
+    width: 4rem;
+    color: #714f65;
+}
+.btns{
+    display: flex;
+    justify-content: flex-end;
+    gap: 2rem;
+    margin-right: 2rem;
+}
+
+
+
+@media screen and (width <= 1140px) {
+    .addProductContainer{
+        flex-direction: column;
+    }
+    .uploadImageContainer{
+        width: 80%;
+        align-self: center;
+    }
+    .uploadedImages{
+        width: 85%;
+        align-self: center;
+    }
+    .container{
+        margin-right: -25rem;
+    }
 }

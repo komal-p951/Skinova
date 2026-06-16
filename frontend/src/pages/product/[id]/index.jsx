@@ -11,7 +11,6 @@ import { FaRegStar, FaStar } from 'react-icons/fa';
 function Product() {
   let [count,setCount] = useState(1);
   const [product, setProduct] = useState({});
-  // const [reviews,setReviews] = useState([]);
   const router = useRouter();
   const { id } = router.query;
   
@@ -42,10 +41,10 @@ function Product() {
               <span onClick={(e) => {
                 e.preventDefault();
                 router.push("/")
-              }} style={{cursor:"pointer"}}>Home</span> /
+              }} style={{cursor:"pointer"}}>Home</span> &nbsp;&nbsp;&gt;&nbsp;&nbsp;
               <span style={{cursor:"pointer"}}>{product.category
-}</span> / 
-              <span style={{cursor:"pointer"}}>{product.brand}</span> / 
+}</span> &nbsp;&nbsp;&gt;&nbsp;&nbsp;
+              <span style={{cursor:"pointer"}}>{product.brand}</span> &nbsp;&nbsp;&gt;&nbsp;&nbsp; 
               <span>{product.name}</span>
             </div>
 
@@ -118,48 +117,7 @@ function Product() {
     </DashboardLayout>
   );
 }
-// (console.log("comment = ",review.comment,"rating = ",review.rating))
 export default Product;
-{/* <div className={styles.reviewsContainer}>
-  <div className={styles.averageReviews}>
-    <div className={styles.first}>
-    <span>{avgRating.toFixed(1)}</span>
-      <div>
-        {[...Array(5)].map((_,i) => 
-        i < avgRating ? (
-          <FaStar key={i}/>
-        ) :
-        (
-          <FaRegStar key={i}/>
-        ))}
-      </div>
-      <p>based on {product?.reviews?.length} reviews</p>
-    </div>
-    <div className={styles.second}>
-    </div>
-  </div>
-  <div className={styles.allReviews}>
-    {product?.reviews?.map((review) => <ReviewCard key={review._id} review={review}></ReviewCard>)}
-  </div>
-</div> */}
-
-{/* <ReviewCard/> */}
-
-
-
-                {/* <div>
-                  <h3>Quantity</h3>
-
-                  <div>
-                    
-                  </div>
-                </div> */}
-
-                
-              {/* <div className={styles.addWishListIcon}></div>
-              <div className={styles.productDetail}></div>
-              <div className={styles.addTocartIcon}></div> */}
-
 
 
 
