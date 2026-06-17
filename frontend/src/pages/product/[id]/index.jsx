@@ -3,37 +3,121 @@ import React, { useState, useEffect } from 'react';
 import styles from './styles.module.css';
 import { useRouter } from 'next/router';
 import { clientServer } from '@/index';
-import { Heart, ShoppingCart, Star, Check, Plus, Minus } from 'lucide-react';
+import { Heart, ShoppingCart, Plus, Minus, Trash, PenIcon } from 'lucide-react';
 import ReviewCard from '@/components/ReviewCard';
-import { FaRegStar, FaStar } from 'react-icons/fa';
-
+import Loader from '@/components/Loader/Loader';
+import { jwtDecode } from 'jwt-decode';
 
 function Product() {
   let [count,setCount] = useState(1);
   const [product, setProduct] = useState({});
   const router = useRouter();
   const { id } = router.query;
-  
+  const [loading,setLoading] = useState(true);
+  const [isowner ,setIsOwner] = useState(false);
+  const [message, setMessage] = useState("");
+  const [errormessage, setErrorMessage] = useState("");
+  const [token ,setToken] = useState("");
+
+  // console.log("product price " , product.price);
   
   let fetchdata = async()=> {
-
-    if(!id)return;
-    let response = await clientServer.get(`/${id}`);
-    setProduct(response.data);
-
+  if(!id)return;
+  try {
+  let response = await clientServer.get(`/${id}`);
+  setProduct(response.data);
+  } catch (error) {
+  console.log(error);
+  }finally{
+  setLoading(false);
+  }
+    
   }
   useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    if (storedToken) {
+      setToken(storedToken);
+    }
+  },[]);
+  
+  useEffect(() => {
+    if(!token) return;
+    let data = jwtDecode(token);
+    if(data.role === "author"){
+      setIsOwner(true);
+    }
+  },[token]);
+
+  useEffect (() => {
     fetchdata();
   },[id]);
 
+  useEffect(() => {
+    if (message || errormessage) {
+      const timer = setTimeout(() => {
+        setMessage("");
+        setErrorMessage("");
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [message, errormessage]);
+
+
+  const handleDelete = async (id) => {
+    if(token){
+      try {
+      let res = await clientServer.delete(`/${id}`,{
+      headers:{
+        Authorization:token
+      }
+    });
+
+    setMessage(res?.data?.message);
+    router.push("/");
+
+    } catch (error) {
+      setErrorMessage(error?.response?.data?.message || "Something went wrong");
+    }
+    }else{
+      router.push("/login");
+    }
+  }
+
+  
   let originalPrice = Math.round(product.price*1.15);
+  
+  let price = product?.price || 0;
 
-  let price = product?.price;
+  if(loading) {
+    return <DashboardLayout> <Loader/> </DashboardLayout>;
+  }
 
+  
   return (
     <DashboardLayout>
       
         <div className={styles.mainContainer}>
+          {message.length > 0 ? (
+          <p
+            style={{ background: "#b3fdb0", border: "1px solid #337433" }}
+            className={styles.message}
+          >
+            {message}
+          </p>
+        ) : (
+          <></>
+        )}
+        {errormessage.length > 0 ? (
+          <p
+            className={styles.message}
+            style={{ background: "#ffbaba", border: "1px solid #f72b2b" }}
+          >
+            {errormessage}{" "}
+          </p>
+        ) : (
+          <></>
+        )}
           <div className={styles.mainTopContainer}>
 
             <div className={styles.discount}><img src="/images/bar.jpeg" alt="" /></div>
@@ -88,8 +172,8 @@ function Product() {
 
               <div className={styles.priceBar}>
                 <div className={styles.priceDev}>
-                  <span className={styles.price}>₹{product.price}</span>
-                  <span className={styles.originalPrice}>₹{Math.round(product.price * 1.15)}</span>
+                  <span className={styles.price}>₹{price}</span>
+                  <span className={styles.originalPrice}>₹{Math.round(price * 1.15)}</span>
                   <span className={styles.savePrice}>you save ₹{originalPrice-price}</span>
                 </div>
                   <span style={{opacity:'0.8',paddingLeft:'1rem'}}>inclusive of all taxes</span>
@@ -112,6 +196,12 @@ function Product() {
           <div className={styles.reviewName}>Ratings & Reviews</div>
           <div className={styles.mainReviewContainer}>
             <ReviewCard  reviews={product?.reviews} fetchReviews={fetchdata}/>
+            {isowner && 
+              <div className={styles.authorbtns}>
+                <div className={styles.btns} onClick={() => router.push(`/editproduct/${id}`)}> <PenIcon/> edit product</div>
+                <div className={styles.btns} type="button" onClick={() => handleDelete(id)}> <Trash/> delete product</div>
+              </div>
+            }
           </div>
         </div>
     </DashboardLayout>
@@ -119,67 +209,3 @@ function Product() {
 }
 export default Product;
 
-
-
-
-// const router = useRouter();
-//   const { id } = router.query;
-//   const [product, setProduct] = useState(null);
-//   const [reviews, setReviews] = useState([]);
-//   const [selectedImage, setSelectedImage] = useState(0);
-//   const [quantity, setQuantity] = useState(1);
-//   const [isWishlisted, setIsWishlisted] = useState(false);
-//   const [isAdded, setIsAdded] = useState(false);
-//   const [loading, setLoading] = useState(true);
-
-//   useEffect(() => {
-//     if (!id) return;
-
-//     const fetchProduct = async () => {
-//       try {
-//         setLoading(true);
-//         const response = await clientServer.get(`/${id}`);
-//         setProduct(response.data);
-//         console.log('Product data:', response.data);
-//       } catch (error) {
-//         console.error('Error fetching product:', error);
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-
-//     fetchProduct();
-//   }, [id]);
-
-//   const handleAddToCart = () => {
-//     setIsAdded(true);
-//     setTimeout(() => setIsAdded(false), 2000);
-//   };
-
-//   const handleQuantityChange = (delta) => {
-//     setQuantity(Math.max(1, quantity + delta));
-//   };
-
-//   if (loading) {
-//     return (
-//       <DashboardLayout>
-//         <div className={styles.loadingContainer}>
-//           <div className={styles.spinner}></div>
-//           <p>Loading product details...</p>
-//         </div>
-//       </DashboardLayout>
-//     );
-//   }
-
-//   if (!product) {
-//     return (
-//       <DashboardLayout>
-//         <div className={styles.errorContainer}>
-//           <p>Product not found</p>
-//         </div>
-//       </DashboardLayout>
-//     );
-//   }
-
-//   const discount = 15;
-//   const originalPrice = Math.round(product.price * 1.15);

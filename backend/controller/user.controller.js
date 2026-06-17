@@ -174,7 +174,11 @@ export const getProduct  = async(req,res) => {
 export const addProduct = async(req,res) => {
   try {
     const Data = req.body;
-    const product = new Product();
+    const product = new Product({
+      ...Data,
+      price: Number(req.body.price),
+      quantity: Number(req.body.quantity)
+    });
     Object.assign(product,Data);
     await product.save();
 

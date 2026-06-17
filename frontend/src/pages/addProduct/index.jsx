@@ -62,7 +62,7 @@ export default function addProduct() {
       });
       router.push("/");
     } catch (error) {
-      console.log("error = ",error?.response?.data?.message)
+      // console.log("error = ",error?.response?.data?.message)
       setErrorMessage(error?.response?.data?.message || "Something went wrong");
     }
   }
@@ -87,7 +87,7 @@ export default function addProduct() {
   }
 
 
-  console.log(data);
+  // console.log(data);
   
   return (
     <DashboardLayout>
@@ -178,12 +178,12 @@ export default function addProduct() {
 
                     <div className={styles.divInput} style={{flex:"0.2"}}>
                       <label htmlFor="productname">Price</label>
-                      <input className={styles.input} type="text" id="productname" placeholder="Price" onChange={(e) => setData({...data,price: e.target.value})} value={data.price}/>
+                      <input className={styles.input} type="number" id="productname" placeholder="Price" onChange={(e) => setData({...data,price: e.target.value})} value={data.price}/>
                     </div>
 
                     <div className={styles.divInput} style={{flex:"0.2"}}>
                       <label htmlFor="productname">Stock Quantity</label>
-                      <input className={styles.input} type="text" id="productname" placeholder="quantity" onChange={(e) => setData({...data,quantity: e.target.value})} value={data.quantity}/>
+                      <input className={styles.input} type="number" id="productname" placeholder="quantity" onChange={(e) => setData({...data,quantity: e.target.value})} value={data.quantity}/>
 
                     </div>
 

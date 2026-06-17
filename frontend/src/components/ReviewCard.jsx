@@ -90,7 +90,7 @@ useEffect(() => {
   const threeStarsRatings = reviews?.filter(review => review.rating === 3)?.length;
   const twoStarsRatings = reviews?.filter(review => review.rating === 2)?.length;
   const oneStarsRatings = reviews?.filter(review => review.rating === 1)?.length;
-  const totalReviews = reviews?.length;
+  const totalReviews = reviews?.length || 0;
 
   function formatDate (dateString) {
     let now = Date.now();
@@ -128,11 +128,11 @@ useEffect(() => {
             <p>based on {reviews?.length} reviews</p>
           </div>
           <div className={styles.reviewProgressBar}>
-          <span>5 stars <progress className={styles.progress} value={(fiveStarsRatings / totalReviews) * 100} max={100} /></span>
-          <span>4 stars <progress className={styles.progress} value={(fourStarsRatings / totalReviews) * 100} max={100}/></span>
-          <span>3 stars <progress className={styles.progress} value={(threeStarsRatings / totalReviews) * 100} max={100}/></span>
-          <span>2 stars <progress className={styles.progress} value={(twoStarsRatings / totalReviews) * 100} max={100}/></span>
-          <span>1 stars <progress className={styles.progress} value={(oneStarsRatings / totalReviews) * 100} max={100}/></span>  
+          <span>5 stars <progress className={styles.progress} value={totalReviews ? (fiveStarsRatings / totalReviews) * 100 : 0} max={100} /></span>
+          <span>4 stars <progress className={styles.progress} value={totalReviews ? (fourStarsRatings / totalReviews) * 100 : 0} max={100}/></span>
+          <span>3 stars <progress className={styles.progress} value={totalReviews ? (threeStarsRatings / totalReviews) * 100 : 0} max={100}/></span>
+          <span>2 stars <progress className={styles.progress} value={totalReviews ? (twoStarsRatings / totalReviews) * 100 : 0} max={100}/></span>
+          <span>1 stars <progress className={styles.progress} value={totalReviews ? (oneStarsRatings / totalReviews) * 100 : 0} max={100}/></span>  
           </div>
 
         </div>

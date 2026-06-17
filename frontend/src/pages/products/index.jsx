@@ -5,18 +5,36 @@ import Image from "next/image";
 import Slider from "@/components/slider/slider";
 import ProductCard from "@/components/ProductCard";
 import { clientServer } from "@/index";
+import Loader from "@/components/Loader/Loader";
 
 export default function Products() {
   
   const [products, setProducts] = useState([]);
-  useEffect(() => {
-    const product = async () => {
-      const products = await clientServer.get("/");
-      setProducts(products.data);
+  const [loading,setLoading] = useState(true);
+
+
+   const product = async () => {
+      
+      try {
+        const products = await clientServer.get("/");
+        setProducts(products.data);
+      } catch (error) {
+        console.log(error);
+      }
+      finally{
+        setLoading(false);
+      }
     };
 
+
+  useEffect(() => {
     product();
   }, []);
+
+   if(loading) {
+    return <DashboardLayout> <Loader/> </DashboardLayout>;
+  }
+
 
   return (
     <DashboardLayout>
