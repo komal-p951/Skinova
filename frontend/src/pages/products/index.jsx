@@ -6,11 +6,14 @@ import Slider from "@/components/slider/slider";
 import ProductCard from "@/components/ProductCard";
 import { clientServer } from "@/index";
 import Loader from "@/components/Loader/Loader";
+import { MoveRight } from "lucide-react";
+import Router from "next/router";
 
 export default function Products() {
   
   const [products, setProducts] = useState([]);
   const [loading,setLoading] = useState(true);
+  const router = Router;
 
 
    const product = async () => {
@@ -31,6 +34,7 @@ export default function Products() {
     product();
   }, []);
 
+
    if(loading) {
     return <DashboardLayout> <Loader/> </DashboardLayout>;
   }
@@ -46,10 +50,15 @@ export default function Products() {
         <div className={styles.midContainer}>
           <img src="/images/bar.jpeg" alt="" />
         </div>
-
+``
         <div className={styles.bottomContainer}>
           <div className={styles.productContainer}>
-            <h1 className={styles.center}>MAKEUP & BEUTY</h1>
+            <div style={{display:"flex",justifyContent:"space-around",alignItems:"center",marginTop:"2rem"}}>
+              <h1 className={styles.center}>MAKEUP & BEUTY</h1>
+              <div className={styles.explore} 
+              onClick={() => router.push(`/category/${"Makeup"}`)}
+              >Explore more &nbsp; <MoveRight/></div>
+            </div>
             <div className={styles.makeup}>
               {products
                 .filter((product) => product.category === "Makeup")
@@ -61,7 +70,12 @@ export default function Products() {
           </div>
 
           <div className={styles.productContainer}>
-            <h1 className={styles.center}>Tools & Accessories</h1>
+            <div style={{display:"flex",justifyContent:"space-around",alignItems:"center",marginTop:"2rem"}}>
+              <h1 className={styles.center}>Tools & Accessories</h1>
+              <div className={styles.explore}
+              onClick={() => router.push(`/category/${"Tools & Accessories"}`)}
+              >Explore more &nbsp; <MoveRight/></div>
+            </div>
             <div className={styles.makeup}>
               {products
                 .filter((product) => product.category === "Tools & Accessories")
@@ -73,7 +87,12 @@ export default function Products() {
           </div>
 
           <div className={styles.productContainer}>
-            <h1 className={styles.center}>Skincare Products</h1>
+            <div style={{display:"flex",justifyContent:"space-around",alignItems:"center",marginTop:"2rem"}}>
+              <h1 className={styles.center}>Skincare</h1>
+              <div className={styles.explore}
+              onClick={() => router.push(`/category/${"Skincare"}`)}
+              >Explore more &nbsp; <MoveRight/></div>
+            </div>
             <div className={styles.makeup}>
               {products
                 .filter((product) => product.category === "Skincare")
@@ -85,7 +104,12 @@ export default function Products() {
           </div>
 
           <div className={styles.productContainer}>
-            <h1 className={styles.center}>Haircare Products</h1>
+            <div style={{display:"flex",justifyContent:"space-around",alignItems:"center",marginTop:"2rem"}}>
+              <h1 className={styles.center}>Haircare Essentials</h1>
+              <div className={styles.explore}
+              onClick={() => router.push(`/category/${"Haircare"}`)}
+              >Explore more &nbsp; <MoveRight/></div>
+            </div>
             <div className={styles.makeup}>
               {products
                 .filter((product) => product.category === "Haircare")
@@ -97,7 +121,12 @@ export default function Products() {
           </div>
 
           <div className={styles.productContainer}>
-            <h1 className={styles.center}>Fragrance</h1>
+            <div style={{display:"flex",justifyContent:"space-around",alignItems:"center",marginTop:"2rem"}}>
+              <h1 className={styles.center}>Fragrance</h1>
+              <div className={styles.explore}
+              onClick={() => router.push(`/category/${"Fragrance"}`)}
+              >Explore more &nbsp; <MoveRight/></div>
+            </div>
             <div className={styles.makeup}>
               {products
                 .filter((product) => product.category === "Fragrance")
@@ -109,7 +138,12 @@ export default function Products() {
           </div>
 
           <div className={styles.productContainer}>
-            <h1 className={styles.center}>Bath & Body</h1>
+            <div style={{display:"flex",justifyContent:"space-around",alignItems:"center",marginTop:"2rem"}}>
+              <h1 className={styles.center}>Bath & Body</h1>
+              <div className={styles.explore}
+              onClick={() => router.push(`/category/${"Bath & Body"}`)}
+              >Explore more &nbsp; <MoveRight/></div>
+            </div>
             <div className={styles.makeup}>
               {products
                 .filter((product) => product.category === "Bath & Body")
@@ -121,7 +155,12 @@ export default function Products() {
           </div>
 
           <div className={styles.productContainer}>
-            <h1 className={styles.center}>Supplements</h1>
+            <div style={{display:"flex",justifyContent:"space-around",alignItems:"center",marginTop:"2rem"}}>
+              <h1 className={styles.center}>Supplements</h1>
+              <div className={styles.explore}
+              onClick={() => router.push(`/category/${"Supplements"}`)}
+              >Explore more &nbsp; <MoveRight/></div>
+            </div>
             <div className={styles.makeup}>
               {products
                 .filter((product) => product.category === "Supplements")
@@ -135,16 +174,4 @@ export default function Products() {
       </div>
     </DashboardLayout>
   );
-}
-
-// .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // latest first
-//   .slice(0, 5);
-
-{
-  /* <div className={styles.makeup}>
-  <h1>Tools & Accessories</h1>
-  {products.filter((product) => product.category === "Tools & Accessories").slice(0,3).map((product) => (
-    <ProductCard key={product._id} product={product}/>
-  ))}
-</div> */
 }

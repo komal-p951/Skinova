@@ -20,7 +20,6 @@
 
  .center {
   text-align: center;
-  padding-top: 2rem;
 } 
 .makeup {
   display: grid;
@@ -34,6 +33,22 @@
   border-radius: 25px;
   margin-bottom: 1rem;
   color: #714f65;
+}
+.explore{
+  color: #fff;
+  cursor: pointer;
+  background: linear-gradient(135deg, #a8879e, #a48499, #9f7f96);
+  border-radius: 8px;
+  justify-content: center;
+  align-items: center;
+  width: 13rem;
+  min-height: 38px;
+  padding: 1rem;
+  font-weight: 500;
+  transition: all .3s;
+  display: flex;
+  align-self: center;
+  font-size: larger;
 }
 @media screen and  (width <= 1192px){
     .makeup{

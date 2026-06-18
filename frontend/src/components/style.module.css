@@ -32,21 +32,28 @@
     transition: transform 0.3s ease;
 }
 
-.productCard:hover .imageContainer img {
-    transform: scale(1.08);
-}
+/* .productCard:hover .imageContainer img {
+    transform: scale(1.01);
+} */
 
 /* Badge */
 .badge {
     position: absolute;
     top: 12px;
     left: 12px;
-    background: #ff6b6b;
+    background: #714f65;
     color: white;
     padding: 6px 12px;
     border-radius: 20px;
     font-size: 12px;
     font-weight: 600;
+    z-index: 2;
+}
+.like{
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    color: rgb(255, 248, 248);
     z-index: 2;
 }
 
@@ -95,10 +102,10 @@
     transform: scale(1.05);
 }
 
-/* .addToCartBtn.added {
+.addToCartBtn.added {
     background: #28a745;
     color: white;
-} */
+}
 
 /* Content Container */
 .content {
@@ -178,7 +185,7 @@
 .description {
     margin: 0;
     font-size: 13px;
-    color: #666;
+    color: #714f65;
     line-height: 1.5;
 }
 
@@ -228,6 +235,9 @@
 .reviewProgressBar > span{
     color: #a3748b;
 }
+
+/* reviewCard styles */
+
 .reviewAddBtn{
   color: #fff;
     cursor: pointer;

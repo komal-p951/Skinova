@@ -44,7 +44,7 @@ useEffect(() => {
 
   const handlesubmit = async() => {
     try {
-      const id = router.query.id;
+      const {id} = router.query;
 
       let res = await clientServer.post(`/reviews/${id}`, {
         rating:reviewdata.rating,

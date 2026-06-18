@@ -19,8 +19,17 @@ export const addReview = async(req,res) => {
             comment: comment
         });
         await newReview.save();
-        product.reviews.push(newReview._id);
-        await product.save();
+        await Product.findByIdAndUpdate(
+            req.params.productId,{
+                $push:{
+                    reviews: newReview._id
+                }
+            }
+        )
+        // product.reviews.push(newReview._id);
+        // console.log(product.quantity);
+        // console.log(product);
+        // await product.save();
 
         return res.json({message:"Review added"});
     } catch (error) {

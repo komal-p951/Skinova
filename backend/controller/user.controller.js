@@ -123,7 +123,7 @@ export const updatedProfileData = async(req,res) => {
 
 export const getAllProducts = async(req,res) => {
   try {
-    const allProducts = await Product.find();
+    const allProducts = await Product.find().populate("reviews");
     if(!allProducts) return res.status(httpStatus.NOT_FOUND).json({message: "NOT FOUND!"});
     return res.status(httpStatus.OK).json(allProducts);
   } catch (error) {
@@ -137,7 +137,7 @@ export const getProductsByCategory = async(req,res) => {
   try {
     const products = await Product.find({
       category: req.params.category
-    });
+    }).populate("reviews");
     if(!products) return res.status(httpStatus.NOT_FOUND).json({message:"not found!"});
     
     return res.status(httpStatus.OK).json(products);
