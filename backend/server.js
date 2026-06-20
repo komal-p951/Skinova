@@ -13,10 +13,10 @@ const app = express();
 app.use(express.json()); 
 app.use(cors());
 
-app.use("/skinova",userRouter);
 app.use("/skinova/wishlist",wishListRouter);
 app.use("/skinova/cart",cartRouter);
 app.use("/skinova/reviews",reviewRouter);
+app.use("/skinova",userRouter);
 
 
 const MONGO_URL = process.env.MONGO_URL;

@@ -32,9 +32,6 @@
     transition: transform 0.3s ease;
 }
 
-/* .productCard:hover .imageContainer img {
-    transform: scale(1.01);
-} */
 
 /* Badge */
 .badge {
@@ -49,12 +46,23 @@
     font-weight: 600;
     z-index: 2;
 }
+.liked svg{
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    fill: #e4122f;
+    color: #e4122f;
+    z-index: 2;
+}
 .like{
     position: absolute;
     top: 12px;
     right: 12px;
-    color: rgb(255, 248, 248);
     z-index: 2;
+}
+.like svg, .liked svg{
+    height: 2rem;
+    width: 2rem;
 }
 
 /* Overlay */

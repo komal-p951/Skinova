@@ -1,12 +1,119 @@
-import DashboardLayout from '@/layout/DashboardLayout';
-import React from 'react'
+import DashboardLayout from "@/layout/DashboardLayout";
+import React, { useEffect, useState } from "react";
+import styles from "./styles.module.css";
+import { Dot, Heart, ShoppingBag, TrashIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { clientServer } from "@/index";
 
 function WishList() {
+  const router = useRouter();
+  const [token, setToken] = useState("");
+  const [userData, setUserData] = useState([]);
+
+  useEffect(() => {
+    const storedtoken = localStorage.getItem("token");
+    if (storedtoken) {
+      setToken(storedtoken);
+    } else {
+      router.push("/login");
+    }
+  },[]);
+
+  const fetchdata = async () => {
+    try {
+      const res = await clientServer.get("/wishlist", {
+        headers: {
+          Authorization: token,
+        },
+      });
+      setUserData(res.data);
+    } catch (error) {
+      console.log(error?.response?.data?.message);
+    }
+  };
+  useEffect(() => {
+    fetchdata();
+  }, [token]);
+
+  const removeFromWishList = async(productId) => {
+    try {
+      let res = await clientServer.delete(`wishlist/${productId}`,{
+        headers:{
+          Authorization:token
+        }
+      });
+      fetchdata();
+      
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <DashboardLayout>
-      your WishList
+      <div className={styles.mainContainer}>
+        <h1>My Wishlist</h1>
+        <div>
+          <span>Home</span> / <span>wishlist</span>
+        </div>
+
+        {userData.length == 0 && <div className={styles.wishlistCardMessage}><span>Your List is Empty </span></div>}
+        {userData.length > 0 && <div>
+          <div className={styles.headBar}>
+          <div className={styles.headLeft}>
+            <Heart color="red" />
+            <div className={styles.subheading}>
+              <span>Your favorite skincare essentials</span>
+              <h5>saved for later</h5>
+            </div>
+          </div>
+          <div className={styles.headButton}>
+            <ShoppingBag /> Move All to Cart
+          </div>
+        </div>
+
+        <div className={styles.cardsContainer}>
+          {userData?.map((product) => (
+
+            <div className={styles.card} key={product._id} onClick={() => router.push(`/product/${product._id}`)}>
+              <div className={styles.imageContainer}>
+                <img src="/images/bathbody4.jpg" alt="" />
+              </div>
+
+              <div className={styles.productDetail}>
+                <h3>{product?.name}</h3>
+                <p>₹{product?.price} </p>
+
+                <p className={styles.stock}>
+                  {/* <Dot color="green" height={30} width={30} /> inStock */}
+                  <span className={styles.dot}></span> inStock
+                </p>
+
+                <div className={styles.buttonsBar}>
+                  <button className={styles.cartBtn}>
+                    <ShoppingBag />
+                    Add to Cart
+                  </button>
+                  <button className={styles.trash} onClick={(e) => {
+                    e.stopPropagation();
+                    removeFromWishList(product._id);
+                  }}>
+                    <TrashIcon />
+                  </button>
+                </div>
+              </div>
+
+            </div>
+
+          ))}
+
+        </div>
+          </div>}
+
+      </div>
+      
     </DashboardLayout>
-  )
+  );
 }
 
 export default WishList;
