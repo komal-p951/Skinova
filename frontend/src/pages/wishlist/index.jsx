@@ -61,7 +61,7 @@ function WishList() {
         {userData.length > 0 && <div>
           <div className={styles.headBar}>
           <div className={styles.headLeft}>
-            <Heart color="red" />
+            <Heart color="red" fill="#e4122f"/>
             <div className={styles.subheading}>
               <span>Your favorite skincare essentials</span>
               <h5>saved for later</h5>
@@ -85,7 +85,6 @@ function WishList() {
                 <p>₹{product?.price} </p>
 
                 <p className={styles.stock}>
-                  {/* <Dot color="green" height={30} width={30} /> inStock */}
                   <span className={styles.dot}></span> inStock
                 </p>
 

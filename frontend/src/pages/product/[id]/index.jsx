@@ -18,6 +18,8 @@ function Product() {
   const [message, setMessage] = useState("");
   const [errormessage, setErrorMessage] = useState("");
   const [token ,setToken] = useState("");
+  const [isAdded, setIsAdded] = useState(false);
+  const [cartProducts, setCartProducts] = useState([]);
 
   // console.log("product price " , product.price);
   
@@ -25,14 +27,23 @@ function Product() {
   if(!id)return;
   try {
   let response = await clientServer.get(`/${id}`);
+  let getCartProducts  = await clientServer.get("/cart",{
+    headers:{
+      Authorization:token
+    }
+  });
+  // console.log(getCartProducts.data)
+  setCartProducts(getCartProducts.data);
   setProduct(response.data);
+
   } catch (error) {
   console.log(error);
-  }finally{
+  }
+  finally{
   setLoading(false);
   }
-    
-  }
+}
+
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     if (storedToken) {
@@ -47,6 +58,15 @@ function Product() {
       setIsOwner(true);
     }
   },[token]);
+
+  // console.log(cartProducts);
+
+  useEffect(() => {
+  if (product?._id && cartProducts.length > 0) {
+    const exists = cartProducts.some((item) => item?.product?._id === product._id);
+    if (exists) setIsAdded(true);
+  }
+}, [cartProducts, product._id]);
 
   useEffect (() => {
     fetchdata();
@@ -64,6 +84,19 @@ function Product() {
   }, [message, errormessage]);
 
 
+  const addTocart = async(productId) => {
+    try {
+      let res = await clientServer.post(`/cart/${productId}`,{},{
+      headers:{
+        Authorization:token
+      }
+    });
+    setIsAdded(true);
+    console.log(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   const handleDelete = async (id) => {
     if(token){
       try {
@@ -188,7 +221,7 @@ function Product() {
                   <span onClick={() => setCount(count + 1)}> <Plus/> </span>
                 </div>
               </div>
-              <div className={styles.addToCartBtn}><ShoppingCart/>Add to cart</div>
+              <div className={styles.addToCartBtn} onClick={() => addTocart(product._id)}><ShoppingCart/>{isAdded ? <p onClick={() => router.push("/cart")}>Go to cart</p> : <p>Add to cart</p>}</div>
 
             </div>
           </div>

@@ -28,7 +28,6 @@ useEffect(() => {
   if (token) {
     try {
       let data = jwtDecode(token);
-      console.log(data);
       const role = data.role;
       if(role == "author"){
         setIsOwner(true);
