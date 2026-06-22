@@ -1,7 +1,6 @@
 .container{
     background-color: rgb(209, 191, 163);
-    padding-left: 3rem;
-    padding-right: 2rem;
+    padding: 0rem 2rem 5rem 3rem;
 }
 .cartHead{
     display: flex;
@@ -33,5 +32,119 @@
 }
 .prname{
     display: flex;
-    gap: 2rem;
+    gap: 10rem;
+    padding-right: 5rem;
+}
+.product{
+    display: flex;
+    justify-content: space-between;
+    background: #fdf9fa;
+    border-radius: 20px;
+    padding-inline: 1rem;
+    padding-block: 0.5rem;
+    margin-block: 1rem;
+}
+.productimg{
+    height: 8rem;
+    width: 8rem;
+    overflow: hidden;
+    border-radius: 12px;
+}
+.productimg img{
+    object-fit: cover;
+    border-radius: 12px;
+    border-radius: inherit;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.3s;
+}
+.productimg img:hover {
+  transform: scale(1.05);
+}
+
+.productleftdata{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+.aboutProduct{
+    line-height: 1.8rem;
+}
+.productrightdata{
+    display: flex;
+    gap: 8rem;
+    align-items: center;
+    padding-right: 2rem;
+}
+.quantity h4{
+  margin-bottom: 12px;
+}
+
+.quantityBox{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 6rem;
+  padding-inline: 1rem;
+  padding-block: 0.5rem;
+  border: 1px solid #0000001f;
+  background: #fffdfa;
+  display: flex;
+  justify-content: center;
+  border-radius: 8px;
+}
+.quantityBox span{
+  cursor: pointer;
+}
+.quantityBox p{
+  text-align: center;
+  width: 2rem;
+}
+.products{
+    margin-top: 1rem;
+}
+.btn{
+    color: #fff;
+    cursor: pointer;
+    background: linear-gradient(135deg, #a8879e, #a48499, #9f7f96);
+    border-radius: 8px;
+    justify-content: center;
+    align-self: center;
+    align-items: center;
+    width: 10rem;
+    min-height: 38px;
+    padding: 1rem;
+    font-size: larger;
+    font-weight: 500;
+    transition: all .3s;
+    display: flex;
+    gap: 0.6rem;
+}
+
+@media screen and (max-width:1083px) {
+    .productheading{
+        display: none;
+    }
+    .products{
+        margin-top: 2rem;
+    }
+    .product{
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .productrightdata{
+        justify-content: space-around;
+    }
+    .quantityBox{
+        padding-block: 1rem;
+        width: 10rem;
+    }
+    .productleftdata{
+        gap: 2rem;
+    }
+}
+@media screen and (width <= 743px) {
+    .right{
+        display: none;
+    }
 }
