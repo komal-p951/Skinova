@@ -6,6 +6,7 @@ import { Heart } from 'lucide-react';
 import { jwtDecode } from 'jwt-decode';
 import { clientServer } from '..';
 import { AxiosHeaders } from 'axios';
+import Rating from './Rating';
 
 export default function ProductCard({product}) {
   const [isAdded, setIsAdded] = useState(false);
@@ -87,11 +88,6 @@ export default function ProductCard({product}) {
   };
 
 
-  let totalReviewRatingCount = product?.reviews?.reduce((acc,review) => acc + review.rating,0);
-  
-  const reviewlength = product?.reviews?.length;
-
-  const avgRating = product?.reviews?.length > 0 ? totalReviewRatingCount/reviewlength : 0;
 
   return (
     <>
@@ -116,17 +112,9 @@ export default function ProductCard({product}) {
 
           <div className={styles.rating}>
             <span className={styles.stars}>
-              <div>
-                {[...Array(5)].map((_,i) => 
-                i < avgRating ? (
-                  <FaStar key={i} color='#a3748b'/>
-                ) :
-                (
-                  <FaRegStar key={i} color='gray'/>
-                ))}
-              </div>
+              <Rating product={product}/>
             </span>
-            <span className={styles.reviews}>({reviewlength} reviews)</span>
+            <span className={styles.reviews}>({product?.reviews?.length} reviews)</span>
           </div>
 
           <div className={styles.priceContainer}>
@@ -135,7 +123,7 @@ export default function ProductCard({product}) {
             <span className={styles.discount}>-15%</span>
           </div>
 
-          <p className={styles.description}>Premium skincare product</p>
+          {/* <p className={styles.description}>{product?.description}</p> */}
         </div>
       </div>
     </>

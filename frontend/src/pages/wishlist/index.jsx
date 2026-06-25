@@ -31,10 +31,22 @@ function WishList() {
       console.log(error?.response?.data?.message);
     }
   };
+
   useEffect(() => {
     fetchdata();
   }, [token]);
 
+  const addToCart = async(productId) => {
+    try {
+      let res = await clientServer.post(`/cart/${productId}`,{},{
+        headers:{
+          Authorization:token
+        }
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
   const removeFromWishList = async(productId) => {
     try {
       let res = await clientServer.delete(`wishlist/${productId}`,{
@@ -89,7 +101,9 @@ function WishList() {
                 </p>
 
                 <div className={styles.buttonsBar}>
-                  <button className={styles.cartBtn}>
+                  <button className={styles.cartBtn} onClick={(e) => {
+                    e.stopPropagation();
+                    addToCart(product._id)}}>
                     <ShoppingBag />
                     Add to Cart
                   </button>

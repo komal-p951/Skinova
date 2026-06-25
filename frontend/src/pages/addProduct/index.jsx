@@ -87,7 +87,6 @@ export default function addProduct() {
   }
 
 
-  // console.log(data);
   
   return (
     <DashboardLayout>

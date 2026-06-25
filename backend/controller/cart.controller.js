@@ -4,7 +4,12 @@ import httpStatus from "http-status";
 
 export const getCartProducts = async(req,res) => {
   try {
-    const user = await User.findById(req.user._id).populate("cart.product");
+    const user = await User.findById(req.user._id).populate({
+      path: "cart.product",
+      populate:{
+        path:"reviews"
+      }
+    });
     return res.status(httpStatus.OK).json(user.cart);
   } catch (error) {
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({message: error.message});
@@ -14,6 +19,7 @@ export const getCartProducts = async(req,res) => {
 export const addToCart = async(req,res) => {
   try {
     const { id } = req.params;
+    const {quantity} = req.body;
     const user = await User.findById(req.user._id);
     const product = await Product.findById(id);
     if(!product){
@@ -29,7 +35,7 @@ export const addToCart = async(req,res) => {
     }
     user.cart.push({
       product: product._id,
-      quantity: 1
+      quantity: quantity
     });
     await user.save();
     return res.status(httpStatus.OK).json({message: "Item Added in Cart!"});

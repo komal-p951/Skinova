@@ -188,6 +188,16 @@ export const addProduct = async(req,res) => {
   }
 }
 
+export const uploadProductImage = async(req,res) => {
+  try {
+     console.log(req.file)
+
+    return res.json({ message: "uploaded" });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export const deleteProduct = async(req,res) => {
   const { id } = req.params;
   try{

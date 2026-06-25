@@ -356,7 +356,7 @@
 .addreviewbtn{
     color: #fff;
     cursor: pointer;
-    background: linear-gradient(135deg, #7d5a71 0%, #714f65 100%);
+    background: linear-gradient(135deg, #a8879e, #a48499, #9f7f96);;
     border-radius: 8px;
     justify-content: center;
     align-items: center;

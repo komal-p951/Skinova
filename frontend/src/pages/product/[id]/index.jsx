@@ -21,7 +21,6 @@ function Product() {
   const [isAdded, setIsAdded] = useState(false);
   const [cartProducts, setCartProducts] = useState([]);
 
-  // console.log("product price " , product.price);
   
   let fetchdata = async()=> {
   if(!id)return;
@@ -32,7 +31,6 @@ function Product() {
       Authorization:token
     }
   });
-  // console.log(getCartProducts.data)
   setCartProducts(getCartProducts.data);
   setProduct(response.data);
 
@@ -59,7 +57,6 @@ function Product() {
     }
   },[token]);
 
-  // console.log(cartProducts);
 
   useEffect(() => {
   if (product?._id && cartProducts.length > 0) {
@@ -86,7 +83,9 @@ function Product() {
 
   const addTocart = async(productId) => {
     try {
-      let res = await clientServer.post(`/cart/${productId}`,{},{
+      let res = await clientServer.post(`/cart/${productId}`,{
+        quantity : count
+      },{
       headers:{
         Authorization:token
       }
