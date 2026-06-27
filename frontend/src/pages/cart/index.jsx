@@ -76,7 +76,7 @@ function Cart() {
   //shower function
   const COLORS = ['#7F77DD','#1D9E75','#D85A30','#378ADD','#D4537E','#EF9F27'];
 
-function fireConfetti() {
+  function fireConfetti() {
   const canvas = canvasRef.current;
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
@@ -136,10 +136,12 @@ function stopConfetti() {
                 <span style={{cursor:'pointer'}} onClick={() => router.push("/")}>Home</span>&nbsp; / &nbsp;
                 <span style={{cursor:'pointer'}}>Cart</span></div>
             </div>
+            {!subtotal-total >= 1 && 
             <div className={styles.right}>
               <Truck color='#714f65'/>
               <div><p style={{fontWeight:"600"}}>Congratulations! You are eligible for free shipping</p><p style={{opacity:"0.6"}}>Add $2D more to your cart and get free shipping</p></div>
             </div>
+            }
           </div>
           {!products.length && <div className={styles.EmptyCartMessage}><span>Your Cart is Empty </span></div>}
           {products.length >= 1 && 
@@ -161,6 +163,7 @@ function stopConfetti() {
                 <div className={styles.productleftdata}>
                   <div className={styles.productimg}><img src="/images/skincare3.jpg" alt="" /></div>
                   <div className={styles.aboutProduct}>
+                    <h2>{p?.product?.brand}</h2>
                     <h3 style={{fontSize:"1.5rem"}}>{p?.product?.name}</h3>
                     <p>{p?.product?.rating}</p>
                     <p>in stock</p>

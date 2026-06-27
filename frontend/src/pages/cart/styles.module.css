@@ -201,6 +201,8 @@
     font-weight: 500;
     position: relative;
     overflow: hidden;
+    padding: 3rem 3rem;
+    width: fit-content;
 }
 
 

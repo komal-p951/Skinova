@@ -12,6 +12,7 @@ dotenv.config();
 const app = express();
 app.use(express.json()); 
 app.use(cors());
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/skinova/wishlist",wishListRouter);
 app.use("/skinova/cart",cartRouter);

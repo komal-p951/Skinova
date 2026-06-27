@@ -9,6 +9,9 @@ import { clientServer } from "@/index";
 export default function addProduct() {
 
   const [item,setItem] = useState("");
+  const [token, setToken] = useState("");
+  const [message, setMessage] = useState("");
+  const [errormessage, setErrorMessage] = useState("");
   const [data,setData] = useState({
     name:"",
     description:"",
@@ -20,8 +23,6 @@ export default function addProduct() {
     SkinType:"",
     ingredients:[]
   });
-  const [message, setMessage] = useState("");
-  const [errormessage, setErrorMessage] = useState("");
   
   const router = useRouter();
   
@@ -38,16 +39,42 @@ export default function addProduct() {
     }
   }, []);
 
+  const handleImage = (e) => {
+      const newFiles = Array.from(e.target.files); 
+      const oldFiles = Array.from(data.images);    
+      const mergedFiles = [...oldFiles, ...newFiles]; 
+      console.log(mergedFiles)
+      setData({...data, images: mergedFiles});
+
+  }
+  console.log(data.images)
+
   const handlesubmitProduct = async() => {
     try {
       const token = localStorage.getItem("token");
+      const formdata = new FormData();
+      formdata.append("name",data.name)
+      formdata.append("description",data.description)
+      formdata.append("category",data.category)
+      formdata.append("brand",data.brand)
+      formdata.append("price",data.price)
+      formdata.append("quantity",data.quantity)
+      formdata.append("SkinType",data.SkinType)
+      formdata.append("ingredients",JSON.stringify(data.ingredients))
+
+      for(let i = 0;i < data.images.length;i++){
+        formdata.append("images",data.images[i]);
+      }
       const res = await clientServer.post("/addproduct",
-        data,
+        formdata,
         {
         headers:{
-          Authorization:token
+          Authorization:token,
+          "Content-Type":"multipart/form-data"
         }
       });
+
+      console.log(res.data)
       setMessage(res?.data?.message);
       setData({
         name:"",
@@ -62,7 +89,6 @@ export default function addProduct() {
       });
       router.push("/");
     } catch (error) {
-      // console.log("error = ",error?.response?.data?.message)
       setErrorMessage(error?.response?.data?.message || "Something went wrong");
     }
   }
@@ -120,12 +146,22 @@ export default function addProduct() {
                   <div style={{fontWeight:"450",fontSize:"1.2rem"}}>Drag & Drop images here</div><div>or</div>
                   <div>
                     <label htmlFor="productimage" className={styles.browsfilesbtn}>Browse Files</label>
-                    <input type="file" id="productimage" style={{display:"none"}} />
+                    <input type="file" id="productimage" style={{display:"none"}} name="images" multiple formEncType="multipart/form-data" onChange={handleImage}/>
                   </div>
                   <p style={{opacity:"0.6"}}>You can upload up to 4 images</p>
                 </div>
 
-                <div className={styles.uploadedImages}></div>
+                <div className={styles.uploadedImages}>
+                  {data.images.map((file,idx) => (
+                    <div className={styles.singleImage}>
+                      <img
+                          src={URL.createObjectURL(file)}  // ✅ temporary URL banta hai
+                          alt={file.name}
+                          key={idx}
+                        />
+                    </div>
+                  )) }
+                </div>
 
               </div>
 
@@ -253,7 +289,7 @@ export default function addProduct() {
 
             <div className={styles.btn} onClick={() => router.push("/")}>cancel</div>
 
-            <div className={styles.btn} onClick={handlesubmitProduct}>publish product</div>
+            <div className={styles.btn} onClick={handlesubmitProduct}>Add Product</div>
 
           </div>
         </div>

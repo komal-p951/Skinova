@@ -4,9 +4,8 @@ import { useRouter } from 'next/navigation';
 import { FaRegStar, FaStar } from 'react-icons/fa';
 import { Heart } from 'lucide-react';
 import { jwtDecode } from 'jwt-decode';
-import { clientServer } from '..';
-import { AxiosHeaders } from 'axios';
 import Rating from './Rating';
+import { clientServer } from '..';
 
 export default function ProductCard({product}) {
   const [isAdded, setIsAdded] = useState(false);

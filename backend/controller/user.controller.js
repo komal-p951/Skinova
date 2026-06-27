@@ -171,32 +171,118 @@ export const getProduct  = async(req,res) => {
   }
 }
 
-export const addProduct = async(req,res) => {
+// export const addProduct = async(req,res) => {
+//   try {
+//     const Data = req.body;
+//     const product = new Product({
+//       ...Data,
+//       price: Number(req.body.price),
+//       quantity: Number(req.body.quantity),
+//       images: req.files.map(file => ({
+//         url:file.path,
+//         filename:file.filename
+//       }))
+//     });
+//     Object.assign(product,Data);
+//     await product.save();
+
+//     return res.status(httpStatus.CREATED).json({message: "Product Added Successfully!"});
+//   } catch (error) {
+//     return res.status(httpStatus.BAD_REQUEST).json({ message: error.message });
+//   }
+// }
+// export const addProduct = async (req, res) => {
+//     try {
+
+//         const product = new Product(req.body);
+
+//         product.images = req.files.map(file => ({
+//             url: file.path,
+//             filename: file.filename
+//         }));
+
+//         await product.save();
+
+//         res.json({
+//             message: "Product Added Successfully"
+//         });
+
+//     } catch (err) {
+//         console.log(err);
+//     }
+// }
+
+
+
+// import Product from '../models/product.model.js';
+
+export const addProduct = async (req, res) => {
   try {
-    const Data = req.body;
-    const product = new Product({
-      ...Data,
-      price: Number(req.body.price),
-      quantity: Number(req.body.quantity)
+    const { name, description, category, brand, price, quantity, SkinType } = req.body;
+
+    
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({ message: "Koi image upload nahi hui" });
+    }
+
+
+    const images = req.files.map(file => ({
+      url: file.path,    
+      filename: file.filename
+    }));
+
+    const newProduct = new Product({
+      name,
+      description,
+      category,
+      brand,
+      price,
+      quantity,
+      SkinType,
+      images
     });
-    Object.assign(product,Data);
-    await product.save();
 
-    return res.status(httpStatus.CREATED).json({message: "Product Added Successfully!"});
-  } catch (error) {
-    return res.status(httpStatus.BAD_REQUEST).json({ message: error.message });
-  }
-}
+    await newProduct.save();
 
-export const uploadProductImage = async(req,res) => {
-  try {
-     console.log(req.file)
+    return res.status(201).json({ 
+      message: "Product successfully add ho gaya!", 
+      product: newProduct 
+    });
 
-    return res.json({ message: "uploaded" });
   } catch (error) {
     console.log(error);
+    return res.status(500).json({ message: "Server error", error });
   }
-}
+};
+
+// export const uploadProductImage = async(req,res) => {
+//   try {
+//     const { productId } = req.params;
+//     const product = await Product.findById(productId);
+//     if(!product){
+//       return res.json({message:"no product found"});
+//     }
+
+//     console.log(req.files);
+//     if(!req.files){
+//       console.log("not found");
+//     }
+
+
+//     for(const file of req.files){
+//       product.images.push({
+//         url: file.path,
+//         filename: file.filename
+//       });
+//     }
+
+//     await product.save();
+
+//     return res.json({file:req.file,message:"uploaded!"});
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
 
 export const deleteProduct = async(req,res) => {
   const { id } = req.params;

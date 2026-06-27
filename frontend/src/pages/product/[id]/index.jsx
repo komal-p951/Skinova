@@ -19,11 +19,13 @@ function Product() {
   const [errormessage, setErrorMessage] = useState("");
   const [token ,setToken] = useState("");
   const [isAdded, setIsAdded] = useState(false);
+  const [isAddedInWishlist, setIsAddedInWishlist] = useState(false);
   const [cartProducts, setCartProducts] = useState([]);
+  const [wishlistProducts, setWishListProducts] = useState([]);
 
   
   let fetchdata = async()=> {
-  if(!id)return;
+  if(!id) return;
   try {
   let response = await clientServer.get(`/${id}`);
   let getCartProducts  = await clientServer.get("/cart",{
@@ -31,7 +33,14 @@ function Product() {
       Authorization:token
     }
   });
+  let getWishlistProducts  = await clientServer.get("/wishlist",{
+    headers:{
+      Authorization:token
+    }
+  });
+  // console.log(getWishlistProducts.data)
   setCartProducts(getCartProducts.data);
+  setWishListProducts(getWishlistProducts.data);
   setProduct(response.data);
 
   } catch (error) {
@@ -59,11 +68,13 @@ function Product() {
 
 
   useEffect(() => {
-  if (product?._id && cartProducts.length > 0) {
-    const exists = cartProducts.some((item) => item?.product?._id === product._id);
-    if (exists) setIsAdded(true);
+  if ((product?._id && cartProducts.length > 0) || (product._id && wishlistProducts.length > 0)) {
+    const existsInCart = cartProducts.some((item) => item?.product?._id === product._id);
+    if (existsInCart) setIsAdded(true);
+    const existsInWishlist = wishlistProducts.some((item) => item._id == product._id);
+    if (existsInWishlist) setIsAddedInWishlist(true);
   }
-}, [cartProducts, product._id]);
+}, [cartProducts, product._id, wishlistProducts]);
 
   useEffect (() => {
     fetchdata();
@@ -116,6 +127,31 @@ function Product() {
     }
   }
 
+  const addToWishList = async() => {
+    try {
+      let res = await clientServer.post(`/wishlist/${product._id}`,{},{
+      headers:{
+        Authorization: token
+      }
+    });
+    setIsAddedInWishlist(true);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const removeFromWishlist = async() => {
+    try {
+      let res = await clientServer.delete(`/wishlist/${product._id}`,{
+        headers:{
+          Authorization : token
+        }
+      });
+      setIsAddedInWishlist(false);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   
   let originalPrice = Math.round(product.price*1.15);
   
@@ -186,7 +222,7 @@ function Product() {
                   <span className={styles.catagory}> {product.category
 } </span>
                 </div>
-                <div className={styles.icon}><Heart/></div>
+                <div className={isAddedInWishlist ? styles.liked : styles.like}  onClick={isAddedInWishlist ? removeFromWishlist : addToWishList}><Heart /></div>
               </div>
 
               <div className={styles.productMidBar}>

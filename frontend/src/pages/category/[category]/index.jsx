@@ -19,6 +19,7 @@ export default function index() {
         }
     }
     useEffect(() => {
+        if (!router.isReady || !category) return;
         findProductsByCategory();
     },[category]);
 
