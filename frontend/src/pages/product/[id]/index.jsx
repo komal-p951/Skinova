@@ -9,8 +9,15 @@ import Loader from '@/components/Loader/Loader';
 import { jwtDecode } from 'jwt-decode';
 
 function Product() {
+
+//   document.querySelectorAll('*').forEach(el => {
+//   if (el.offsetWidth > document.documentElement.offsetWidth) {
+//     console.log(el, el.offsetWidth);
+//   }
+// });
+
   let [count,setCount] = useState(1);
-  const [product, setProduct] = useState({});
+  const [product, setProduct] = useState({images:[]});
   const router = useRouter();
   const { id } = router.query;
   const [loading,setLoading] = useState(true);
@@ -23,9 +30,14 @@ function Product() {
   const [cartProducts, setCartProducts] = useState([]);
   const [wishlistProducts, setWishListProducts] = useState([]);
 
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    if (storedToken) {
+      setToken(storedToken);
+    }
+  },[]);
   
   let fetchdata = async()=> {
-  if(!id) return;
   try {
   let response = await clientServer.get(`/${id}`);
   let getCartProducts  = await clientServer.get("/cart",{
@@ -50,13 +62,7 @@ function Product() {
   setLoading(false);
   }
 }
-
-  useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-    if (storedToken) {
-      setToken(storedToken);
-    }
-  },[]);
+  
   
   useEffect(() => {
     if(!token) return;
@@ -77,8 +83,10 @@ function Product() {
 }, [cartProducts, product._id, wishlistProducts]);
 
   useEffect (() => {
+    if(!id) return;
+    if(!token) return;
     fetchdata();
-  },[id]);
+  },[id,token]);
 
   useEffect(() => {
     if (message || errormessage) {
@@ -187,7 +195,6 @@ function Product() {
           <></>
         )}
           <div className={styles.mainTopContainer}>
-
             <div className={styles.discount}><img src="/images/bar.jpeg" alt="" /></div>
             <div className={styles.path}>
               <span onClick={(e) => {
@@ -206,12 +213,13 @@ function Product() {
 
             <div className={styles.leftContainer}>
               <div className={styles.mainImage}>
-                <img src="/images/fragrance2.jpg" alt="" />
+                {product?.images?.[0] && (<img src={product.images[0].url} alt="" />) }
+                
               </div>
               <div className={styles.similarImage}>
-                <img src="/images/fragrance2.jpg" alt="" />
-                <img src="/images/fragrance2.jpg" alt="" />
-                <img src="/images/fragrance2.jpg" alt="" />
+                {product?.images?.slice(1).map((image,idx) => (
+                  <img src={image?.url} alt={image?.filename} key={idx}/>
+                ))}
               </div>
             </div>
             <div className={styles.rightContainer}>
@@ -261,8 +269,8 @@ function Product() {
             </div>
           </div>
 
-          <div className={styles.reviewName}>Ratings & Reviews</div>
           <div className={styles.mainReviewContainer}>
+          <div className={styles.reviewName}>Ratings & Reviews</div>
             <ReviewCard  reviews={product?.reviews} fetchReviews={fetchdata}/>
             {isowner && 
               <div className={styles.authorbtns}>
@@ -270,6 +278,7 @@ function Product() {
                 <div className={styles.btns} type="button" onClick={() => handleDelete(id)}> <Trash/> delete product</div>
               </div>
             }
+            
           </div>
         </div>
     </DashboardLayout>

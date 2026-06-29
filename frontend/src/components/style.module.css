@@ -7,6 +7,7 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     transition: all 0.3s ease;
     cursor: pointer;
+    font-family: sans-serif;
 }
 
 .productCard:hover {
@@ -118,6 +119,7 @@
 /* Content Container */
 .content {
     padding: 16px;
+    line-height: 2rem;
 }
 
 /* Brand */
@@ -128,18 +130,18 @@
     text-transform: uppercase;
     letter-spacing: 0.5px;
     font-weight: 600;
-    margin-bottom: 8px;
+    /* margin-bottom: 8px; */
 }
 
 /* Product Name */
 .productName {
-    margin: 0;
+    /* margin: 0; */
     font-size: 16px;
     font-weight: 600;
     color: #333;
     line-height: 1.4;
-    margin-bottom: 10px;
-    min-height: 40px;
+    /* margin-bottom: 10px; */
+    /* min-height: 40px; */
 }
 
 /* Rating */
@@ -147,12 +149,21 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-bottom: 12px;
+    /* margin-bottom: 12px; */
 }
 
 .stars {
-    color: #ffc107;
-    font-size: 14px;
+    z-index: 2;
+    background: #e4e1e1;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    display: flex;
+    gap: 0.2rem;
 }
 
 .reviews {
@@ -165,7 +176,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-bottom: 12px;
+    /* margin-bottom: 12px; */
 }
 
 .price {
@@ -256,11 +267,11 @@
     align-items: center;
     min-height: 38px;
     padding: 14px;
-    font-weight: 600;
+    font-weight: 500;
     transition: all .3s;
     display: flex;
-    width: 12rem;
-    height: 3rem;
+    width: 11rem;
+    height: 1rem;
 }
 .reviewAddBtn:hover{
   transform: scale(1.02);
@@ -370,12 +381,16 @@
     position: relative;
     bottom: -4rem;
 }
+
 @media screen and (width <= 1124px) {
     .allReviews{
         grid-template-columns: repeat(2,1fr);
     }
     .hr , .reviewLeftBox{
         display: none;
+    }
+    .reviewProgressCard{
+        flex-direction: column;
     }
     
 }
@@ -394,4 +409,16 @@
         display: none;
     }
     
+}
+@media screen and (max-width : 576px) {
+    .content{
+        line-height: 1.3rem;
+        padding: 8px;
+    }
+    .brand, .discount{
+        display: none;
+    }
+    .productCard{
+        padding: 0.2rem;
+    }
 }

@@ -52,6 +52,7 @@
     height: 12rem;
 }
 .singleImage{
+    background: wheat;
     height: 170px;
     overflow: hidden;
     aspect-ratio: 1;
@@ -61,7 +62,6 @@
 .uploadedImages img{
     object-fit: contain;
     border-radius: 12px;
-    /* border-radius: inherit; */
     width: 100%;
     height: 100%;
     transition: transform .3s;

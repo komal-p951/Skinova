@@ -1,6 +1,7 @@
 .navbar{
     z-index: 100;
     background: #fff;
+    padding-inline: 2rem;
     justify-content: space-between;
     align-items: center;
     display: flex;
@@ -13,7 +14,6 @@
 .logo{
     color: #714f65;
     font-size: 55px;
-    padding-inline: 2.5rem;
     padding-block: 0.8rem;
     font-weight: 700;
 }
@@ -29,7 +29,7 @@
 }
 .right{
     display: flex;
-    gap: 2rem;
+    gap: 1.2rem;
     align-items: center;
 }
 .login{

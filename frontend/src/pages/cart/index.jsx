@@ -161,7 +161,10 @@ function stopConfetti() {
               {products.filter((p) =>  p.product !== null).map((p) => 
               <div className={styles.product} key={p?._id}>
                 <div className={styles.productleftdata}>
-                  <div className={styles.productimg}><img src="/images/skincare3.jpg" alt="" /></div>
+                  <div className={styles.productimg}>
+                    
+                    {p?.product?.images?.[0] && <img src={p?.product?.images?.[0].url} alt="" />}
+                  </div>
                   <div className={styles.aboutProduct}>
                     <h2>{p?.product?.brand}</h2>
                     <h3 style={{fontSize:"1.5rem"}}>{p?.product?.name}</h3>

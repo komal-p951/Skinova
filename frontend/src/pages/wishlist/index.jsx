@@ -89,7 +89,7 @@ function WishList() {
 
             <div className={styles.card} key={product._id} onClick={() => router.push(`/product/${product._id}`)}>
               <div className={styles.imageContainer}>
-                <img src="/images/bathbody4.jpg" alt="" />
+                {product?.images?.[0] && <img src={product?.images?.[0].url}/>}
               </div>
 
               <div className={styles.productDetail}>

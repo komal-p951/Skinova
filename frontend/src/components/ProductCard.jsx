@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styles from './style.module.css';
 import { useRouter } from 'next/navigation';
 import { FaRegStar, FaStar } from 'react-icons/fa';
-import { Heart } from 'lucide-react';
+import { Heart, Star } from 'lucide-react';
 import { jwtDecode } from 'jwt-decode';
 import Rating from './Rating';
 import { clientServer } from '..';
@@ -48,38 +48,38 @@ export default function ProductCard({product}) {
 
 
   
-  const addToWishList = async(e) => {
-    e.stopPropagation();
-    try {
-      if(!token){
-        router.push("/login");
-      }
-      let res = await clientServer.post(`/wishlist/${product._id}`,{},{
-        headers: {
-          Authorization: token
-        }
-      });
+  // const addToWishList = async(e) => {
+  //   e.stopPropagation();
+  //   try {
+  //     if(!token){
+  //       router.push("/login");
+  //     }
+  //     let res = await clientServer.post(`/wishlist/${product._id}`,{},{
+  //       headers: {
+  //         Authorization: token
+  //       }
+  //     });
       
-      setIsAdded(true);
+  //     setIsAdded(true);
 
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
-  const deleteFromwishList = async(e) => {
-    e.stopPropagation();
-    try {
-      let res = await clientServer.delete(`/wishlist/${product._id}`,{
-        headers: {
-          Authorization:token
-        }
-      });
-      setIsAdded(false);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  // const deleteFromwishList = async(e) => {
+  //   e.stopPropagation();
+  //   try {
+  //     let res = await clientServer.delete(`/wishlist/${product._id}`,{
+  //       headers: {
+  //         Authorization:token
+  //       }
+  //     });
+  //     setIsAdded(false);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
 
   const viewProductDetail = (id) => {
@@ -87,6 +87,12 @@ export default function ProductCard({product}) {
   };
 
 
+  let totalReviewRatingCount = product?.reviews?.reduce((acc,review) => acc + review.rating,0);
+  
+  const reviewlength = product?.reviews?.length;
+
+  const avgRating = reviewlength > 0 ? totalReviewRatingCount/reviewlength : 0;
+  console.log(avgRating);
 
   return (
     <>
@@ -96,10 +102,12 @@ export default function ProductCard({product}) {
       >
         {/* Image Container */}
         <div className={styles.imageContainer}>
-          <img src="/images/bathbody1.jpg" alt={product.name} />
+          <img src={product?.images?.[0]?.url} alt={product.name} />
           <div style={{display:"flex",justifyContent:"space-between"}}>
             <div className={styles.badge}>New</div>
-            <div onClick={isAdded ? deleteFromwishList : addToWishList} className={isAdded ? styles.liked : styles.like}> <Heart /> </div>
+            <span className={styles.stars}>{avgRating}<Star fill='green' color='green' height={'0.8rem'} width={'0.8rem'}/>({reviewlength})
+            </span>
+            {/* <div onClick={isAdded ? deleteFromwishList : addToWishList} className={isAdded ? styles.liked : styles.like}> <Heart /> </div> */}
             </div>
         </div>
 
@@ -110,15 +118,13 @@ export default function ProductCard({product}) {
           <h3 className={styles.productName}>{product.name}</h3>
 
           <div className={styles.rating}>
-            <span className={styles.stars}>
-              <Rating product={product}/>
-            </span>
-            <span className={styles.reviews}>({product?.reviews?.length} reviews)</span>
+            
+            {/* <span className={styles.reviews}>({product?.reviews?.length} reviews)</span> */}
           </div>
 
           <div className={styles.priceContainer}>
-            <span className={styles.price}>₹{product.price}</span>
             <span className={styles.originalPrice}>₹{Math.round(product.price * 1.15)}</span>
+            <span className={styles.price}>₹{product.price}</span>
             <span className={styles.discount}>-15%</span>
           </div>
 

@@ -53,25 +53,25 @@ export default function Products() {
 ``
         <div className={styles.bottomContainer}>
           <div className={styles.productContainer}>
-            <div style={{display:"flex",justifyContent:"space-around",alignItems:"center",marginTop:"2rem"}}>
-              <h1 className={styles.center}>MAKEUP & BEUTY</h1>
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:"2rem",paddingInline:"2rem"}}>
+              <p className={styles.center}>MAKEUP & BEUTY</p>
               <div className={styles.explore} 
               onClick={() => router.push(`/category/${"Makeup"}`)}
               >Explore more &nbsp; <MoveRight/></div>
             </div>
             <div className={styles.makeup}>
               {products
-                .filter((product) => product.category === "Makeup")
+                .filter((product) => product?.category === "Makeup")
                 .slice(0, 4)
                 .map((product) => (
-                  <ProductCard key={product._id} product={product} />
+                  <ProductCard key={product?._id} product={product} />
                 ))}
             </div>
           </div>
 
           <div className={styles.productContainer}>
-            <div style={{display:"flex",justifyContent:"space-around",alignItems:"center",marginTop:"2rem"}}>
-              <h1 className={styles.center}>Tools & Accessories</h1>
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:"2rem",paddingInline:"2rem"}}>
+              <p className={styles.center}>Tools & Accessories</p>
               <div className={styles.explore}
               onClick={() => router.push(`/category/${"Tools & Accessories"}`)}
               >Explore more &nbsp; <MoveRight/></div>
@@ -87,8 +87,8 @@ export default function Products() {
           </div>
 
           <div className={styles.productContainer}>
-            <div style={{display:"flex",justifyContent:"space-around",alignItems:"center",marginTop:"2rem"}}>
-              <h1 className={styles.center}>Skincare</h1>
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:"2rem",paddingInline:"2rem"}}>
+              <p className={styles.center}>Skincare</p>
               <div className={styles.explore}
               onClick={() => router.push(`/category/${"Skincare"}`)}
               >Explore more &nbsp; <MoveRight/></div>
@@ -104,8 +104,8 @@ export default function Products() {
           </div>
 
           <div className={styles.productContainer}>
-            <div style={{display:"flex",justifyContent:"space-around",alignItems:"center",marginTop:"2rem"}}>
-              <h1 className={styles.center}>Haircare Essentials</h1>
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:"2rem",paddingInline:"2rem"}}>
+              <p className={styles.center}>Haircare Essentials</p>
               <div className={styles.explore}
               onClick={() => router.push(`/category/${"Haircare"}`)}
               >Explore more &nbsp; <MoveRight/></div>
@@ -121,8 +121,8 @@ export default function Products() {
           </div>
 
           <div className={styles.productContainer}>
-            <div style={{display:"flex",justifyContent:"space-around",alignItems:"center",marginTop:"2rem"}}>
-              <h1 className={styles.center}>Fragrance</h1>
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:"2rem",paddingInline:"2rem"}}>
+              <p className={styles.center}>Fragrance</p>
               <div className={styles.explore}
               onClick={() => router.push(`/category/${"Fragrance"}`)}
               >Explore more &nbsp; <MoveRight/></div>
@@ -138,8 +138,8 @@ export default function Products() {
           </div>
 
           <div className={styles.productContainer}>
-            <div style={{display:"flex",justifyContent:"space-around",alignItems:"center",marginTop:"2rem"}}>
-              <h1 className={styles.center}>Bath & Body</h1>
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:"2rem",paddingInline:"2rem"}}>
+              <p className={styles.center}>Bath & Body</p>
               <div className={styles.explore}
               onClick={() => router.push(`/category/${"Bath & Body"}`)}
               >Explore more &nbsp; <MoveRight/></div>
@@ -155,8 +155,8 @@ export default function Products() {
           </div>
 
           <div className={styles.productContainer}>
-            <div style={{display:"flex",justifyContent:"space-around",alignItems:"center",marginTop:"2rem"}}>
-              <h1 className={styles.center}>Supplements</h1>
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:"2rem",paddingInline:"1rem"}}>
+              <p className={styles.center}>Supplements</p>
               <div className={styles.explore}
               onClick={() => router.push(`/category/${"Supplements"}`)}
               >Explore more &nbsp; <MoveRight/></div>

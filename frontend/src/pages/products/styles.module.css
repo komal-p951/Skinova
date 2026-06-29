@@ -18,8 +18,9 @@
   margin-left: 1rem;
 }
 
- .center {
-  text-align: center;
+.center {
+  font-size: 1.8rem;
+  /* text-align: left; */
 } 
 .makeup {
   display: grid;
@@ -41,9 +42,9 @@
   border-radius: 8px;
   justify-content: center;
   align-items: center;
-  width: 13rem;
+  width: 11rem;
   min-height: 38px;
-  padding: 1rem;
+  padding: 0.6rem;
   font-weight: 500;
   transition: all .3s;
   display: flex;
@@ -53,7 +54,7 @@
 @media screen and  (width <= 1192px){
     .makeup{
         grid-template-columns: repeat(2, 1fr);
-        gap: 2.8rem;
+        gap: 1.6rem;
         margin: 1.5rem;
     }
   .midContainer img{
@@ -62,5 +63,15 @@
   }
   .bottomContainer{
     margin: 12px;
+  }
+}
+
+@media screen and (max-width : 576px) {
+  .makeup{
+    gap: 1rem;
+    margin: 0;
+  }
+  .center{
+    font-size: 1.2rem;
   }
 }

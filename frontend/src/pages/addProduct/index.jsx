@@ -43,13 +43,18 @@ export default function addProduct() {
       const newFiles = Array.from(e.target.files); 
       const oldFiles = Array.from(data.images);    
       const mergedFiles = [...oldFiles, ...newFiles]; 
-      console.log(mergedFiles)
+
+      if(mergedFiles.length > 4){
+        alert("you can upload at max 4 images");
+        return;
+      }
+      // console.log(mergedFiles)
       setData({...data, images: mergedFiles});
 
   }
-  console.log(data.images)
 
-  const handlesubmitProduct = async() => {
+  const handlesubmitProduct = async(e) => {
+    e.preventDefault();
     try {
       const token = localStorage.getItem("token");
       const formdata = new FormData();

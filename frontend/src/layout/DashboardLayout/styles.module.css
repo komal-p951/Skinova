@@ -2,15 +2,17 @@
     position: fixed;
     bottom: 0;
 } */
- .mainContainer{
- }
-.navDiv{
-    width: 100%;
+.mainContainer {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;  /* ✅ side scroll band */
 }
-.midDiv{
-    width: 100%;
-    margin-top: 6rem;
+
+.navDiv {
+  width: 100%;
 }
-.footerDiv{
-    width: 100%;
+
+.midDiv {
+  width: 100%;
+  margin-top: 6rem;
 }

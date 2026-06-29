@@ -180,6 +180,7 @@ useEffect(() => {
       </div>
 
       <div className={styles.bottomContainer}>
+        <hr style={{color:"wheat"}} />
         <div className={styles.allReviews}>
           {reviews?.map((review) => (
             <div key={review._id} className={styles.reviewCard} >
