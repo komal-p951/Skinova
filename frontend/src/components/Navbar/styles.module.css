@@ -55,3 +55,68 @@
     transition: all .3s;
     display: flex;
 }
+
+
+
+
+.desktopMenu{
+    display:flex;
+    gap:1.2rem;
+    align-items:center;
+}
+
+.mobileMenu{
+    display:none;
+    cursor:pointer;
+}
+
+.dropdown{
+    position:absolute;
+    right:20px;
+    top:70px;
+
+    width:220px;
+
+    background:white;
+    border-radius:10px;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.15);
+
+    overflow:hidden;
+    z-index:999;
+}
+
+.dropdown div{
+    padding:15px;
+    cursor:pointer;
+    border-bottom:1px solid #eee;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: large;
+}
+
+.dropdown div:hover{
+    background:#f7f7f7;
+}
+
+@media screen and (width > 768px) {
+    .dropdown{
+        display: none;
+    }
+}
+
+@media (max-width:768px){
+
+    .desktopMenu{
+        display:none;
+    }
+
+    .mobileMenu{
+        display:block;
+    }
+
+    .logo{
+        font-size:38px;
+    }
+}

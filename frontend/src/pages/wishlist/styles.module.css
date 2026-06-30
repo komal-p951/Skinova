@@ -1,5 +1,6 @@
 .mainContainer{
     margin: 2rem;
+    font-family: sans-serif;
 }
 .wishlistCardMessage{
     height: 50vh;
@@ -111,6 +112,10 @@
     padding-inline: 0.6rem;
     cursor: pointer;
     border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
 }
 .cartBtn{
     display: flex;
@@ -134,10 +139,19 @@
 @media screen and (width <= 1054) {
     .cardsContainer{
         grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+    }
+    .buttonsBar{
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    .productDetail{
+        line-height: 1.4rem;
     }
 }
 
-@media screen and (max-width:720px) {
+@media screen and (max-width:768px) {
     .mainContainer{
         margin: 1rem;
     }
@@ -148,14 +162,26 @@
         flex-direction: column;
         gap: 0.8rem;
     }
+    .headButton{
+        display: none;
+    }
 }
 @media screen and (max-width:520px) {
     .mainContainer{
         margin: 1rem;
     }
-    .cardsContainer{
-        grid-template-columns: 1fr;
+    .productDetail{
+        padding-inline: 0.4rem;
     }
+    .productDetail > h3{
+         width : 120px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    /* .cardsContainer{
+        grid-template-columns: 1fr;
+    } */
     .buttonsBar{
         flex-direction: column;
         gap: 0.8rem;

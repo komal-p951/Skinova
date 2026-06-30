@@ -1,7 +1,7 @@
 import DashboardLayout from "@/layout/DashboardLayout";
 import React, { useEffect, useState } from "react";
 import styles from "./styles.module.css";
-import { Dot, Heart, ShoppingBag, TrashIcon } from "lucide-react";
+import { ChevronRight, Dot, Heart, ShoppingBag, TrashIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { clientServer } from "@/index";
 
@@ -65,8 +65,8 @@ function WishList() {
     <DashboardLayout>
       <div className={styles.mainContainer}>
         <h1>My Wishlist</h1>
-        <div>
-          <span>Home</span> / <span>wishlist</span>
+        <div style={{color:"#0000008f",display:"flex",alignItems:"center"}}>
+          <span>Home</span> <ChevronRight /> <span>wishlist</span>
         </div>
 
         {userData.length == 0 && <div className={styles.wishlistCardMessage}><span>Your List is Empty </span></div>}
@@ -110,7 +110,7 @@ function WishList() {
                   <button className={styles.trash} onClick={(e) => {
                     e.stopPropagation();
                     removeFromWishList(product._id);
-                  }}>
+                  }}>remove
                     <TrashIcon />
                   </button>
                 </div>

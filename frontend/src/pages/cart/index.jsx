@@ -132,7 +132,7 @@ function stopConfetti() {
           <div className={styles.cartHead}>
             <div className={styles.left}>
               <p>Your Cart</p>
-              <div style={{color:"#0000008f"}}>
+              <div style={{color:"#0000008f",display:"flex",alignItems:"center"}}>
                 <span style={{cursor:'pointer'}} onClick={() => router.push("/")}>Home</span>&nbsp; / &nbsp;
                 <span style={{cursor:'pointer'}}>Cart</span></div>
             </div>
@@ -166,7 +166,7 @@ function stopConfetti() {
                     {p?.product?.images?.[0] && <img src={p?.product?.images?.[0].url} alt="" />}
                   </div>
                   <div className={styles.aboutProduct}>
-                    <h2>{p?.product?.brand}</h2>
+                    <p>{p?.product?.brand}</p>
                     <h3 style={{fontSize:"1.5rem"}}>{p?.product?.name}</h3>
                     <p>{p?.product?.rating}</p>
                     <p>in stock</p>

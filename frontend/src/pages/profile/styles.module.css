@@ -1,0 +1,80 @@
+.mainContainer{
+    margin-inline: 2rem;
+    font-family: sans-serif;
+}
+.profile{
+    display: flex;
+    /* background: rgb(189, 130, 189); */
+    padding: 2rem;
+    gap: 2rem;
+    border-radius: 10px;
+}
+.profilepicture{
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+}
+.joinedon{
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+}
+.profilepic {
+    border-radius: 50%;
+    background: wheat;
+    width: 8rem;
+    height: 8rem;
+    overflow: hidden;
+}
+.profilepic img{
+    object-fit: contain;  
+    border-radius: 12px;
+    border-radius: inherit;
+    width: 100%;
+    height: 100%;
+    transition: transform .3s;
+}
+.profiledata{
+    display: flex;
+    gap: 2rem;
+}
+ .inputsproFileInfo, .addressInfo{
+    flex: 0.5;
+    display: flex;
+    flex-direction: column;
+ }
+ .inputsproFileInfo > label , .addressInfo > label{
+    margin-top: 0.8rem;
+ }
+.inputsproFileInfo > input, .addressInfo > input {
+    height: 30px;
+    width: 16rem;
+    border-radius: 4px;
+    border: wheat;
+    box-shadow: 2px 0px 1px 3px #f5f5f5;
+    padding: 0.5rem;
+    font-size: medium;
+    font-family: serif;
+    margin-top: 0.2rem;
+}
+.inputsproFileInfo > input:focus , .addressInfo > input:focus{
+    border: none;
+    outline: none;
+}
+.btn{
+    color: #fff;
+    cursor: pointer;
+    background: linear-gradient(135deg, #a8879e, #a48499, #9f7f96);
+    border-radius: 8px;
+    justify-content: center;
+    align-self: center;
+    align-items: center;
+    gap: .4rem;
+    width: 9rem;
+    min-height: 38px;
+    padding: .5rem;
+    font-size: larger;
+    font-weight: 500;
+    transition: all .3s;
+    display: flex;
+}
