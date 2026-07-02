@@ -1,7 +1,3 @@
-/* .footer{
-    position: fixed;
-    bottom: 0;
-} */
 .mainContainer {
   width: 100%;
   max-width: 100%;
@@ -15,4 +11,7 @@
 .midDiv {
   width: 100%;
   margin-top: 6rem;
+}
+.footerDiv{
+  margin-top: 8rem;
 }

@@ -8,7 +8,7 @@ export default function DashboardLayout({children}) {
     <div className={styles.mainContainer}>
       <div className={styles.navDiv}><Navbar/></div>
       <div className={styles.midDiv}>{children}</div>
-      {/* <div className={styles.footerDiv}><Footer/></div> */}
+      <div className={styles.footerDiv}><Footer/></div>
     </div>
   )
 }
