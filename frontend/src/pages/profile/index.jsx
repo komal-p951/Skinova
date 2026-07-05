@@ -1,20 +1,41 @@
 import DashboardLayout from '@/layout/DashboardLayout';
-import { CalendarDays, ChevronRight, HeadphoneOff, HeadphonesIcon, Heart, MoveRight, Pen, RotateCcw, ShieldCheck, ShoppingBag, ShoppingCart, TruckIcon } from 'lucide-react';
+import { CalendarDays, ChevronRight, HeadphoneOff, HeadphonesIcon, Heart, MoveRight, Pen, Pencil, RotateCcw, ShieldCheck, ShoppingBag, ShoppingCart, SquarePen, TruckIcon } from 'lucide-react';
 import React, { useEffect, useState } from 'react'
 import styles from './styles.module.css'
+import { useRouter } from 'next/router';
 import { clientServer } from '@/index';
 
 function Profile() {
+  const router = useRouter();
   const [user, setUser] = useState({});
   const [token, setToken] = useState("");
   const [open, setOpen] = useState(false);
+
+  const[updateData,setUpadateData] = useState({
+    username: "",
+    fullname:"",
+    email:"",
+    phone: "",
+    address:{
+      city:"",
+      country:"",
+      state:"",
+      street:"",
+    }
+  });
+  const [isupdate,setIsupdate] = useState(true);
+
+  
+
+
   useEffect(() => {
     const stoken = localStorage.getItem("token");
     if(stoken){
       setToken(stoken);
+    }else{
+      router.push("/login");
     }
   },[]);
-  const [update,setIsupdate] = useState(false);
 
   const fetchData = async() => {
     try {
@@ -24,7 +45,7 @@ function Profile() {
         }
       });
 
-      console.log(res.data);
+      console.log("user = ",res.data);
       setUser(res.data);
     } catch (error) {
       console.log(error);
@@ -34,10 +55,66 @@ function Profile() {
   
 
   useEffect(() => {
-
     fetchData();
-
   },[token]);
+
+  useEffect(() => {
+    setUpadateData(
+      {
+      username:user?.username || "",
+      fullname:user?.fullname || "",
+      email:user?.email || "",
+      phone:user?.phone || "",
+      address:{
+        city:user?.address?.city,
+        country:user?.address?.country,
+        state:user?.address?.state,
+        street:user?.address?.street,
+      }
+    });
+  },[user]);
+
+
+  const handleUpdate = async() => {
+    try {
+      const res = await clientServer.patch("/user/update",
+        updateData ,{
+        headers:{
+          Authorization:token
+        }
+      });
+      console.log(res.data.message,res.data);
+      setUser(res.data.user);
+      setOpen(false);
+      setIsupdate(false)
+    } catch (error) {
+      console.log(error.message);
+    }
+}
+
+const addressFields = ["street", "city", "state", "country"];
+
+const handleChange = (e) => {
+    const { name, value } = e.target;
+    setIsupdate(true);
+
+    if (addressFields.includes(name)) {
+    setUpadateData(prev => ({
+      ...prev,
+      address: {
+        ...prev.address,
+        [name]: value
+      }
+    }));
+  } else {
+    setUpadateData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  }
+};
+
+// console.log("My UpdateData is => >> >> >" , updateData)
 
   return (
     <>
@@ -45,7 +122,7 @@ function Profile() {
         <div style={{lineHeight:"1.8rem"}}>
           <h1>My Profile</h1>
           <div style={{color:"#0000008f",display:"flex",alignItems:"center"}}>
-          <span>Home</span><ChevronRight /><span>profile</span>
+          <span onClick={() => router.push("/")} style={{cursor :"pointer"}}>Home</span><ChevronRight /><span>profile</span>
           </div>
           <p style={{opacity:"0.6"}}>Manage Your personal information and accout datails</p>
         </div>
@@ -62,17 +139,17 @@ function Profile() {
             <div className={styles.inputsproFileInfo}>
               <p>Profile Information</p>
 
-              <label htmlFor="fullname">Full Name</label>
-              <input type="text" name="fullname" id="fullname" value={user.fullname}/>
+              <label htmlFor="fullname" className={styles.label}>Full Name</label>
+              <input type="text" name="fullname" id="fullname" defaultValue={user?.fullname} onChange={handleChange} className={styles.input}/>
 
-              <label htmlFor="Username">Username</label>
-              <input type="text" name="username" id="Username" value={user.username}/>
+              <label htmlFor="Username" className={styles.label}>Username</label>
+              <input type="text" name="username" id="Username" defaultValue={user?.username} onChange={handleChange} className={styles.input}/>
 
-              <label htmlFor="email">Email</label>
-              <input type="text" name="email" id="email" value={user.email}/>
+              <label htmlFor="email" className={styles.label}>Email</label>
+              <input type="text" name="email" id="email" defaultValue={user?.email} onChange={handleChange} className={styles.input}/>
 
-              <label htmlFor="phone">Phone</label>
-              <input type="text" name="phone" id="phone" value={user.phone}/>
+              <label htmlFor="phone" className={styles.label}>Phone</label>
+              <input type="text" name="phone" id="phone" defaultValue={user?.phone} onChange={handleChange} className={styles.input}/>
 
 
             </div>
@@ -81,25 +158,43 @@ function Profile() {
               <p>Address</p>
               {user?.address ? 
                 <>
-                <label htmlFor="street">street</label>
-                <input type="text" name='street' id='street' value={user?.address?.street} onChange={(e) => {setIsupdate(true)}}/>
+                  <div className={styles.inputdiv}>
+                    <label htmlFor="street" className={styles.label}>street</label>
+                    <input type="text" name='street' id='street' defaultValue={user?.address?.street} className={styles.input} onChange={handleChange}/>
+                    {/* <Pencil style={{ position: 'absolute', right: '0.2rem', top: '78%', transform: 'translateY(-50%)', opacity: 0.6, cursor: 'pointer' }} height={15} width={15}/> */}
+                  </div>
 
-                <label htmlFor="city">City</label>
-                <input type="text" name='city' id='city' value={user.address.city}/>
+                <div className={styles.inputdiv}>
+                  <label htmlFor="city" className={styles.label}>City</label>
+                  <input type="text" name="city" id='city' defaultValue={user.address.city} className={styles.input} onChange={handleChange}/>
+                  {/* <Pencil style={{ position: 'absolute', right: '0.2rem', top: '78%', transform: 'translateY(-50%)', opacity: 0.6, cursor: 'pointer' }} height={15} width={15} /> */}
+                </div>
 
-                <label htmlFor="state" >State</label>
-                <input type="text" name='state' id='state' value={user.address.state}/>
 
-                <label htmlFor="country">Country</label>
-                <input type="text" name='country' id='country' value={user.address.country}/></>
+                <div className={styles.inputdiv}>
+                  <label htmlFor="state" className={styles.label} >State</label>
+                  <input type="text" name='state' id='state' defaultValue={user.address.state} className={styles.input} onChange={handleChange}/>
+                  {/* <Pencil style={{ position: 'absolute', right: '0.2rem', top: '78%', transform: 'translateY(-50%)', opacity: 0.6, cursor: 'pointer' }} height={15} width={15} /> */}
+                </div>
+
+                <div className={styles.inputdiv}>
+                  <label htmlFor="country" className={styles.label}>Country</label>
+                  <input type="text" name='country' id='country' defaultValue={user.address.country} className={styles.input} onChange={handleChange}/>
+                  {/* {!update ? <Pencil style={{ position: 'absolute',right: '0.2rem', top: '78%', transform: 'translateY(-50%)', opacity: 0.6, cursor: 'pointer' }} height={15} width={15}/> : <button style={{ position: 'absolute',right: '0.2rem', top: '78%', transform: 'translateY(-50%)', opacity: 0.6, cursor: 'pointer' }} onClick={handleEdit}>Edit</button>} */}
+                </div>
+                
+                </>
                 : 
-                <div className={styles.addAddress}>Add Address<Pen height={18} width={18}/></div>
+                <div onClick={() => setOpen(true)} className={styles.addAddress}>Add Address<Pen height={18} width={18}/></div>
               }
+
+              {isupdate &&  <button onClick={handleUpdate} className={styles.updateContentBtn}> Update </button>}
 
             </div>
 
           </div>
-            {update && <div className={styles.btn}>update</div>}
+
+
         </div>
         <div className={styles.userShoppingDetails}>
           <div className={styles.orders}>
@@ -159,21 +254,21 @@ function Profile() {
         </div>
       </div>
       {open && 
-      <div className={styles.overlay}>
-        <div className={styles.addAddressInfo}>
+      <div className={styles.overlay}  onClick={() => setOpen(false)}>
+        <div className={styles.addAddressInfo} onClick={(e) => e.stopPropagation()}>
           <p>Add Address</p>
-          <label htmlFor="street">street</label>
-          <input type="text" name='street' id='street' placeholder='add street'/>
+          <label htmlFor="street" className={styles.label}>street</label>
+          <input type="text" name='street' id='street' placeholder='add street' onChange={handleChange} className={styles.input}/>
 
-          <label htmlFor="city">City</label>
-          <input type="text" name='city' id='city' placeholder='add city'/>
+          <label htmlFor="city" className={styles.label}>City</label>
+          <input type="text" name='city' id='city' placeholder='add city' onChange={handleChange} className={styles.input}/>
 
-          <label htmlFor="state" >State</label>
-          <input type="text" name='state' id='state' placeholder='add state'/>
+          <label htmlFor="state"  className={styles.label}>State</label>
+          <input type="text" name='state' id='state' placeholder='add state' onChange={handleChange} className={styles.input}/>
 
-          <label htmlFor="country">Country</label>
-          <input type="text" name='country' id='country' placeholder='add country'/>
-          <button className={styles.save}>Save</button>
+          <label htmlFor="country" className={styles.label}>Country</label>
+          <input type="text" name='country' id='country' placeholder='add country' onChange={handleChange} className={styles.input}/>
+          <button className={styles.save} onClick={handleUpdate}>Save</button>
         </div>
       </div>}
     </>
@@ -181,3 +276,5 @@ function Profile() {
 }
 
 export default Profile;
+
+

@@ -62,9 +62,9 @@ export default function LoginRegister() {
     }
   };
 
-  setTimeout(() => {
-    setMessage("");
-  }, 8000);
+  // setTimeout(() => {
+  //   setMessage("");
+  // }, 8000);
 
   return (
     <div className={styles.auth_container}>

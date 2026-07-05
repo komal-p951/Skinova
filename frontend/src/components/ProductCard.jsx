@@ -92,7 +92,7 @@ export default function ProductCard({product}) {
   const reviewlength = product?.reviews?.length;
 
   const avgRating = reviewlength > 0 ? totalReviewRatingCount/reviewlength : 0;
-  console.log(avgRating);
+  // console.log(avgRating);
 
   return (
     <>
