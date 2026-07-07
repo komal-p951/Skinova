@@ -114,7 +114,9 @@ export default function addProduct() {
   };
 
   const addIngredient = (newIngredient) => {
-    setData({...data,ingredients:[...data.ingredients, newIngredient]});
+    if(newIngredient !== ""){
+      setData({...data,ingredients:[...data.ingredients, newIngredient]});
+    }
   }
 
 
@@ -250,9 +252,9 @@ export default function addProduct() {
                         ))}
                       </div>
 
-                      <div style={{display:"flex",gap:"1rem"}}>
+                      <div className={styles.ingredientsInputs}>
 
-                        <input className={styles.input}  placeholder="Add ingredient and press enter" value={item} onChange={(e) => setItem(e.target.value)}/>
+                        <input className={styles.input}  placeholder="Add ingredient and press enter" value={item} onChange={(e) => e.target.value  && setItem(e.target.value)}/>
                         <button className={styles.addIngredientBtn} onClick={() => {addIngredient(item), setItem("")}}>Add</button>
                       </div>
 

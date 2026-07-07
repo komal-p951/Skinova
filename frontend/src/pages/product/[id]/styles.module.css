@@ -1,12 +1,19 @@
+.mainContainer{
+  width: 100%;
+  overflow-x: hidden;
+}
+
 .message{
     width: 30rem;
-    position: absolute;
-    align-self: center;
-    justify-self: center;
-    top: 8rem;
+    max-width: 90vw;
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 5rem;
     padding-block: 1rem;
     text-align: center;
     border-radius: 1.5rem;
+    z-index: 10;
 }
 .like svg, .liked svg{
     height: 2rem;
@@ -27,48 +34,49 @@
 .discount img{
   min-height: 120px;
   height: 135px;
-  width: 100vw;
+  width: 100%;
   object-fit: cover;
 }
 .path{
   color: #714f65;
   margin-left: 3rem;
   margin-top: 2rem;
+  font-size: 0.95rem;
 }
 
 .mainMidContainer{
   margin-top: 2rem;
   justify-content: center;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
   margin-inline: 3rem;
+  gap: 2rem;
 }
 .leftContainer{
-  flex: 0.5;
+  flex: 1 1 380px;
+  max-width: 30rem;
   display: flex;
-  /* padding-inline: 2rem; */
-  gap: 2rem;
-  justify-content: space-evenly;
-  height: 30rem;
+  gap: 1.5rem;
+  justify-content: center;
 }
 
 .rightContainer{
-  flex: 0.5;
+  flex: 1 1 380px;
+  max-width: 40rem;
   font-family: Arial, Helvetica, sans-serif;
   padding-left: 1rem;
   padding-block: 2rem;
-  margin-left: 1rem;
-  height: 30rem;
+  margin-left: 0;
 }
 .productName{
   font-size: 1.8rem;
-  font-weight: 600;
-  line-height: 20px;
+  opacity: 0.8;
 }
 
 .mainImage{
-  height: 30rem;
-  /* width: 20vw; */
+  width: 100%;
+  max-width: 26rem;
   aspect-ratio: 1;
 }
 .mainImage img{
@@ -88,10 +96,12 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  justify-content: space-around;
+  justify-content: flex-start;
 }
 .similarImage img{
-  height: 9rem;
+  height: 6.5rem;
+  width: 6.5rem;
+  object-fit: cover;
   border-radius: 8px;
   border: 1px solid transparent;
   transition: all 0.4s;
@@ -114,22 +124,26 @@
   padding-inline: 8px;
   background: wheat;
   color: #714f65;
+  white-space: nowrap;
 }
 
 .topBar{
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   margin-top: 1rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
 }
 .productInfo{
   display: flex;
+  flex-wrap: wrap;
   gap: 20px;
   margin-left: 15px;
 }
 .brand{
   background: #f0f0f0;
-  color: #c4a985;
+  color: #714f65;
   border-radius: 2px;
   padding-inline: 5px;
 }
@@ -156,10 +170,10 @@
   justify-content: flex-start;
   margin-left: 1rem;
   margin-top: 1.5rem;
-  
 }
 .reviewStar{
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
   margin-top: 1rem;
   margin-bottom: 1.5rem;
@@ -170,8 +184,15 @@
   border-radius: 5px;
   padding: 2px;
 }
+.priceBar{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
 .priceDev{
   display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
   align-items: center;
   margin-top: 1rem;
@@ -194,7 +215,6 @@
   gap: 12px;
   width: 10rem;
   background: #c4a985;
-  display: flex;
   justify-content: center;
   border-radius: 8px;
 }
@@ -210,77 +230,22 @@
 }
 .addToCartBtn{
   color: #fff;
-    cursor: pointer;
-    background: linear-gradient(135deg, #a8879e, #a48499, #9f7f96);
-    border-radius: 8px;
-    justify-content: center;
-    align-items: center;
-    min-height: 38px;
-    padding: 8px;
-    font-weight: 500;
-    transition: all .3s;
-    display: flex;
-    width: 11rem;
+  cursor: pointer;
+  background: linear-gradient(135deg, #a8879e, #a48499, #9f7f96);
+  border-radius: 8px;
+  justify-content: center;
+  align-items: center;
+  min-height: 38px;
+  padding: 8px;
+  font-weight: 500;
+  transition: all .3s;
+  display: flex;
+  gap: 0.5rem;
+  width: 11rem;
+  margin-left: 0.8rem;
 }
 .addToCartBtn:hover{
   transform: scale(1.02);
-}
-@media screen and (width <= 1399px) {
-  .mainContainer{
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  .mainMidContainer{
-    flex-wrap: wrap;
-  }
-  .leftContainer{
-    flex: 1;
-    justify-content: center;
-    gap: 2rem;
-  }
-  .rightContainer{
-    flex: 1;
-    margin-top: 3rem;
-    padding-left: 1rem;
-  }
-  .mainReviewContainer{
-    width: 100%;
-  }
-}
-@media screen and (width <= 576px) {
-  .mainTopContainer{
-    width: 100vw;
-  }
-  .discount{
-    aspect-ratio: 1;
-    width: 100vw;
-    height: 15vh;
-  }
-  .discount img{
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-  .leftContainer{
-    align-items: center;
-    flex-direction: column;
-  }
-  .similarImage{
-    flex-direction: row;
-  }
-  .similarImage img{
-    width: 10rem;
-  }
-  .mainImage{
-    height: 20rem;
-  }
-  .similarImage img{
-    height: 6rem;
-    width: 6rem;
-  }
 }
 
 /* review and ratings */
@@ -294,7 +259,6 @@
 .allReviews{
   border: 1px solid red;
   font-family: Arial, Helvetica, sans-serif;
-  
 }
 .mainReviewContainer{
   margin-inline: 4rem;
@@ -309,6 +273,7 @@
 .authorbtns{
   gap: 1rem;
   display: flex;
+  flex-wrap: wrap;
   justify-content: flex-end;
 }
 .btns{
@@ -330,12 +295,174 @@
   display: flex;
 }
 
-@media screen and (max-width : 768px) {
+/* ---------- Large tablets / small desktops ---------- */
+@media screen and (max-width: 1399px) {
+  .mainContainer{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .mainMidContainer{
+    flex-wrap: wrap;
+    margin-inline: 1.5rem;
+  }
+  .leftContainer{
+    flex: 1 1 100%;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+  .rightContainer{
+    flex: 1 1 100%;
+    max-width: 40rem;
+    margin-top: 1rem;
+    padding-left: 1rem;
+  }
+  .mainReviewContainer{
+    width: 100%;
+    margin-inline: 2rem;
+  }
+}
+
+/* ---------- Tablets ---------- */
+@media screen and (max-width: 900px) {
+  .path{
+    margin-left: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  .mainMidContainer{
+    margin-inline: 1rem;
+  }
+  .mainReviewContainer{
+    margin-inline: 1.5rem;
+    margin-bottom: 4rem;
+  }
+}
+
+/* ---------- Small tablets / large phones ---------- */
+@media screen and (max-width: 768px) {
   .leftContainer{
     flex-direction: column;
     align-items: center;
   }
+  .mainImage{
+    max-width: 22rem;
+  }
   .similarImage{
     flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .rightContainer{
+    padding-left: 0.5rem;
+    text-align: left;
+  }
+  .productMidBar{
+    margin-left: 0.5rem;
+  }
+  .quantity{
+    margin-left: 0.5rem;
+  }
+  .addToCartBtn{
+    margin-left: 0.5rem;
+    width: 100%;
+    max-width: 16rem;
+  }
+  .authorbtns{
+    justify-content: center;
+  }
+}
+
+/* ---------- Phones ---------- */
+@media screen and (max-width: 576px) {
+  .mainTopContainer{
+    width: 100%;
+  }
+  .discount{
+    aspect-ratio: 3 / 1;
+    width: 100%;
+    height: auto;
+  }
+  .discount img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .path{
+    margin-left: 1rem;
+    margin-top: 1rem;
+    font-size: 0.85rem;
+  }
+  .mainMidContainer{
+    margin-inline: 0.75rem;
+    margin-top: 1rem;
+    gap: 1rem;
+  }
+  .leftContainer{
+    align-items: center;
+    flex-direction: column;
+    max-width: 100%;
+  }
+  .mainImage{
+    height: auto;
+    width: 100%;
+    max-width: 18rem;
+  }
+  .similarImage{
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .similarImage img{
+    height: 4.5rem;
+    width: 4.5rem;
+  }
+  .rightContainer{
+    padding-left: 0;
+    margin-left: 0;
+    padding-block: 1rem;
+  }
+  .productName{
+    font-size: 1.4rem;
+  }
+  .topBar{
+    margin-left: 0.5rem;
+  }
+  .productInfo{
+    margin-left: 0;
+  }
+  .productMidBar{
+    margin-left: 0;
+  }
+  .quantity{
+    margin-left: 0;
+  }
+  .quantityBox{
+    width: 100%;
+    max-width: 12rem;
+  }
+  .addToCartBtn{
+    margin-left: 0;
+    width: 100%;
+    max-width: none;
+  }
+  .priceDev{
+    gap: 0.4rem;
+  }
+  .reviewName{
+    font-size: x-large;
+  }
+  .mainReviewContainer{
+    margin-inline: 0.75rem;
+    margin-bottom: 3rem;
+  }
+  .btns{
+    width: 100%;
+  }
+  .authorbtns{
+    flex-direction: column;
+  }
+  .message{
+    width: 90vw;
   }
 }

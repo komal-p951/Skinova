@@ -81,7 +81,7 @@ export default function Products() {
                 .filter((product) => product.category === "Tools & Accessories")
                 .slice(0, 4)
                 .map((product) => (
-                  <ProductCard key={product._id} product={product} />
+                  <ProductCard key={product?._id} product={product} />
                 ))}
             </div>
           </div>

@@ -76,6 +76,7 @@
     display: flex;
     flex-direction: row;
     gap: 1rem;
+    flex-wrap: wrap;
 }
 .input{
     border-radius: 6px;
@@ -83,6 +84,7 @@
     border: 1px solid aliceblue;
     padding-inline: 0.4rem;
     font-size: medium;
+    /* width: 100%; */
     box-shadow: 3px 3px 3px #f0f8ff;
 }
 .input:focus{
@@ -100,6 +102,7 @@
     display: flex;
     margin-block: 1rem;
     gap: 1rem;
+    flex-wrap: wrap;
 }
 .thirdR{
     display: flex;
@@ -110,6 +113,7 @@
     display: flex;
     gap: 1rem;
     margin-block:1rem;
+    flex-wrap: wrap;
 }
 .textarea{
     border-radius: 6px;
@@ -211,12 +215,16 @@
     gap: 2rem;
     margin-right: 2rem;
 }
+.ingredientsInputs{
+    display: flex;
+    gap: 1rem;
+}
 
 
-
-@media screen and (width <= 1140px) {
+@media screen and (max-width : 1630px) {
     .addProductContainer{
         flex-direction: column;
+        gap: 1rem;
     }
     .uploadImageContainer{
         width: 80%;
@@ -224,9 +232,26 @@
     }
     .uploadedImages{
         width: 80%;
+        margin-block: 1rem;
         align-self: center;
     }
-    .container{
-        margin-right: -25rem;
+}
+@media screen and (width <= 600px) {
+    .addProductContainer{
+        margin: 1rem;
+    }
+    .uploadImageContainer{
+        margin-inline: 0.2rem;
+    }
+    .uploadedImages{
+        width: 100%;
+        gap: 0.1rem;
+        padding-inline: 0.5rem;
+    }
+    .input{
+        width: 86vw;
+    }
+    .ingredientsInputs{
+        flex-direction: column;
     }
 }

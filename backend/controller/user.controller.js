@@ -113,13 +113,13 @@ export const updatedProfileData = async(req,res) => {
     Object.assign(user,data);
 
     await user.save();
+    console.log(user);
 
     return res.json({message:"Profile updated successfully!",user});
   } catch (error) {
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ message:error.message });
   }
 }
-
 
 export const getAllProducts = async(req,res) => {
   try {
@@ -171,51 +171,6 @@ export const getProduct  = async(req,res) => {
   }
 }
 
-// export const addProduct = async(req,res) => {
-//   try {
-//     const Data = req.body;
-//     const product = new Product({
-//       ...Data,
-//       price: Number(req.body.price),
-//       quantity: Number(req.body.quantity),
-//       images: req.files.map(file => ({
-//         url:file.path,
-//         filename:file.filename
-//       }))
-//     });
-//     Object.assign(product,Data);
-//     await product.save();
-
-//     return res.status(httpStatus.CREATED).json({message: "Product Added Successfully!"});
-//   } catch (error) {
-//     return res.status(httpStatus.BAD_REQUEST).json({ message: error.message });
-//   }
-// }
-// export const addProduct = async (req, res) => {
-//     try {
-
-//         const product = new Product(req.body);
-
-//         product.images = req.files.map(file => ({
-//             url: file.path,
-//             filename: file.filename
-//         }));
-
-//         await product.save();
-
-//         res.json({
-//             message: "Product Added Successfully"
-//         });
-
-//     } catch (err) {
-//         console.log(err);
-//     }
-// }
-
-
-
-// import Product from '../models/product.model.js';
-
 export const addProduct = async (req, res) => {
   try {
     const { name, description, category, brand, price, quantity, SkinType } = req.body;
@@ -243,7 +198,7 @@ export const addProduct = async (req, res) => {
     });
 
     await newProduct.save();
-
+    console.log(newProduct);
     return res.status(201).json({ 
       message: "Product successfully add ho gaya!", 
       product: newProduct 
@@ -255,34 +210,6 @@ export const addProduct = async (req, res) => {
   }
 };
 
-// export const uploadProductImage = async(req,res) => {
-//   try {
-//     const { productId } = req.params;
-//     const product = await Product.findById(productId);
-//     if(!product){
-//       return res.json({message:"no product found"});
-//     }
-
-//     console.log(req.files);
-//     if(!req.files){
-//       console.log("not found");
-//     }
-
-
-//     for(const file of req.files){
-//       product.images.push({
-//         url: file.path,
-//         filename: file.filename
-//       });
-//     }
-
-//     await product.save();
-
-//     return res.json({file:req.file,message:"uploaded!"});
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
 
 export const deleteProduct = async(req,res) => {
   const { id } = req.params;

@@ -7,6 +7,8 @@ import { Heart, ShoppingCart, Plus, Minus, Trash, PenIcon } from 'lucide-react';
 import ReviewCard from '@/components/ReviewCard';
 import Loader from '@/components/Loader/Loader';
 import { jwtDecode } from 'jwt-decode';
+import Rating from '@/components/Rating';
+import Image from 'next/image';
 
 function Product() {
 
@@ -29,6 +31,9 @@ function Product() {
   const [isAddedInWishlist, setIsAddedInWishlist] = useState(false);
   const [cartProducts, setCartProducts] = useState([]);
   const [wishlistProducts, setWishListProducts] = useState([]);
+  const [displayImages,setdisplayImages] = useState([]);
+
+  
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
@@ -36,6 +41,8 @@ function Product() {
       setToken(storedToken);
     }
   },[]);
+
+
   
   let fetchdata = async()=> {
   try {
@@ -50,7 +57,7 @@ function Product() {
       Authorization:token
     }
   });
-  // console.log(getWishlistProducts.data)
+  
   setCartProducts(getCartProducts.data);
   setWishListProducts(getWishlistProducts.data);
   setProduct(response.data);
@@ -100,6 +107,12 @@ function Product() {
   }, [message, errormessage]);
 
 
+  useEffect(() => {
+    if(product?.images?.length){
+      setdisplayImages(product.images);
+    }
+  },[product]);
+
   const addTocart = async(productId) => {
     try {
       let res = await clientServer.post(`/cart/${productId}`,{
@@ -110,7 +123,6 @@ function Product() {
       }
     });
     setIsAdded(true);
-    // console.log(res.data);
     } catch (error) {
       console.log(error);
     }
@@ -169,6 +181,14 @@ function Product() {
     return <DashboardLayout> <Loader/> </DashboardLayout>;
   }
 
+  const swap = (index) => {
+    if(index == 0)return;
+    const updatedImages = [...displayImages];
+    let temp = updatedImages[0];
+    updatedImages[0] = updatedImages[index];
+    updatedImages[index] = temp;
+    setdisplayImages(updatedImages);
+  }
   
   return (
     <DashboardLayout>
@@ -203,8 +223,7 @@ function Product() {
               }} style={{cursor:"pointer"}}>Home</span> &nbsp;&nbsp;&gt;&nbsp;&nbsp;
               <span style={{cursor:"pointer"}}>{product.category
 }</span> &nbsp;&nbsp;&gt;&nbsp;&nbsp;
-              <span style={{cursor:"pointer"}}>{product.brand}</span> &nbsp;&nbsp;&gt;&nbsp;&nbsp; 
-              <span>{product.name}</span>
+              <span style={{cursor:"pointer"}}>{product.brand}</span> 
             </div>
 
           </div>
@@ -213,12 +232,11 @@ function Product() {
 
             <div className={styles.leftContainer}>
               <div className={styles.mainImage}>
-                {product?.images?.[0] && (<img src={product.images[0].url} alt="" />) }
-                
+                {displayImages?.[0] && (<img src={displayImages[0].url} alt={displayImages[0].filename}/>) }
               </div>
               <div className={styles.similarImage}>
-                {product?.images?.slice(1).map((image,idx) => (
-                  <img src={image?.url} alt={image?.filename} key={idx}/>
+                {displayImages.slice(1).map((image,idx) => (
+                  <img src={image?.url} key={idx} alt={image?.filename} onClick={() => swap(idx+1)} />
                 ))}
               </div>
             </div>
@@ -227,18 +245,17 @@ function Product() {
               <div className={styles.topBar}>
                 <div className={styles.productInfo}>
                   <span className={styles.brand}>{product.brand}</span>
-                  <span className={styles.catagory}> {product.category
-} </span>
+                  <span className={styles.catagory}> {product.category} </span>
                 </div>
                 <div className={isAddedInWishlist ? styles.liked : styles.like}  onClick={isAddedInWishlist ? removeFromWishlist : addToWishList}><Heart /></div>
               </div>
 
               <div className={styles.productMidBar}>
                 <h1 className={styles.productName}>{product.name}</h1>
-                <h4 style={{marginTop:'1rem'}}>{product.description}</h4>
+                <h4 style={{marginTop:'1rem',opacity:"0.7"}}>{product.description}</h4>
                 <div className={styles.reviewStar}>
-                  <span>⭐⭐⭐⭐⭐</span>
-                  <span>(120+ review )</span>
+                  <span><Rating product={product}/></span>
+                  <span>({product?.reviews?.length}+ review )</span>
                   <span className={styles.stock}>in stock</span>
                 </div>
               </div>

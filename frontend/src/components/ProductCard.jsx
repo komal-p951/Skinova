@@ -47,41 +47,6 @@ export default function ProductCard({product}) {
   },[token,product._id]);
 
 
-  
-  // const addToWishList = async(e) => {
-  //   e.stopPropagation();
-  //   try {
-  //     if(!token){
-  //       router.push("/login");
-  //     }
-  //     let res = await clientServer.post(`/wishlist/${product._id}`,{},{
-  //       headers: {
-  //         Authorization: token
-  //       }
-  //     });
-      
-  //     setIsAdded(true);
-
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
-
-  // const deleteFromwishList = async(e) => {
-  //   e.stopPropagation();
-  //   try {
-  //     let res = await clientServer.delete(`/wishlist/${product._id}`,{
-  //       headers: {
-  //         Authorization:token
-  //       }
-  //     });
-  //     setIsAdded(false);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
-
-
   const viewProductDetail = (id) => {
     router.push(`/product/${id}`);
   };
@@ -105,7 +70,7 @@ export default function ProductCard({product}) {
           <img src={product?.images?.[0]?.url} alt={product.name} />
           <div style={{display:"flex",justifyContent:"space-between"}}>
             <div className={styles.badge}>New</div>
-            <span className={styles.stars}>{avgRating}<Star fill='green' color='green' height={'0.8rem'} width={'0.8rem'}/>({reviewlength})
+            <span className={styles.stars}>{avgRating}<Star fill='#714f65' color='#714f65' height={'0.8rem'} width={'0.8rem'}/>({reviewlength})
             </span>
             {/* <div onClick={isAdded ? deleteFromwishList : addToWishList} className={isAdded ? styles.liked : styles.like}> <Heart /> </div> */}
             </div>
@@ -119,7 +84,6 @@ export default function ProductCard({product}) {
 
           <div className={styles.rating}>
             
-            {/* <span className={styles.reviews}>({product?.reviews?.length} reviews)</span> */}
           </div>
 
           <div className={styles.priceContainer}>
@@ -128,7 +92,6 @@ export default function ProductCard({product}) {
             <span className={styles.discount}>-15%</span>
           </div>
 
-          {/* <p className={styles.description}>{product?.description}</p> */}
         </div>
       </div>
     </>

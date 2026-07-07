@@ -31,10 +31,10 @@ const UserSchema = new Schema(
       match: [/^[0-9]{10}$/, "Please provide a valid phone number"],
     },
     address: {
-      street: String,
-      city: String,
-      state: String,
-      country: String,
+      street: {type: String},
+      city: {type: String},
+      state: {type: String},
+      country: {type: String},
     },
     profileImage: {
       url: String,
