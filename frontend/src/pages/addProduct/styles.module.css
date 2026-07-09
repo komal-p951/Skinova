@@ -43,16 +43,19 @@
     gap: 1rem;
 }
 .uploadedImages{
-    border: 1px solid #8a2be2;
+    /* border: 1px solid #8a2be2; */
     margin-block: 1rem;
     display: flex;
     gap: 1rem;
     padding-inline: 2rem;
     padding-block: 0.8rem;
     height: 12rem;
+    width: fit-content;
+    min-width: 10rem;
+    border-radius: 1rem;
 }
 .singleImage{
-    background: wheat;
+    background: #fbf1de;
     height: 170px;
     overflow: hidden;
     aspect-ratio: 1;

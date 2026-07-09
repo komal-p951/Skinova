@@ -15,6 +15,9 @@ const storage = new CloudinaryStorage({
   params: {
     folder: "Skinova",
     allowed_formats: ["png", "jpg", "jpeg" , "webp"],
+    format: "webp",        
+    quality: "auto:good",
+    fetch_format: "auto", 
   },
 });
 

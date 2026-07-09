@@ -200,7 +200,7 @@ export const addProduct = async (req, res) => {
     await newProduct.save();
     console.log(newProduct);
     return res.status(201).json({ 
-      message: "Product successfully add ho gaya!", 
+      message: "Product added!", 
       product: newProduct 
     });
 

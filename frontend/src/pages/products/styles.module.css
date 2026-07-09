@@ -10,7 +10,7 @@
 }
 .midContainer img{
   padding-inline: 20px;
-  height: 115px;
+  max-height: 14rem;
   width: 100%;
 }
 .bottomContainer{
@@ -20,7 +20,6 @@
 
 .center {
   font-size: 1.8rem;
-  /* text-align: left; */
 } 
 .makeup {
   display: grid;
@@ -59,7 +58,7 @@
     }
   .midContainer img{
     height: 115px;
-    min-height: 118px;
+    /* min-height: 118px; */
   }
   .bottomContainer{
     margin: 12px;

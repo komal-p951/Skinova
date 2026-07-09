@@ -48,10 +48,27 @@ export default function Products() {
         </div>
 
         <div className={styles.midContainer}>
-          <img src="/images/bar.jpeg" alt="" />
+          <img src="/images/bar.jpeg" alt="barImg" />
         </div>
-``
         <div className={styles.bottomContainer}>
+          <div className={styles.productContainer}>
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:"2rem",paddingInline:"2rem"}}>
+              <p className={styles.center}>Skincare</p>
+              <div className={styles.explore}
+              onClick={() => router.push(`/category/${"Skincare"}`)}
+              >Explore more &nbsp; <MoveRight/></div>
+            </div>
+            <div className={styles.makeup}>
+              {products
+                .filter((product) => product.category === "Skincare")
+                .slice(0, 4)
+                .map((product) => (
+                  <ProductCard key={product._id} product={product} />
+                ))}
+            </div>
+          </div>
+
+          
           <div className={styles.productContainer}>
             <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:"2rem",paddingInline:"2rem"}}>
               <p className={styles.center}>MAKEUP & BEUTY</p>
@@ -82,23 +99,6 @@ export default function Products() {
                 .slice(0, 4)
                 .map((product) => (
                   <ProductCard key={product?._id} product={product} />
-                ))}
-            </div>
-          </div>
-
-          <div className={styles.productContainer}>
-            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:"2rem",paddingInline:"2rem"}}>
-              <p className={styles.center}>Skincare</p>
-              <div className={styles.explore}
-              onClick={() => router.push(`/category/${"Skincare"}`)}
-              >Explore more &nbsp; <MoveRight/></div>
-            </div>
-            <div className={styles.makeup}>
-              {products
-                .filter((product) => product.category === "Skincare")
-                .slice(0, 4)
-                .map((product) => (
-                  <ProductCard key={product._id} product={product} />
                 ))}
             </div>
           </div>

@@ -56,3 +56,4 @@ export const removeFromWishList = async(req,res) => {
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({message: error.message});
   }
 }
+

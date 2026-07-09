@@ -99,7 +99,22 @@
 .dropdown div:hover{
     background:#f7f7f7;
 }
-
+.search span{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 2.5rem;
+    border: 1px solid wheat;
+    border-radius: 8px;
+    padding-inline: 0.3rem;
+}
+.searchInput{
+    border: none;
+}
+.searchInput:focus{
+    border: none;
+    outline: none;
+}
 @media screen and (width > 768px) {
     .dropdown{
         display: none;

@@ -6,7 +6,8 @@ import {
   Heart,
   Plus,
   ShoppingCart,
-  EllipsisVertical
+  EllipsisVertical,
+  Search
 } from "lucide-react";
 import { jwtDecode } from "jwt-decode";
 
@@ -54,14 +55,16 @@ export default function Navbar() {
         skinova
       </div>
 
-      {/* Desktop Menu */}
       <div className={styles.desktopMenu}>
         {isLoggedIn ? (
           <>
+            <div className={styles.search} onClick={() => router.push("/search")}>
+              <span><input placeholder="search here" className={styles.searchInput} type="text"/> <Search height={16} width={16} /></span>
+            </div>
             {isOwner && (
               <div
-                className={styles.addproductbtn}
-                onClick={() => router.push("/addProduct")}
+              className={styles.addproductbtn}
+              onClick={() => router.push("/addProduct")}
               >
                 <Plus size={18} />
                 Add Product
@@ -90,7 +93,6 @@ export default function Navbar() {
         )}
       </div>
 
-      {/* Mobile Three Dot */}
       <div
         className={styles.mobileMenu}
         onClick={() => setOpenMenu(!openMenu)}

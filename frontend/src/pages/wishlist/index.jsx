@@ -60,13 +60,16 @@ function WishList() {
       console.log(error);
     }
   }
+  // const moveAlltocart = async(userData){
+    
+  // }
 
   return (
     <DashboardLayout>
       <div className={styles.mainContainer}>
         <h1>My Wishlist</h1>
         <div style={{color:"#0000008f",display:"flex",alignItems:"center"}}>
-          <span>Home</span> <ChevronRight /> <span>wishlist</span>
+          <span onClick={() => router.push("/")}>Home</span> <ChevronRight /> <span>wishlist</span>
         </div>
 
         {userData.length == 0 && <div className={styles.wishlistCardMessage}><span>Your List is Empty </span></div>}
@@ -79,9 +82,9 @@ function WishList() {
               <h5>saved for later</h5>
             </div>
           </div>
-          <div className={styles.headButton}>
+          {/* <div className={styles.headButton}>
             <ShoppingBag /> Move All to Cart
-          </div>
+          </div> */}
         </div>
 
         <div className={styles.cardsContainer}>
@@ -93,7 +96,7 @@ function WishList() {
               </div>
 
               <div className={styles.productDetail}>
-                <h3>{product?.name}</h3>
+                <h3 className={styles.productDetailTitle}>{product?.name}</h3>
                 <p>₹{product?.price} </p>
 
                 <p className={styles.stock}>
