@@ -6,6 +6,7 @@
 
 .navDiv {
   width: 100%;
+  margin-bottom: 9.5rem;
 }
 
 .midDiv {
@@ -14,4 +15,9 @@
 }
 .footerDiv{
   margin-top: 8rem;
+}
+@media screen and (width <= 650px) {
+  .navDiv{
+    margin-bottom: calc(100px + 5rem);
+  }
 }

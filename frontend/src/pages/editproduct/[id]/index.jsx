@@ -39,10 +39,6 @@ export default function editproduct() {
   };
 
   useEffect(() => {
-    fetchdata();
-  }, [id]);
-
-  useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) return router.push("/login");
     try {
@@ -54,6 +50,12 @@ export default function editproduct() {
       router.push("/");
     }
   }, []);
+
+  useEffect(() => {
+    fetchdata();
+  }, [id]);
+
+  
 
   const handleUpdateProduct = async () => {
     try {
@@ -169,7 +171,19 @@ export default function editproduct() {
                   </p>
                 </div>
 
-                <div className={styles.uploadedImages}></div>
+                <div className={styles.uploadedImages}>
+                   {data.images.map((file,idx) => (
+                    <><span className={styles.cancel}><X/></span>
+                    <div className={styles.singleImage} key={idx}>
+                      <img
+                          src={file.url} 
+                          alt={file.name}
+                        />
+                    </div>
+                    </>
+                  )) }
+                </div>
+
               </div>
 
               <div className={styles.rightContainer}>

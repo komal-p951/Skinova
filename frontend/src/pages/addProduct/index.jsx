@@ -48,7 +48,6 @@ export default function addProduct() {
         alert("you can upload at max 4 images");
         return;
       }
-      // console.log(mergedFiles)
       setData({...data, images: mergedFiles});
 
   }
@@ -162,7 +161,7 @@ export default function addProduct() {
                   {data.images.map((file,idx) => (
                     <div className={styles.singleImage}>
                       <img
-                          src={URL.createObjectURL(file)}  // ✅ temporary URL banta hai
+                          src={URL.createObjectURL(file)}  
                           alt={file.name}
                           key={idx}
                         />

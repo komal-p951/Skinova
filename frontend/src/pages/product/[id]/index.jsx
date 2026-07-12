@@ -8,15 +8,9 @@ import ReviewCard from '@/components/ReviewCard';
 import Loader from '@/components/Loader/Loader';
 import { jwtDecode } from 'jwt-decode';
 import Rating from '@/components/Rating';
-import Image from 'next/image';
 
 function Product() {
 
-//   document.querySelectorAll('*').forEach(el => {
-//   if (el.offsetWidth > document.documentElement.offsetWidth) {
-//     console.log(el, el.offsetWidth);
-//   }
-// });
 
   let [count,setCount] = useState(1);
   const [product, setProduct] = useState({images:[]});
@@ -189,6 +183,7 @@ function Product() {
     updatedImages[index] = temp;
     setdisplayImages(updatedImages);
   }
+  console.log(product)
   
   return (
     <DashboardLayout>
@@ -256,7 +251,7 @@ function Product() {
                 <div className={styles.reviewStar}>
                   <span><Rating product={product}/></span>
                   <span>({product?.reviews?.length}+ review )</span>
-                  <span className={styles.stock}>in stock</span>
+                  {product.quantity > 0 ? <span className={styles.stock}>in stock</span> : <span className={styles.outofstock}>out of Stock</span>}
                 </div>
               </div>
 

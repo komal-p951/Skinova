@@ -23,7 +23,7 @@ function Profile() {
       street:"",
     }
   });
-  const [isupdate,setIsupdate] = useState(true);
+  const [isupdate,setIsupdate] = useState(false);
 
   
 
@@ -197,7 +197,7 @@ const handleChange = (e) => {
 
         </div>
         <div className={styles.userShoppingDetails}>
-          <div className={styles.orders}>
+          <div onClick={() => router.push("/myorders")} style={{cursor:'pointer'}}>
             <span className={styles.icon}><ShoppingBag /></span>
             <div style={{display:"flex",flexDirection:"column"}}>
               <p className={styles.count}>12</p>
@@ -205,7 +205,7 @@ const handleChange = (e) => {
               <p style={{display:'flex',alignItems:'center',color:'#a5849a',gap:'0.2rem'}}>view all orders <MoveRight /></p>
             </div>
           </div>
-          <div className={styles.wishlist}>
+          <div onClick={() => router.push("/wishlist")} style={{cursor:'pointer'}}>
             <span className={styles.icon}><Heart/></span>
             <div style={{display:"flex",flexDirection:"column"}}>
               <p className={styles.count}>8</p>
@@ -213,12 +213,12 @@ const handleChange = (e) => {
               <p style={{display:'flex',alignItems:'center',color:'#a5849a',gap:'0.2rem'}}>view wishlist<MoveRight /></p>
             </div>
           </div>
-          <div className={styles.cart}>
+          <div onClick={() => router.push("/cart")} style={{cursor:'pointer'}}>
             <span className={styles.icon}><ShoppingCart/></span>
             <div style={{display:"flex",flexDirection:"column"}}>
               <p className={styles.count}>5</p>
               <p style={{opacity:'0.8'}}>items in cart</p>
-              <p style={{display:'flex',alignItems:'center',color:'#a5849a',gap:'0.2rem'}}>view cart<MoveRight /></p>
+              <p  style={{cursor:'pointer',display:'flex',alignItems:'center',color:'#a5849a',gap:'0.2rem'}}>view cart<MoveRight /></p>
             </div>
           </div>
         </div>

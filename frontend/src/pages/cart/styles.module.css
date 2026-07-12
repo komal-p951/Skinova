@@ -91,7 +91,12 @@
 .quantity h4{
   margin-bottom: 12px;
 }
-
+.stock{
+  color: rgba(3, 129, 3, 0.801);
+  background: wheat;
+  border-radius: 5px;
+  padding: 2px;
+}
 .quantityBox{
   display: flex;
   align-items: center;

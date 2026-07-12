@@ -3,6 +3,7 @@
 }
 .topContainer{
   width: 100vw;
+  /* margin-top: 8.5rem; */
 }
 .midContainer{
   width: 100%;
@@ -31,7 +32,7 @@
 }
 .productContainer{
   border-radius: 25px;
-  margin-bottom: 1rem;
+  /* margin-bottom: 1rem; */
   color: #714f65;
 }
 .explore{
@@ -50,6 +51,7 @@
   align-self: center;
   font-size: larger;
 }
+
 @media screen and  (width <= 1192px){
     .makeup{
         grid-template-columns: repeat(2, 1fr);
@@ -58,14 +60,17 @@
     }
   .midContainer img{
     height: 115px;
-    /* min-height: 118px; */
   }
   .bottomContainer{
     margin: 12px;
   }
 }
 
+
 @media screen and (max-width : 576px) {
+  .topContainer{
+    margin-top: calc(100px + 5rem);
+  }
   .makeup{
     gap: 1rem;
     margin: 0;

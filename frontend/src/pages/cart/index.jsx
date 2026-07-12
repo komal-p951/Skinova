@@ -30,7 +30,6 @@ function Cart() {
           Authorization : token
         }
       });
-      console.log(res.data)
       setProducts(res.data);
     } catch (error) {
       console.log(error);
@@ -63,7 +62,7 @@ function Cart() {
         Authorization:token
       }
     });
-    console.log(res.data);
+    
     fetchdata();
     } catch (error) {
       console.log(error);
@@ -169,7 +168,7 @@ function stopConfetti() {
                     <p>{p?.product?.brand}</p>
                     <h3 style={{fontSize:"1.5rem"}}>{p?.product?.name}</h3>
                     <p>{p?.product?.rating}</p>
-                    <p>in stock</p>
+                    <p className={styles.stock}>in stock</p>
                     <p style={{fontSize:"1.2rem"}}>₹{p?.product?.price}</p>
                     <Rating product={p?.product}/>
                   </div>
@@ -247,7 +246,7 @@ function stopConfetti() {
                 <h3 style={{color:'rgb(141 75 110)'}}>₹{total}</h3>
               </div>
               <div className={styles.btns}>
-                <div className={styles.proceed}><Handbag />Proceed to Checkout</div>
+                <div onClick={() => router.push("/checkout")} className={styles.proceed}><Handbag />Proceed to Checkout</div>
                 <div onClick={() => router.push("/")} className={styles.continueS}><ChevronLeft />Continue Shopping</div>
               </div>
             </div>

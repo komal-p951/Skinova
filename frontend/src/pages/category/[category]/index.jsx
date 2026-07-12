@@ -25,8 +25,9 @@ export default function index() {
 
   return (
     <DashboardLayout>
+        {products.length < 1 && <div className={styles.mainContainer}>Product Not Found</div>}
         <div className={styles.mainContainer}>
-            {products.map((p) => 
+            {products.length > 0 && products.map((p) => 
                 <ProductCard key={p._id} product={p}/>
             )}
         </div>

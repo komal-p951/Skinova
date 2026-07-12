@@ -33,12 +33,12 @@ export default function ProductCard({product}) {
           Authorization:token
         }
       });
-      const exists = res.data.some((item) => item._id === product._id);
+      const exists = res.data.some((item) => item?._id === product?._id);
       if(exists){
         setIsAdded(exists);
       }
       } catch (error) {
-        console.log(error);
+        console.log(error.message);
       }
     }
     if(token){

@@ -67,7 +67,15 @@ const UserSchema = new Schema(
     token:{
       type:String,
       default:''    
-    }
+    },
+    orders:[
+      {
+        product: {
+          type: Schema.Types.ObjectId,
+          ref:"Product"
+        }
+      }
+    ]
   },
   { timestamps: true }
 );

@@ -178,11 +178,15 @@
   margin-top: 1rem;
   margin-bottom: 1.5rem;
 }
-.stock{
+.stock,.outofstock{
   color: rgba(3, 129, 3, 0.801);
   background: wheat;
   border-radius: 5px;
   padding: 2px;
+}
+.outofstock{
+  color: red;
+  background: rgb(245, 179, 179);
 }
 .priceBar{
   display: flex;
