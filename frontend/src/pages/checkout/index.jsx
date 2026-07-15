@@ -12,50 +12,93 @@ import {
 } from "lucide-react";
 import DashboardLayout from "@/layout/DashboardLayout";
 import { clientServer } from "@/index";
+import Rating from "@/components/Rating";
+import Loader from "@/components/Loader/Loader";
+
+const VALID_COUPON = "HAXFILDE1254";
+const COUPON_DISCOUNT_PERCENT = 5;
 
 export default function OrderSummary() {
-  const [quantity, setQuantity] = useState(1);
   const [user, setUser] = useState({});
   const [token, setToken] = useState("");
-  const [cartProducts, setCartProducts] = useState({});
+  const [cartProducts, setCartProducts] = useState([]);
+  const [coupon, setCoupon] = useState("");
+  const [appliedCoupon, setAppliedCoupon] = useState(false);
+  const [couponError, setCouponError] = useState("");
+  const [loading,setLoading] = useState(true);
   const router = useRouter();
-  const product = {
-    name: "Skinova Vitamin C Serum",
-    image: "/products/serum.png", // Replace with your image
-    price: 799,
-    delivery: "18 July 2026",
-  };
 
+  // Load token once on mount
   useEffect(() => {
-    const storedtoken = localStorage.getItem("token");
-    if(storedtoken){
-      setToken(storedtoken);
-    }else{
+    const storedToken = localStorage.getItem("token");
+    if (storedToken) {
+      setToken(storedToken);
+    } else {
       router.push("/login");
     }
-  },[]);
+  }, []);
 
-  const fetchdata = async() => {
+  const fetchdata = async () => {
     try {
-      const res = await clientServer.get("/user",{
-      headers: {
-        Authorization:token
-      }
-    });
-    setUser(res.data);
-    console.log(res.data);
+      const res = await clientServer.get("/user", {
+        headers: { Authorization: token },
+      });
+      const userCartProducts = await clientServer.get("/cart", {
+        headers: { Authorization: token },
+      });
+      setUser(res.data);
+      setCartProducts(userCartProducts.data);
+      setLoading(false);
     } catch (error) {
-      console.log(error.response.data.message);
+      console.log(error?.response?.data?.message || error.message);
     }
-  }
-  useEffect(() => {
-    fetchdata();
-  },[token])
+  };
 
-  const subtotal = product.price * quantity;
-  const discount = 120;
-  const deliveryCharge = 0;
-  const total = subtotal - discount + deliveryCharge;
+  // Only fetch once we actually have a token - avoids a wasted call with an empty header
+  useEffect(() => {
+    if (token) {
+      fetchdata();
+    }
+  }, [token]);
+
+  const validProducts = cartProducts.filter((p) => p.product !== null);
+
+  const totalItems = validProducts.reduce((acc, p) => acc + p.quantity, 0);
+
+  const subtotal = validProducts.reduce(
+    (acc, p) => acc + p.quantity * p.product.price,
+    0
+  );
+
+  const shipping = subtotal >= 750 || subtotal === 0 ? 0 : 40;
+  const bulkDiscount = subtotal >= 1000 ? +(subtotal * 0.1).toFixed(2) : 0;
+  const couponDiscount = appliedCoupon
+    ? +(((subtotal - bulkDiscount + shipping) * COUPON_DISCOUNT_PERCENT) / 100).toFixed(2)
+    : 0;
+
+  const totalDiscount = bulkDiscount + couponDiscount;
+  const total = subtotal + shipping - totalDiscount;
+
+  const couponApplyfun = () => {
+    if (!coupon) {
+      setCouponError("Please enter a coupon code.");
+      return;
+    }
+    if (appliedCoupon) {
+      setCouponError("Coupon already applied.");
+      return;
+    }
+    if (coupon.trim().toUpperCase() === VALID_COUPON) {
+      setAppliedCoupon(true);
+      setCouponError("");
+    } else {
+      setCouponError("Invalid coupon code.");
+    }
+    setCoupon("");
+  };
+  if(loading) {
+    return <DashboardLayout> <Loader/> </DashboardLayout>;
+  }
 
   return (
     <DashboardLayout>
@@ -85,63 +128,44 @@ export default function OrderSummary() {
                   <MapPin size={20} />
                   <h2>Delivery To:</h2>
                 </div>
-
-                <button className={styles.changeBtn}>Change</button>
+                <button onClick={() => router.push("/profile")} className={styles.changeBtn}>Change</button>
               </div>
 
               <div className={styles.address}>
                 <h3>{user?.fullname}</h3>
                 <p>{user?.address?.street}</p>
                 <p>{user?.address?.city}</p>
-                <p>{user?.address?.state} - {user?.address?.country}</p>
+                <p>
+                  {user?.address?.state} - {user?.address?.country}
+                </p>
                 <p>{user?.phone}</p>
               </div>
             </div>
 
-            {/* Product */}
-
-            {user?.cart?.map((data,idx) => console.log(data))}
+            {/* Products */}
             <div className={styles.card}>
-              <div className={styles.productCard}>
-                <img
-                  src={product.image}
-                  alt="product"
-                  className={styles.productImage}
-                />
+              {validProducts.map((p) => (
+                <div className={styles.productCard} key={p._id}>
+                  <img
+                    src={p?.product?.images?.[0]?.url || "/placeholder.png"}
+                    alt={p?.product?.name || "product"}
+                    className={styles.productImage}
+                  />
 
-                <div className={styles.productInfo}>
-                  <h2>{product.name}</h2>
+                  <div className={styles.productInfo}>
+                    <h2>{p?.product?.name}</h2>
+                    <Rating product={p?.product}/>
+                    <h3>₹ {p?.product?.price}</h3>
 
-                  <p className={styles.rating}>⭐⭐⭐⭐⭐ (248 Reviews)</p>
-
-                  <h3>₹ {product.price}</h3>
-
-                  <div className={styles.quantity}>
-                    <button
-                      onClick={() =>
-                        quantity > 1 && setQuantity(quantity - 1)
-                      }
-                    >
-                      <Minus size={16} />
-                    </button>
-
-                    <span>{quantity}</span>
-
-                    <button onClick={() => setQuantity(quantity + 1)}>
-                      <Plus size={16} />
-                    </button>
+                    <div className={styles.quantity}>
+                      <span>Quantity of Proudcts :{p.quantity}</span>
+                    </div>
                   </div>
-
-                  {/* <div className={styles.delivery}>
-                    <Truck size={18} />
-                    <span>Expected Delivery : {product.delivery}</span>
-                  </div> */}
                 </div>
-              </div>
+              ))}
             </div>
 
             {/* Coupon */}
-
             <div className={styles.card}>
               <div className={styles.cardHeader}>
                 <div className={styles.title}>
@@ -154,14 +178,23 @@ export default function OrderSummary() {
                 <input
                   type="text"
                   placeholder="Enter coupon code"
+                  value={coupon}
+                  onChange={(e) => setCoupon(e.target.value)}
+                  disabled={appliedCoupon}
                 />
-
-                <button>Apply</button>
+                <button onClick={couponApplyfun} disabled={appliedCoupon}>
+                  {appliedCoupon ? "Applied" : "Apply"}
+                </button>
               </div>
+              {couponError && <p className={styles.couponError}>{couponError}</p>}
+              {appliedCoupon && (
+                <p className={styles.couponSuccess}>
+                  Coupon applied: {COUPON_DISCOUNT_PERCENT}% off
+                </p>
+              )}
             </div>
 
             {/* Promise */}
-
             <div className={styles.card}>
               <div className={styles.cardHeader}>
                 <div className={styles.title}>
@@ -180,38 +213,35 @@ export default function OrderSummary() {
           </div>
 
           {/* Right Section */}
-
           <div className={styles.rightSection}>
             <div className={styles.priceCard}>
               <h2>Price Details</h2>
 
               <div className={styles.row}>
-                <span>Price ({quantity} item)</span>
-
+                <span>Price ({totalItems} item{totalItems !== 1 ? "s" : ""})</span>
                 <span>₹ {subtotal}</span>
               </div>
 
               <div className={styles.row}>
                 <span>Discount</span>
-
-                <span className={styles.discount}>- ₹ {discount}</span>
+                <span className={styles.discount}>₹ {Math.round(totalDiscount)}</span>
               </div>
 
               <div className={styles.row}>
                 <span>Delivery</span>
-
-                <span className={styles.free}>FREE</span>
+                <span className={shipping === 0 ? styles.free : ""}>
+                  {shipping === 0 ? "FREE" : `₹ ${shipping}`}
+                </span>
               </div>
 
               <hr />
 
               <div className={styles.total}>
                 <span>Total Amount</span>
-
-                <span>₹ {total}</span>
+                <span>₹ {total.toFixed(2)}</span>
               </div>
 
-              <button className={styles.paymentBtn}>
+              <button onClick={() => router.push("/payment")} disabled={ validProducts.length===0 || !user.address } className={styles.paymentBtn}>
                 Continue to Payment
                 <ChevronRight size={20} />
               </button>
@@ -220,16 +250,13 @@ export default function OrderSummary() {
         </div>
 
         {/* Mobile Bottom */}
-
         <div className={styles.mobileBottom}>
           <div>
-            <h3>₹ {total}</h3>
+            <h3>₹ {total.toFixed(2)}</h3>
             <small>Total Amount</small>
           </div>
 
-          <button className={styles.paymentBtn}>
-            Continue
-          </button>
+          <button className={styles.paymentBtn}>Continue</button>
         </div>
       </div>
     </DashboardLayout>

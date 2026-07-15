@@ -238,7 +238,7 @@ function stopConfetti() {
               </div>
               <div className={styles.flex}>
                 <p>Discount</p>
-                <p>₹{discount}</p>
+                <p>₹{discount.toFixed(2)}</p>
               </div>
               <hr className={styles.text} />
               <div className={styles.flex}>
