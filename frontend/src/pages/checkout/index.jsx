@@ -6,14 +6,13 @@ import {
   Truck,
   Tag,
   ShieldCheck,
-  Plus,
-  Minus,
   ChevronRight,
 } from "lucide-react";
 import DashboardLayout from "@/layout/DashboardLayout";
 import { clientServer } from "@/index";
 import Rating from "@/components/Rating";
 import Loader from "@/components/Loader/Loader";
+import { useCheckout } from "@/context/CheckoutContext";
 
 const VALID_COUPON = "HAXFILDE1254";
 const COUPON_DISCOUNT_PERCENT = 5;
@@ -26,6 +25,7 @@ export default function OrderSummary() {
   const [appliedCoupon, setAppliedCoupon] = useState(false);
   const [couponError, setCouponError] = useState("");
   const [loading,setLoading] = useState(true);
+  const { setCheckoutData } = useCheckout();
   const router = useRouter();
 
   // Load token once on mount
@@ -37,7 +37,6 @@ export default function OrderSummary() {
       router.push("/login");
     }
   }, []);
-
   const fetchdata = async () => {
     try {
       const res = await clientServer.get("/user", {
@@ -50,7 +49,7 @@ export default function OrderSummary() {
       setCartProducts(userCartProducts.data);
       setLoading(false);
     } catch (error) {
-      console.log(error?.response?.data?.message || error.message);
+      console.log(error); //?.response?.data?.message || error.message
     }
   };
 
@@ -60,6 +59,7 @@ export default function OrderSummary() {
       fetchdata();
     }
   }, [token]);
+ 
 
   const validProducts = cartProducts.filter((p) => p.product !== null);
 
@@ -96,6 +96,20 @@ export default function OrderSummary() {
     }
     setCoupon("");
   };
+
+  const handleContinue = () => {
+    setCheckoutData({
+      validProducts,
+      user,
+      subtotal,
+      shipping,
+      discount: totalDiscount,
+      total,
+    });
+
+    router.push("/payment");
+  }
+
   if(loading) {
     return <DashboardLayout> <Loader/> </DashboardLayout>;
   }
@@ -241,7 +255,7 @@ export default function OrderSummary() {
                 <span>₹ {total.toFixed(2)}</span>
               </div>
 
-              <button onClick={() => router.push("/payment")} disabled={ validProducts.length===0 || !user.address } className={styles.paymentBtn}>
+              <button onClick={handleContinue} disabled={ validProducts.length===0 || !user.address } className={styles.paymentBtn}>
                 Continue to Payment
                 <ChevronRight size={20} />
               </button>
@@ -250,14 +264,14 @@ export default function OrderSummary() {
         </div>
 
         {/* Mobile Bottom */}
-        <div className={styles.mobileBottom}>
+        {/* <div className={styles.mobileBottom}>
           <div>
             <h3>₹ {total.toFixed(2)}</h3>
             <small>Total Amount</small>
           </div>
 
           <button className={styles.paymentBtn}>Continue</button>
-        </div>
+        </div> */}
       </div>
     </DashboardLayout>
   );

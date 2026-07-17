@@ -48,24 +48,24 @@
   gap: 15px;
 
   margin-bottom: 30px;
+  
 }
 
 .method {
   display: flex;
-
   align-items: center;
-
   gap: 10px;
-
   padding: 16px;
-
   border: 1px solid #e6d8df;
-
   border-radius: 12px;
-
   cursor: pointer;
-
   transition: 0.3s;
+  justify-content: space-between;
+}
+.method span{
+  display:flex;
+  gap:0.4rem;
+  align-items:center;
 }
 
 .active {

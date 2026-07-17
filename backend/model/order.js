@@ -5,25 +5,34 @@ const OrderSchema = new mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref:"User"
     },
-    product:{
-        type : Schema.Types.ObjectId,
-        ref : "Product"
-    },
-    quantity:{
-        type:Number
-    },
+    products: [{
+        product: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Product",
+            required: true
+        },
+        quantity: {
+            type: Number,
+            required: true
+        },
+        price:{
+            type:Number,
+            required:true
+        }
+    }],
     paymentMethod:{
         type:String,
         enum:["COD","ONLINE"]
     },
     paymentStatus:{
         type:String,
-        enum:["Pending","Paid","Failed","Refunded"]
+        enum:["Pending","Paid","Failed"],
+        default: "Pending"
     },
     orderStatus:{
         type:String,
-        enum:["Pending","Shipped","Out For Delivar" ,"Deliverd","Cancelled","Returned"],
-        default:"Pending"
+        enum:["Placed","Shipped","Out For Delivery" ,"Deliverd","Cancelled","Returned"],
+        default:"Placed"
     },
     total:{
         type:Number,

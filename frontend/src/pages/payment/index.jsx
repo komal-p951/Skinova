@@ -1,13 +1,4 @@
-// import React from 'react'
-
-// export default function Payment() {
-//   return (
-//     <div>
-//       payment
-//     </div>
-//   )
-// }
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./styles.module.css";
 import { useRouter } from "next/router";
 import {
@@ -18,14 +9,67 @@ import {
   ShieldCheck,
   Lock,
   MoveLeft,
+  CircleQuestionMark,
 } from "lucide-react";
+import { clientServer } from "@/index";
+import { useCheckout } from "@/context/CheckoutContext";
 
 export default function Payment() {
-  const [method, setMethod] = useState("card");
+  const [method, setMethod] = useState("cod");
   const router = useRouter();
+    const [token, setToken] = useState("");
+    const [cartProducts, setCartProducts] = useState([]);
+    const { checkoutData } = useCheckout();
+
+    
+    // Load token once on mount
+    useEffect(() => {
+      const storedToken = localStorage.getItem("token");
+      if (storedToken) {
+        setToken(storedToken);
+      } else {
+        router.push("/login");
+      }
+    }, []);
+    
+    const fetchdata = async () => {
+      try {
+        // const res = await clientServer.get("/user", {
+        //   headers: { Authorization: token },
+        // });
+        const userCartProducts = await clientServer.get("/cart", {
+          headers: { Authorization: token },
+        });
+        // setUser(res.data);
+        setCartProducts(userCartProducts.data);
+        // setLoading(false);
+      } catch (error) {
+        console.log(error?.response?.data?.message || error.message);
+      }
+    };
+  
+   
+    useEffect(() => {
+      if (token) {
+        fetchdata();
+      }
+    }, [token]);
+    if(!checkoutData)return <h2>No Checkout data</h2>
+
+    const handleOrderPlace = async () => {
+      try {
+        const res = await clientServer.post("/order/neworder",{},{
+          headers:{
+            Authorization: token
+          }
+        });
+        console.log(res.data);
+      } catch (error) {
+        console.log(error)
+      }
+    }
   return (
     <>
-      {/* <span className={styles.moveLeft}><MoveLeft /></span> */}
       <div className={styles.container}>
         <div className={styles.paymentCard}>
           <div className={styles.left}>
@@ -45,43 +89,44 @@ export default function Payment() {
             <div className={styles.methods}>
               <div
                 className={`${styles.method} ${
-                  method === "card" ? styles.active : ""
-                }`}
-                onClick={() => setMethod("card")}
-              >
-                <CreditCard />
-                Credit / Debit Card
-              </div>
-
-              <div
-                className={`${styles.method} ${
-                  method === "upi" ? styles.active : ""
-                }`}
-                onClick={() => setMethod("upi")}
-              >
-                <Smartphone />
-                UPI
-              </div>
-
-              <div
-                className={`${styles.method} ${
-                  method === "bank" ? styles.active : ""
-                }`}
-                onClick={() => setMethod("bank")}
-              >
-                <Landmark />
-                Net Banking
-              </div>
-
-              <div
-                className={`${styles.method} ${
                   method === "cod" ? styles.active : ""
                 }`}
                 onClick={() => setMethod("cod")}
               >
-                <Truck />
-                Cash On Delivery
+                <span><Truck />Cash On Delivery</span>
               </div>
+
+              <div style={{opacity:'0.5',cursor:"no-drop"}}
+                className={`${styles.method} ${
+                  method === "card" ? styles.active : ""
+                }`}
+                // onClick={() => setMethod("card")}
+              >
+                <span><CreditCard />Credit / Debit Card</span>
+                <span>unavailable<CircleQuestionMark /></span>
+              </div>
+
+              <div style={{opacity:'0.5',cursor:"no-drop"}}
+                className={`${styles.method} ${
+                  method === "upi" ? styles.active : ""
+                }`}
+                // onClick={() => setMethod("upi")}
+              >
+                <span><Smartphone />UPI</span>
+                <span>unavailable<CircleQuestionMark /></span>
+              </div>
+
+              <div style={{opacity:'0.5',cursor:"no-drop"}}
+                className={`${styles.method} ${
+                  method === "bank" ? styles.active : ""
+                }`}
+                // onClick={() => setMethod("bank")}
+              >
+                <span><Landmark />Net Banking</span>
+                <span>unavailable<CircleQuestionMark /></span>
+              </div>
+
+              
             </div>
 
             {method === "card" && (
@@ -132,24 +177,24 @@ export default function Payment() {
 
             <div className={styles.priceRow}>
               <span>Subtotal</span>
-              <span>₹1599</span>
+              <span>₹ {checkoutData.subtotal}</span>
             </div>
 
             <div className={styles.priceRow}>
               <span>Discount</span>
-              <span>- ₹100</span>
+              <span className={styles.discount}>₹{ checkoutData.discount.toFixed(2)}</span>
             </div>
 
             <div className={styles.priceRow}>
               <span>Delivery</span>
-              <span>FREE</span>
+              <span className={checkoutData.shipping === 0 ? styles.free : ""}>{checkoutData.shipping}</span>
             </div>
 
             <hr />
 
             <div className={styles.total}>
               <span>Total</span>
-              <span>₹1499</span>
+              <span>₹ {checkoutData.total}</span>
             </div>
 
             <div className={styles.secure}>
@@ -157,10 +202,7 @@ export default function Payment() {
               100% Secure Payment
             </div>
 
-            <button className={styles.payBtn}>
-              <Lock size={18} />
-              Pay ₹1499
-            </button>
+            <button className={styles.payBtn} onClick={handleOrderPlace}>Place Order</button>
           </div>
         </div>
       </div>

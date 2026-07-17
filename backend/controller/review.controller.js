@@ -26,10 +26,6 @@ export const addReview = async(req,res) => {
                 }
             }
         )
-        // product.reviews.push(newReview._id);
-        // console.log(product.quantity);
-        // console.log(product);
-        // await product.save();
 
         return res.json({message:"Review added"});
     } catch (error) {

@@ -333,7 +333,7 @@
 
   justify-content: center;
 
-  gap: 10px;
+  /* gap: 10px; */
 
   padding: 16px;
 
@@ -356,11 +356,6 @@
   box-shadow: 0 15px 30px rgba(164, 132, 153, 0.28);
 }
 
-/* ================= Mobile Bottom ================= */
-
-.mobileBottom {
-  display: none;
-}
 
 /* ================= Scrollbar ================= */
 
@@ -439,21 +434,6 @@
     gap: 15px;
   }
 
-  /* .changeBtn{
-
-    width:100%;
-} */
-
-  /* .productImage{
-
-    width:100%;
-
-    height:220px;
-} */
-/* 
-  .quantity {
-    justify-content: center;
-  } */
 
   .couponBox {
     flex-direction: column;
@@ -463,9 +443,9 @@
     height: 50px;
   }
 
-  .priceCard {
+  /* .priceCard {
     display: none;
-  }
+  } */
 
   .mobileBottom {
     position: fixed;

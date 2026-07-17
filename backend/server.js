@@ -5,6 +5,7 @@ import userRouter from "./routes/user.route.js";
 import reviewRouter from "./routes/productReview.route.js";
 import cartRouter from "./routes/cart.route.js";
 import wishListRouter from "./routes/wishlist.route.js";
+import orderRouter from "./routes/order.route.js";
 import cors from 'cors';
 dotenv.config();
 
@@ -17,6 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/skinova/wishlist",wishListRouter);
 app.use("/skinova/cart",cartRouter);
 app.use("/skinova/reviews",reviewRouter);
+app.use("/skinova/order",orderRouter);
 app.use("/skinova",userRouter);
 
 
