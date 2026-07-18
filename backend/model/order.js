@@ -20,6 +20,18 @@ const OrderSchema = new mongoose.Schema({
             required:true
         }
     }],
+    subtotal: {
+        type: Number,
+        required: true
+    },
+    discount: {
+        type: Number,
+        default: 0
+    },
+    shippingCharge: {
+        type: Number,
+        default: 0
+    },
     paymentMethod:{
         type:String,
         enum:["COD","ONLINE"]
@@ -40,5 +52,5 @@ const OrderSchema = new mongoose.Schema({
 },{timestamps:true}
 );
 
-const Order = new mongoose.model("Order",OrderSchema);
+const Order =  mongoose.model("Order",OrderSchema);
 export default Order;

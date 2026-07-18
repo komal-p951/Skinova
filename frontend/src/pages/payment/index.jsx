@@ -15,7 +15,7 @@ import { clientServer } from "@/index";
 import { useCheckout } from "@/context/CheckoutContext";
 
 export default function Payment() {
-  const [method, setMethod] = useState("cod");
+  const [method, setMethod] = useState("COD");
   const router = useRouter();
     const [token, setToken] = useState("");
     const [cartProducts, setCartProducts] = useState([]);
@@ -34,15 +34,10 @@ export default function Payment() {
     
     const fetchdata = async () => {
       try {
-        // const res = await clientServer.get("/user", {
-        //   headers: { Authorization: token },
-        // });
         const userCartProducts = await clientServer.get("/cart", {
           headers: { Authorization: token },
         });
-        // setUser(res.data);
         setCartProducts(userCartProducts.data);
-        // setLoading(false);
       } catch (error) {
         console.log(error?.response?.data?.message || error.message);
       }
@@ -54,20 +49,25 @@ export default function Payment() {
         fetchdata();
       }
     }, [token]);
-    if(!checkoutData)return <h2>No Checkout data</h2>
 
     const handleOrderPlace = async () => {
       try {
-        const res = await clientServer.post("/order/neworder",{},{
+        const res = await clientServer.post("/order/neworder",{
+          method
+        },{
           headers:{
             Authorization: token
           }
         });
-        console.log(res.data);
+        router.push("/myorders");
+        console.log(res.data)
       } catch (error) {
-        console.log(error)
+        console.log(error.response.data.message)
       }
     }
+
+    if(!checkoutData)return <h2>No Checkout data</h2>
+
   return (
     <>
       <div className={styles.container}>
@@ -89,9 +89,9 @@ export default function Payment() {
             <div className={styles.methods}>
               <div
                 className={`${styles.method} ${
-                  method === "cod" ? styles.active : ""
+                  method === "COD" ? styles.active : ""
                 }`}
-                onClick={() => setMethod("cod")}
+                onClick={() => setMethod("COD")}
               >
                 <span><Truck />Cash On Delivery</span>
               </div>
@@ -165,7 +165,7 @@ export default function Payment() {
               </div>
             )}
 
-            {method === "cod" && (
+            {method === "COD" && (
               <div className={styles.cod}>
                 Cash on Delivery available for this address.
               </div>

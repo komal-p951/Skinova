@@ -1,12 +1,3 @@
-// import React from 'react'
-
-// export default function Myorder() {
-//   return (
-//     <div>
-//       myorders
-//     </div>
-//   )
-// }
 import React from "react";
 import styles from "./styles.module.css";
 import {
@@ -14,6 +5,7 @@ import {
   Truck,
   CheckCircle2,
   ArrowRight,
+  MoveLeft,
 } from "lucide-react";
 
 export default function Myorder() {
@@ -21,6 +13,8 @@ export default function Myorder() {
     <div className={styles.container}>
 
       <div className={styles.header}>
+        {/* <div style={{display:'flex',alignItems:'center',gap:'0.7rem'}} onClick={() => router.back("/checkout")}>
+              <MoveLeft /></div> */}
         <h1>My Orders</h1>
         <p>Track and manage your Skinova orders.</p>
       </div>
