@@ -22,7 +22,6 @@ export default function Payment() {
     const { checkoutData } = useCheckout();
 
     
-    // Load token once on mount
     useEffect(() => {
       const storedToken = localStorage.getItem("token");
       if (storedToken) {
@@ -53,14 +52,13 @@ export default function Payment() {
     const handleOrderPlace = async () => {
       try {
         const res = await clientServer.post("/order/neworder",{
-          method
+           paymentMethod: method
         },{
           headers:{
             Authorization: token
           }
         });
         router.push("/myorders");
-        console.log(res.data)
       } catch (error) {
         console.log(error.response.data.message)
       }
@@ -182,7 +180,7 @@ export default function Payment() {
 
             <div className={styles.priceRow}>
               <span>Discount</span>
-              <span className={styles.discount}>₹{ checkoutData.discount.toFixed(2)}</span>
+              <span className={styles.discount}>₹{Math.floor(checkoutData.discount)}</span>
             </div>
 
             <div className={styles.priceRow}>
@@ -194,7 +192,7 @@ export default function Payment() {
 
             <div className={styles.total}>
               <span>Total</span>
-              <span>₹ {checkoutData.total}</span>
+              <span>₹ {Math.ceil(checkoutData.total)}</span>
             </div>
 
             <div className={styles.secure}>

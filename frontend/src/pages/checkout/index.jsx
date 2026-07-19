@@ -71,9 +71,9 @@ export default function OrderSummary() {
   );
 
   const shipping = subtotal >= 750 || subtotal === 0 ? 0 : 40;
-  const bulkDiscount = subtotal >= 1000 ? +(subtotal * 0.1).toFixed(2) : 0;
+  const bulkDiscount = subtotal >= 1000 ? + (subtotal * 0.05) : 0;
   const couponDiscount = appliedCoupon
-    ? +(((subtotal - bulkDiscount + shipping) * COUPON_DISCOUNT_PERCENT) / 100).toFixed(2)
+    ? +(((subtotal - bulkDiscount + shipping) * COUPON_DISCOUNT_PERCENT) / 100)
     : 0;
 
   const totalDiscount = bulkDiscount + couponDiscount;
@@ -252,7 +252,7 @@ export default function OrderSummary() {
 
               <div className={styles.total}>
                 <span>Total Amount</span>
-                <span>₹ {total.toFixed(2)}</span>
+                <span>₹ {Math.ceil(total)}</span>
               </div>
 
               <button onClick={handleContinue} disabled={ validProducts.length===0 || !user.address } className={styles.paymentBtn}>

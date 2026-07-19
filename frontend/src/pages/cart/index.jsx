@@ -40,7 +40,7 @@ function Cart() {
   .reduce((acc, p) => acc + (p.quantity * p.product.price), 0);
 
   const shipping = subtotal >= 750 ? 0 : 40;
-  const discount = subtotal >= 1000 ? subtotal * 0.1 : 0;
+  const discount = subtotal >= 1000 ? subtotal * 0.05 : 0;
   const total = subtotal + shipping - discount;
 
   useEffect(() => {
@@ -238,12 +238,12 @@ function stopConfetti() {
               </div>
               <div className={styles.flex}>
                 <p>Discount</p>
-                <p>₹{discount.toFixed(2)}</p>
+                <p>₹{Math.floor(discount)}</p>
               </div>
               <hr className={styles.text} />
               <div className={styles.flex}>
                 <h3>Total</h3>
-                <h3 style={{color:'rgb(141 75 110)'}}>₹{total}</h3>
+                <h3 style={{color:'rgb(141 75 110)'}}>₹{Math.ceil(total)}</h3>
               </div>
               <div className={styles.btns}>
                 <div onClick={() => router.push("/checkout")} className={styles.proceed}><Handbag />Proceed to Checkout</div>

@@ -22,7 +22,7 @@ export const createNewOrder = async(req,res) => {
 
         let subTotal = products.reduce((acc, product) => acc + (product?.price * product?.quantity), 0);
 
-        const discount = subTotal >= 1000 ? subTotal * 0.95 : 0;
+        const discount = subTotal >= 1000 ? subTotal * 0.05 : 0;
         const shipping = subTotal >= 750 ? 0 : 40;
         const total = subTotal + shipping - discount;
 
@@ -41,6 +41,25 @@ export const createNewOrder = async(req,res) => {
         await user.save();
 
         return res.status(201).json({ message: "Order placed successfully", order });
+    } catch (error) {
+        return res.status(httpStatus.BAD_REQUEST).json({message: error.message});
+    }
+}
+
+export const getMyOrders = async(req,res) => {
+    try {
+        const user = await User.findById(req.user.id);
+        if(!user){
+            return res.status(404).json({message: "User Not Found!"});
+        }
+
+        const getAllOrders = await Order.find({user: user._id}).populate({
+            path:"products.product",
+            model:"Product"
+        });
+        
+        return res.json({message: "Success!", order:getAllOrders});
+
     } catch (error) {
         return res.status(httpStatus.BAD_REQUEST).json({message: error.message});
     }
