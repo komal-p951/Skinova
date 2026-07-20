@@ -1,0 +1,451 @@
+
+.container{
+    width:100%;
+    min-height:100vh;
+    background:#faf7f9;
+    padding:2rem;
+}
+
+.loading{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:22px;
+    color:#714f65;
+    font-weight:600;
+}
+
+
+.header{
+    display:flex;
+    align-items:center;
+    gap:1rem;
+    margin-bottom:2rem;
+}
+
+.back{
+    cursor:pointer;
+    color:#714f65;
+    transition:.3s;
+}
+
+.back:hover{
+    color:#A48499;
+    transform:translateX(-4px);
+}
+
+.header h1{
+    margin:0;
+    color:#714f65;
+    font-size:2.2rem;
+}
+
+.header p{
+    margin-top:.4rem;
+    color:#777;
+}
+
+
+.orderCard{
+    background:#fff;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 12px 35px rgba(164,132,153,.12);
+}
+
+.orderTop{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:1.6rem 2rem;
+    border-bottom:1px solid #f1f1f1;
+}
+
+.orderTop h2{
+    margin:0;
+    color:#714f65;
+}
+
+.orderTop p{
+    display:flex;
+    align-items:center;
+    gap:.5rem;
+    margin-top:.6rem;
+    color:#777;
+}
+.statusBox{
+    display:flex;
+    gap:1rem;
+    flex-wrap:wrap;
+}
+
+.orderStatus{
+    background:#A48499;
+    color:white;
+    padding:.55rem 1rem;
+    border-radius:30px;
+    font-size:.9rem;
+    font-weight:600;
+}
+
+.paymentStatus{
+    background:#eef8ef;
+    color:#28a745;
+    padding:.55rem 1rem;
+    border-radius:30px;
+    font-size:.9rem;
+    font-weight:600;
+}
+
+.section{
+    padding:2rem;
+    border-bottom:1px solid #f3f3f3;
+}
+
+.section:last-child{
+    border-bottom:none;
+}
+
+.section h3{
+    display:flex;
+    align-items:center;
+    gap:.6rem;
+    margin-bottom:1.5rem;
+    color:#714f65;
+}
+
+.addressCard{
+    background:#fcfbfc;
+    border:1px solid #eee;
+    border-radius:14px;
+    padding:1.4rem;
+}
+
+.addressCard h4{
+    color:#714f65;
+    margin-bottom:.7rem;
+}
+
+.addressCard p{
+    color:#666;
+    margin:.35rem 0;
+    line-height:1.5;
+}
+
+.products{
+    display:flex;
+    flex-direction:column;
+    gap:1.2rem;
+}
+
+.productCard{
+    display:flex;
+    gap:1rem;
+    align-items:center;
+    padding:1rem;
+    border:1px solid #eee;
+    border-radius:14px;
+    transition:.3s;
+}
+
+.productCard:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 20px rgba(164,132,153,.12);
+}
+
+.productImage{
+    width:110px;
+    height:110px;
+    border-radius:14px;
+    object-fit:cover;
+    border:1px solid #eee;
+    background:white;
+}
+
+.productInfo{
+    flex:1;
+}
+
+.productInfo h4{
+    margin:0;
+    color:#714f65;
+    font-size:1.1rem;
+}
+
+.productInfo p{
+    margin:.5rem 0;
+    color:#777;
+}
+
+.productInfo span{
+    display:inline-block;
+    margin-bottom:.6rem;
+    color:#555;
+    font-weight:500;
+}
+
+.productInfo h3{
+    margin:0;
+    color:#A48499;
+    font-size:1.25rem;
+}
+
+.priceCard{
+    background:#fcfbfc;
+    border:1px solid #ececec;
+    border-radius:16px;
+    padding:1.5rem;
+}
+
+.priceRow{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:1rem;
+    color:#666;
+    font-size:15px;
+}
+
+.priceRow:last-child{
+    margin-bottom:0;
+}
+
+.totalRow{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:1.2rem;
+    padding-top:1rem;
+    border-top:1px dashed #d9d9d9;
+    font-size:20px;
+    font-weight:700;
+    color:#714f65;
+}
+
+.timeline{
+    display:flex;
+    flex-direction:column;
+    gap:1.3rem;
+}
+
+.timelineItem{
+    display:flex;
+    align-items:flex-start;
+    gap:1rem;
+    position:relative;
+}
+
+.timelineItem:not(:last-child)::after{
+    content:"";
+    position:absolute;
+    left:11px;
+    top:34px;
+    width:2px;
+    height:45px;
+    background:#e2d5dd;
+}
+
+.timelineItem h4{
+    margin:0;
+    color:#714f65;
+    font-size:16px;
+}
+
+.timelineItem p{
+    margin-top:4px;
+    color:#777;
+    font-size:14px;
+}
+
+.activeIcon{
+    color:#A48499;
+    flex-shrink:0;
+}
+
+.inactiveIcon{
+    color:#cfcfcf;
+    flex-shrink:0;
+}
+
+.buttonContainer{
+    display:flex;
+    justify-content:flex-end;
+    gap:1rem;
+    flex-wrap:wrap;
+    padding:2rem;
+}
+
+.buttonContainer button{
+    border:none;
+    cursor:pointer;
+    border-radius:10px;
+    padding:.9rem 1.6rem;
+    font-size:15px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.buyAgainBtn{
+    color:#fff;
+    background:linear-gradient(
+        135deg,
+        #A8879E,
+        #A48499,
+        #9F7F96
+    );
+}
+
+.buyAgainBtn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 25px rgba(164,132,153,.25);
+}
+
+.reviewBtn{
+    background:#fff3f8;
+    color:#A48499;
+    border:1px solid #e8cfdc !important;
+}
+
+.reviewBtn:hover{
+    background:#fbe9f2;
+}
+
+.invoiceBtn{
+    background:#f6f6f6;
+    color:#555;
+    border:1px solid #ddd !important;
+}
+
+.invoiceBtn:hover{
+    background:#ececec;
+}
+
+.cancelBtn{
+    background:#ffeaea;
+    color:#d64045;
+    border:1px solid #ffc9c9 !important;
+}
+
+.cancelBtn:hover{
+    background:#ffdcdc;
+}
+
+@media(max-width:992px){
+    .container{
+        padding:1.2rem;
+    }
+
+    .orderTop{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:1rem;
+    }
+
+    .statusBox{
+        width:100%;
+    }
+
+}
+
+@media(max-width:768px){
+
+    .section{
+        padding:1.2rem;
+    }
+
+    .productCard{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .productImage{
+        width:100%;
+        height:250px;
+    }
+
+    .buttonContainer{
+        justify-content:center;
+        padding:1.2rem;
+    }
+
+    .buttonContainer button{
+        width:100%;
+    }
+
+    .totalRow{
+        font-size:18px;
+    }
+
+}
+
+@media(max-width:576px){
+
+    .container{
+        padding:.8rem;
+    }
+
+    .header h1{
+        font-size:1.6rem;
+    }
+
+    .header p{
+        font-size:14px;
+    }
+
+    .orderTop{
+        padding:1.2rem;
+    }
+
+    .orderTop h2{
+        font-size:20px;
+    }
+
+    .orderStatus,
+    .paymentStatus{
+        font-size:13px;
+        padding:.45rem .9rem;
+    }
+
+    .productImage{
+        height:200px;
+    }
+
+    .productInfo h4{
+        font-size:16px;
+    }
+
+    .productInfo h3{
+        font-size:20px;
+    }
+
+    .priceCard{
+        padding:1rem;
+    }
+
+    .priceRow{
+        font-size:14px;
+    }
+
+    .totalRow{
+        font-size:17px;
+    }
+
+    .timelineItem h4{
+        font-size:15px;
+    }
+
+    .timelineItem p{
+        font-size:13px;
+    }
+
+    .buttonContainer{
+        gap:.8rem;
+    }
+
+    .buttonContainer button{
+        font-size:14px;
+        padding:.8rem;
+    }
+
+}

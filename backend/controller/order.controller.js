@@ -64,3 +64,26 @@ export const getMyOrders = async(req,res) => {
         return res.status(httpStatus.BAD_REQUEST).json({message: error.message});
     }
 }
+
+export const getOrder = async(req,res) => {
+    try {
+        const orderId = req.params.id;
+        console.log("id = ",req.params);
+        console.log(" orderid  = ",orderId)
+        const user = await User.findById(req.user.id);
+        if(!user){
+            return res.status(404).json({message: "User Not Found!"});
+        }
+
+        const orderData = await Order.findById(orderId).populate("user")
+.populate("products.product");;
+        if(!orderData){
+            return res.status(httpStatus.NOT_FOUND).json({message:"No order found!"});
+        }
+
+        return res.json({message:"successfully data fetched !", order:orderData});
+
+    } catch (error) {
+        return res.status(httpStatus.BAD_REQUEST).json({message: error.message});
+    }
+}
