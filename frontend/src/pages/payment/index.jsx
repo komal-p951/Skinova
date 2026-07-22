@@ -64,14 +64,15 @@ export default function Payment() {
       }
     }
 
-    if(!checkoutData)return <h2>No Checkout data</h2>
+    
+    if(!checkoutData) return <h2>data Not Found!</h2>
 
   return (
     <>
       <div className={styles.container}>
         <div className={styles.paymentCard}>
           <div className={styles.left}>
-            <div style={{display:'flex',alignItems:'center',gap:'0.7rem'}} onClick={() => router.back("/checkout")}>
+            <div style={{display:'flex',alignItems:'center',gap:'0.7rem'}} onClick={() => router.back("/cart")}>
               <MoveLeft />
               &nbsp;
               <div>
@@ -175,24 +176,24 @@ export default function Payment() {
 
             <div className={styles.priceRow}>
               <span>Subtotal</span>
-              <span>₹ {checkoutData.subtotal}</span>
+              <span>₹ {checkoutData?.subtotal + checkoutData?.productOriginalPrice}</span>
             </div>
 
             <div className={styles.priceRow}>
               <span>Discount</span>
-              <span className={styles.discount}>₹{Math.floor(checkoutData.discount)}</span>
+              <span className={styles.discount}>₹{Math.floor(checkoutData?.discount + checkoutData?.productOriginalPrice)}</span>
             </div>
 
             <div className={styles.priceRow}>
               <span>Delivery</span>
-              <span className={checkoutData.shipping === 0 ? styles.free : ""}>{checkoutData.shipping}</span>
+              <span className={checkoutData?.shipping === 0 ? styles.free : ""}>{checkoutData?.shipping}</span>
             </div>
 
             <hr />
 
             <div className={styles.total}>
               <span>Total</span>
-              <span>₹ {Math.ceil(checkoutData.total)}</span>
+              <span>₹ {Math.ceil(checkoutData?.total)}</span>
             </div>
 
             <div className={styles.secure}>

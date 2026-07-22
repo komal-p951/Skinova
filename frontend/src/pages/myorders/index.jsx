@@ -58,13 +58,14 @@ export default function Myorder() {
         return styles.placed;
     }
   };
+  // console.log(new Date(myOrders[0]?.createdAt).getTime());
 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <MoveLeft
           className={styles.back}
-          onClick={() => router.back()}
+          onClick={() => router.push("/profile")}
         />
 
         <div>
@@ -107,10 +108,20 @@ export default function Myorder() {
                 <div key={item._id} className={styles.product} >
                   <img src={ item?.product?.images?.[0]?.url } alt="" />
                   <div className={styles.productInfo} >
-                    <h4>{item?.product?.name}</h4>
-                    <p>Qty :{item?.quantity}</p>
-                    <span> ₹{item?.price} </span>
+                    <h3>
+                      Delivery Expected by {
+                        new Date(
+                          new Date(order?.createdAt).getTime() + 7 * 24 * 60 * 60 * 1000
+                        ).toLocaleDateString("en-IN", {
+                          day: "numeric",
+                          month: "long",
+                          year: "numeric"
+                        })
+                      }
+                    </h3>
+                    <p>Your order has been {order?.orderStatus}</p>
                   </div>
+                      <ChevronRight />
                 </div>
               ))}
             </div>
@@ -118,7 +129,7 @@ export default function Myorder() {
             <div className={styles.footer}>
               <div>
                 <p><CreditCard size={16} /> Payment : {order?.paymentStatus} </p>
-                <h2> Total ₹ {order.total.toFixed(2)} </h2>
+                <h2> Total ₹ {Math.ceil(order.total)} </h2>
               </div>
               <div className={styles.buttons}>
                 <button

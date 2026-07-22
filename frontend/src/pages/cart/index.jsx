@@ -5,12 +5,13 @@ import { ChevronLeft, Delete, Handbag, Minus, Plus, RotateCcw, ShieldCheck, Tras
 import { clientServer } from '@/index';
 import Rating from '@/components/Rating';
 import { useRouter } from 'next/router';
+import FireConfetti from '@/components/FireConfetti';
+import { useCheckout } from '@/context/CheckoutContext';
 
 function Cart() {
   const [products, setProducts] = useState([]);
   const [token, setToken] = useState("");
-  const canvasRef = useRef(null);
-  const animRef = useRef(null);
+  const { setCheckoutData } = useCheckout();
 
   const router = useRouter();
 
@@ -35,9 +36,19 @@ function Cart() {
       console.log(error);
     }
   }
+  // console.log("products = ",products);
+
   const subtotal = products
   .filter((p) => p.product !== null)
-  .reduce((acc, p) => acc + (p.quantity * p.product.price), 0);
+  .reduce((acc, p) => acc + (p?.quantity * p?.product?.price), 0);
+
+  let productOriginalPrice = products
+  .filter((p) => p.product !== null)
+  .reduce((acc, p) => acc + Math.ceil(p?.product?.price * 1.15 * p?.quantity), 0);
+
+  console.warn(productOriginalPrice)
+
+  productOriginalPrice = productOriginalPrice - subtotal;
 
   const shipping = subtotal >= 750 ? 0 : 40;
   const discount = subtotal >= 1000 ? subtotal * 0.05 : 0;
@@ -47,13 +58,17 @@ function Cart() {
     fetchdata();
   },[token]);
 
-  useEffect(() => {
-  if (subtotal - total >= 1) {
-    fireConfetti();
-  } else {
-    stopConfetti();
+  const handleContinue = () => {
+    setCheckoutData ({
+      productOriginalPrice,
+      subtotal,
+      shipping,
+      discount,
+      total,
+    });
+
+    router.push("/checkout");
   }
-}, [subtotal, total]);
 
   const removeFromCart = async (id) => {
     try {
@@ -68,61 +83,6 @@ function Cart() {
       console.log(error);
     }
   }
-
-
-
-
-  //shower function
-  const COLORS = ['#7F77DD','#1D9E75','#D85A30','#378ADD','#D4537E','#EF9F27'];
-
-  function fireConfetti() {
-  const canvas = canvasRef.current;
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  canvas.width = canvas.offsetWidth;
-  canvas.height = canvas.offsetHeight;
-
-  let particles = [];
-  for (let i = 0; i < 150; i++) {
-    particles.push({
-      x: Math.random() * canvas.width,
-      y: -10 - Math.random() * 200,
-      vx: (Math.random() - 0.5) * 3,
-      vy: Math.random() * 3 + 2,
-      w: Math.random() * 10 + 5,
-      h: Math.random() * 5 + 3,
-      color: COLORS[Math.floor(Math.random() * COLORS.length)],
-      angle: Math.random() * Math.PI * 2,
-      spin: (Math.random() - 0.5) * 0.15,
-      opacity: 1,
-    });
-  }
-
-  function loop() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    particles.forEach(p => {
-      p.x += p.vx; p.y += p.vy; p.angle += p.spin;
-      if (p.y > canvas.height * 0.75) p.opacity -= 0.02;
-      ctx.save();
-      ctx.globalAlpha = Math.max(0, p.opacity);
-      ctx.translate(p.x, p.y);
-      ctx.rotate(p.angle);
-      ctx.fillStyle = p.color;
-      ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
-      ctx.restore();
-    });
-    particles = particles.filter(p => p.opacity > 0);
-    animRef.current = requestAnimationFrame(loop);
-  }
-  loop();
-}
-
-function stopConfetti() {
-  if (animRef.current) cancelAnimationFrame(animRef.current);
-  const canvas = canvasRef.current;
-  if (canvas) canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
-}
-
 
   return (
     <DashboardLayout>
@@ -169,7 +129,9 @@ function stopConfetti() {
                     <h3 style={{fontSize:"1.5rem"}}>{p?.product?.name}</h3>
                     <p>{p?.product?.rating}</p>
                     <p className={styles.stock}>in stock</p>
-                    <p style={{fontSize:"1.2rem"}}>₹{p?.product?.price}</p>
+                    <div style={{display:'flex',alignItems:'center',gap:'0.5rem'}}>
+                      <span style={{textDecoration:'line-through',opacity:'0.8'}}>₹{Math.round(p?.product?.price * 1.15) * p?.quantity}</span><span style={{fontSize:"1.2rem"}}>₹{p?.quantity * p?.product?.price || 0}</span>
+                    </div>
                     <Rating product={p?.product}/>
                   </div>
                 </div>
@@ -208,20 +170,11 @@ function stopConfetti() {
                 </div>
               </div>            
               </div>
-              {/* {subtotal-total >= 1 && <div className={styles.congrats}>Congratulations🎉 you save ₹{Math.round(subtotal-total)}</div>} */}
               {subtotal - total >= 1 && (
                 <div className={styles.congrats}>
                   {/* Canvas — position: absolute, parent relative hona chahiye */}
-                  <canvas
-                    ref={canvasRef}
-                    style={{
-                      position: 'absolute',
-                      top: 0, left: 0,
-                      width: '100%', height: '100%',
-                      pointerEvents: 'none',
-                    }}
-                  />
-                  Congratulations 🎉 you save ₹{Math.round(subtotal - total)}
+                  <FireConfetti subtotal={subtotal} total={total}/>
+                  Congratulations 🎉 you save ₹{Math.floor(subtotal - total + productOriginalPrice)}
                 </div>
               )}
 
@@ -230,7 +183,7 @@ function stopConfetti() {
               <h2 className={styles.text}>Order Summary</h2>
               <div className={styles.flex}>
                 <p>Subtotal</p>
-                <p>₹{subtotal}</p>
+                <p>₹{subtotal+productOriginalPrice}</p>
               </div>
               <div className={styles.flex}>
                 <p>Shipping</p>
@@ -238,7 +191,7 @@ function stopConfetti() {
               </div>
               <div className={styles.flex}>
                 <p>Discount</p>
-                <p>₹{Math.floor(discount)}</p>
+                <p>₹{Math.floor(discount+productOriginalPrice)}</p>
               </div>
               <hr className={styles.text} />
               <div className={styles.flex}>
@@ -246,7 +199,7 @@ function stopConfetti() {
                 <h3 style={{color:'rgb(141 75 110)'}}>₹{Math.ceil(total)}</h3>
               </div>
               <div className={styles.btns}>
-                <div onClick={() => router.push("/checkout")} className={styles.proceed}><Handbag />Proceed to Checkout</div>
+                <div onClick={handleContinue} className={styles.proceed}><Handbag />Proceed to Checkout</div>
                 <div onClick={() => router.push("/")} className={styles.continueS}><ChevronLeft />Continue Shopping</div>
               </div>
             </div>

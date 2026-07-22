@@ -124,14 +124,14 @@ export default function OrderDetails() {
           <h3><Package size={20} />Ordered Products</h3>
           <div className={styles.products}>
             {order?.products?.map((item) => (
-              <div className={styles.productCard} key={item._id} >
+              <div onClick={() => router.push(`/product/${item?.product?._id}`)} className={styles.productCard} key={item._id} >
                 <img src={item?.product?.images[0]?.url } alt="" className={styles.productImage } />
 
                 <div className={styles.productInfo}>
                   <h4>{item?.product?.name}</h4>
                   <p>{item?.product?.brand}</p>
                   <span>Qty : {item?.quantity}</span>
-                  <h3>₹{item?.price}</h3>
+                  {/* <h3>₹{item?.price}</h3> */}
                 </div>
               </div>
             ))}
@@ -160,7 +160,7 @@ export default function OrderDetails() {
 
             <div className={styles.totalRow}>
               <span>Total</span>
-              <span>₹{order?.total?.toFixed(2)}</span>
+              <span>₹{Math.ceil(order?.total)}</span>
             </div>
 
           </div>
@@ -234,19 +234,19 @@ export default function OrderDetails() {
 
         <div className={styles.buttonContainer}>
 
-          <button className={styles.buyAgainBtn} > Buy Again </button>
+          {/* <button className={styles.buyAgainBtn} > Buy Again </button> */}
 
           {order.orderStatus === "Delivered" && (
             <button className={styles.reviewBtn} >Write Review </button>
           )}
 
-          {(order.orderStatus === "Placed" ||
+          {/* {(order.orderStatus === "Placed" ||
             order.orderStatus === "Processing") && (
 
             <button className={styles.cancelBtn}> Cancel Order </button>
-          )}
+          )} */}
 
-          <button className={styles.invoiceBtn} > Download Invoice </button>
+          {/* <button className={styles.invoiceBtn} > Download Invoice </button> */}
         </div>
       </div>
     </div>

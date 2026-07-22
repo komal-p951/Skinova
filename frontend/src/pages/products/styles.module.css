@@ -19,9 +19,9 @@
   margin-left: 1rem;
 }
 
-.center {
+/* .center {
   font-size: 1.8rem;
-} 
+}  */
 .makeup {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -35,7 +35,7 @@
   /* margin-bottom: 1rem; */
   color: #714f65;
 }
-.explore{
+/* .explore{
   color: #fff;
   cursor: pointer;
   background: linear-gradient(135deg, #a8879e, #a48499, #9f7f96);
@@ -50,7 +50,7 @@
   display: flex;
   align-self: center;
   font-size: larger;
-}
+} */
 
 @media screen and  (width <= 1192px){
     .makeup{

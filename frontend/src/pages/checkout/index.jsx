@@ -7,6 +7,7 @@ import {
   Tag,
   ShieldCheck,
   ChevronRight,
+  MoveLeft,
 } from "lucide-react";
 import DashboardLayout from "@/layout/DashboardLayout";
 import { clientServer } from "@/index";
@@ -25,7 +26,7 @@ export default function OrderSummary() {
   const [appliedCoupon, setAppliedCoupon] = useState(false);
   const [couponError, setCouponError] = useState("");
   const [loading,setLoading] = useState(true);
-  const { setCheckoutData } = useCheckout();
+  const { checkoutData } = useCheckout();
   const router = useRouter();
 
   // Load token once on mount
@@ -65,62 +66,69 @@ export default function OrderSummary() {
 
   const totalItems = validProducts.reduce((acc, p) => acc + p.quantity, 0);
 
-  const subtotal = validProducts.reduce(
-    (acc, p) => acc + p.quantity * p.product.price,
-    0
-  );
+  // const subtotal = validProducts.reduce(
+  //   (acc, p) => acc + p.quantity * p.product.price,
+  //   0
+  // );
 
-  const shipping = subtotal >= 750 || subtotal === 0 ? 0 : 40;
-  const bulkDiscount = subtotal >= 1000 ? + (subtotal * 0.05) : 0;
-  const couponDiscount = appliedCoupon
-    ? +(((subtotal - bulkDiscount + shipping) * COUPON_DISCOUNT_PERCENT) / 100)
-    : 0;
+  // const shipping = subtotal >= 750 || subtotal === 0 ? 0 : 40;
+  // const bulkDiscount = subtotal >= 1000 ? + (subtotal * 0.05) : 0;
+  // const couponDiscount = appliedCoupon
+  //   ? +(((subtotal - bulkDiscount + shipping) * COUPON_DISCOUNT_PERCENT) / 100)
+  //   : 0;
 
-  const totalDiscount = bulkDiscount + couponDiscount;
-  const total = subtotal + shipping - totalDiscount;
+  // const totalDiscount = bulkDiscount + couponDiscount;
+  // const total = subtotal + shipping - totalDiscount;
 
-  const couponApplyfun = () => {
-    if (!coupon) {
-      setCouponError("Please enter a coupon code.");
-      return;
-    }
-    if (appliedCoupon) {
-      setCouponError("Coupon already applied.");
-      return;
-    }
-    if (coupon.trim().toUpperCase() === VALID_COUPON) {
-      setAppliedCoupon(true);
-      setCouponError("");
-    } else {
-      setCouponError("Invalid coupon code.");
-    }
-    setCoupon("");
-  };
+  // const couponApplyfun = () => {
+  //   if (!coupon) {
+  //     setCouponError("Please enter a coupon code.");
+  //     return;
+  //   }
+  //   if (appliedCoupon) {
+  //     setCouponError("Coupon already applied.");
+  //     return;
+  //   }
+  //   if (coupon.trim().toUpperCase() === VALID_COUPON) {
+  //     setAppliedCoupon(true);
+  //     setCouponError("");
+  //   } else {
+  //     setCouponError("Invalid coupon code.");
+  //   }
+  //   setCoupon("");
+  // };
 
   const handleContinue = () => {
-    setCheckoutData({
-      validProducts,
-      user,
-      subtotal,
-      shipping,
-      discount: totalDiscount,
-      total,
-    });
+    // setCheckoutData({
+    //   validProducts,
+    //   user,
+    //   subtotal,
+    //   shipping,
+    //   discount: totalDiscount,
+    //   total,
+    // });
 
     router.push("/payment");
   }
 
+  // useEffect(() => {
+  //   router.push("/cart");
+  // },[!checkoutData]);
+
+  if(!checkoutData) return <h2>data Not Found!</h2>
   if(loading) {
     return <DashboardLayout> <Loader/> </DashboardLayout>;
   }
 
+
   return (
-    <DashboardLayout>
+    // <DashboardLayout>
       <div className={styles.container}>
-        {/* Header */}
         <div className={styles.header}>
-          <h1>Order Summary</h1>
-          <p>Review your order before payment.</p>
+          <MoveLeft style={{cursor:'pointer'}} onClick={() => router.back("/cart")}/>
+          <div className={styles.headbar}>
+            <h1> Order Summary</h1>
+          </div>
         </div>
 
         {/* Stepper */}
@@ -169,7 +177,8 @@ export default function OrderSummary() {
                   <div className={styles.productInfo}>
                     <h2>{p?.product?.name}</h2>
                     <Rating product={p?.product}/>
-                    <h3>₹ {p?.product?.price}</h3>
+                    <span style={{textDecoration:'line-through',opacity:'0.8',marginRight:'0.5rem'}}>₹{Math.round(p?.product?.price * 1.15) * p?.quantity}</span>
+                    <span style={{color: '#714f65',marginBottom: '10px',fontSize:'larger'}}>₹{p?.product?.price * p?.quantity}</span>
 
                     <div className={styles.quantity}>
                       <span>Quantity of Proudcts :{p.quantity}</span>
@@ -180,7 +189,7 @@ export default function OrderSummary() {
             </div>
 
             {/* Coupon */}
-            <div className={styles.card}>
+            {/* <div className={styles.card}>
               <div className={styles.cardHeader}>
                 <div className={styles.title}>
                   <Tag size={18} />
@@ -206,7 +215,7 @@ export default function OrderSummary() {
                   Coupon applied: {COUPON_DISCOUNT_PERCENT}% off
                 </p>
               )}
-            </div>
+            </div> */}
 
             {/* Promise */}
             <div className={styles.card}>
@@ -233,18 +242,18 @@ export default function OrderSummary() {
 
               <div className={styles.row}>
                 <span>Price ({totalItems} item{totalItems !== 1 ? "s" : ""})</span>
-                <span>₹ {subtotal}</span>
+                <span>₹ {checkoutData?.subtotal + checkoutData?.productOriginalPrice}</span>
               </div>
 
               <div className={styles.row}>
                 <span>Discount</span>
-                <span className={styles.discount}>₹ {Math.round(totalDiscount)}</span>
+                <span className={styles.discount}>₹ {Math.round(checkoutData?.discount + checkoutData?.productOriginalPrice)}</span>
               </div>
 
               <div className={styles.row}>
                 <span>Delivery</span>
-                <span className={shipping === 0 ? styles.free : ""}>
-                  {shipping === 0 ? "FREE" : `₹ ${shipping}`}
+                <span className={checkoutData?.shipping === 0 ? styles.free : ""}>
+                  {checkoutData?.shipping === 0 ? "FREE" : `₹ ${checkoutData?.shipping}`}
                 </span>
               </div>
 
@@ -252,7 +261,7 @@ export default function OrderSummary() {
 
               <div className={styles.total}>
                 <span>Total Amount</span>
-                <span>₹ {Math.ceil(total)}</span>
+                <span>₹ {Math.ceil(checkoutData?.total)}</span>
               </div>
 
               <button onClick={handleContinue} disabled={ validProducts.length===0 || !user.address } className={styles.paymentBtn}>
@@ -273,6 +282,5 @@ export default function OrderSummary() {
           <button className={styles.paymentBtn}>Continue</button>
         </div> */}
       </div>
-    </DashboardLayout>
   );
 }
