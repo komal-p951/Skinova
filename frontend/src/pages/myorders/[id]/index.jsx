@@ -131,7 +131,6 @@ export default function OrderDetails() {
                   <h4>{item?.product?.name}</h4>
                   <p>{item?.product?.brand}</p>
                   <span>Qty : {item?.quantity}</span>
-                  {/* <h3>₹{item?.price}</h3> */}
                 </div>
               </div>
             ))}
@@ -150,7 +149,7 @@ export default function OrderDetails() {
 
             <div className={styles.priceRow}>
               <span>Discount</span>
-              <span>- ₹{order?.discount?.toFixed(2)}</span>
+              <span>- ₹{Math.floor(order?.discount)}</span>
             </div>
 
             <div className={styles.priceRow}>
@@ -173,16 +172,11 @@ export default function OrderDetails() {
           <div className={styles.timeline}>
 
             <div className={styles.timelineItem}>
-
               <CircleCheckBig className={styles.activeIcon} />
-
               <div>
                 <h4>Order Placed</h4>
-                <p>
-                  {new Date(order?.createdAt).toLocaleDateString("en-IN")}
-                </p>
+                <p>{new Date(order?.createdAt).toLocaleDateString("en-IN")}</p>
               </div>
-
             </div>
 
             <div className={styles.timelineItem}>
@@ -203,9 +197,7 @@ export default function OrderDetails() {
                   order?.orderStatus === "Delivered"
                     ? styles.activeIcon
                     : styles.inactiveIcon
-                }
-              />
-
+                }/>
               <div>
                 <h4>Shipped</h4>
                 <p>Courier partner picked up your order.</p>
@@ -214,7 +206,6 @@ export default function OrderDetails() {
             </div>
 
             <div className={styles.timelineItem}>
-
               <CircleCheckBig
                 className={
                   order.orderStatus === "Delivered"
@@ -222,7 +213,6 @@ export default function OrderDetails() {
                     : styles.inactiveIcon
                 }
               />
-
               <div>
                 <h4>Delivered</h4>
                 <p>Enjoy your Skinova products ❤️</p>

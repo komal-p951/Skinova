@@ -21,3 +21,8 @@
     margin-bottom: calc(100px + 5rem);
   }
 }
+@media screen and (width <= 450px) {
+  .navDiv{
+    margin-bottom: calc(100px + 6.8rem);
+  }
+}

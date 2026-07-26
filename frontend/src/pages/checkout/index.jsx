@@ -111,9 +111,6 @@ export default function OrderSummary() {
     router.push("/payment");
   }
 
-  // useEffect(() => {
-  //   router.push("/cart");
-  // },[!checkoutData]);
 
   if(!checkoutData) return <h2>data Not Found!</h2>
   if(loading) {

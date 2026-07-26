@@ -7,6 +7,8 @@ import {
   Plus,
   ShoppingCart,
   Search,
+  Package,
+  LayoutDashboard,
 } from "lucide-react";
 import { jwtDecode } from "jwt-decode";
 
@@ -66,13 +68,18 @@ export default function Navbar() {
         {isLoggedIn ? <>
         <div className={styles.icons}>
           {isOwner && (
+            <>
+            <button 
+            className={styles.mobileAddBtn}
+            onClick={() => router.push("/authorDashboard")}
+            ><LayoutDashboard size={20} /><span>Dashboard</span></button>
             <button
               className={styles.mobileAddBtn}
               onClick={() => router.push("/addProduct")}
             >
               <Plus size={18} />
               <span>Add</span>
-            </button>
+            </button></>
           )}
 
           <span onClick={() => router.push("/wishlist")}><Heart /></span>

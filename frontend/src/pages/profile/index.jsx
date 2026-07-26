@@ -201,7 +201,7 @@ const handleChange = (e) => {
             <span className={styles.icon}><ShoppingBag /></span>
             <div style={{display:"flex",flexDirection:"column"}}>
               <p className={styles.count}>12</p>
-              <p style={{opacity:'0.8'}}>orders</p>
+              <p style={{opacity:'0.8'}}>my orders</p>
               <p style={{display:'flex',alignItems:'center',color:'#a5849a',gap:'0.2rem'}}>view all orders <MoveRight /></p>
             </div>
           </div>

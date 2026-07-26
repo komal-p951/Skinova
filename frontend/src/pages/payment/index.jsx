@@ -48,16 +48,28 @@ export default function Payment() {
         fetchdata();
       }
     }, [token]);
-
+    console.log(cartProducts)
+    // cartProducts.map(item =>  console.log(item))
     const handleOrderPlace = async () => {
+      const body = {
+        products : cartProducts.map((item) => ({
+          product : item?.product._id,
+          quantity : item?.quantity,
+          price : item?.product.price
+        })),
+        subtotal : checkoutData?.subtotal + checkoutData?.productOriginalPrice,
+        shippingCharge : checkoutData?.shipping,
+        discount : checkoutData?.discount + checkoutData?.productOriginalPrice,
+        total : checkoutData?.total,
+        paymentMethod : method
+      }
       try {
-        const res = await clientServer.post("/order/neworder",{
-           paymentMethod: method
-        },{
+        const res = await clientServer.post("/order/neworder",body,{
           headers:{
             Authorization: token
           }
         });
+        console.log(res.data);
         router.push("/myorders");
       } catch (error) {
         console.log(error.response.data.message)
