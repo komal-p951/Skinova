@@ -48,8 +48,10 @@ export default function Payment() {
         fetchdata();
       }
     }, [token]);
+    // cartProducts.map((prod) => console.log("------",prod));
     console.log(cartProducts)
-    // cartProducts.map(item =>  console.log(item))
+
+
     const handleOrderPlace = async () => {
       const body = {
         products : cartProducts.map((item) => ({
@@ -70,9 +72,10 @@ export default function Payment() {
           }
         });
         console.log(res.data);
+
         router.push("/myorders");
       } catch (error) {
-        console.log(error.response.data.message)
+        console.log(error)
       }
     }
 

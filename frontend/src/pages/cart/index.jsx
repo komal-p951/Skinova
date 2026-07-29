@@ -46,7 +46,7 @@ function Cart() {
   .filter((p) => p.product !== null)
   .reduce((acc, p) => acc + Math.ceil(p?.product?.price * 1.15 * p?.quantity), 0);
 
-  console.warn(productOriginalPrice)
+  // console.warn(productOriginalPrice)
 
   productOriginalPrice = productOriginalPrice - subtotal;
 

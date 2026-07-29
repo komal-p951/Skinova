@@ -66,48 +66,7 @@ export default function OrderSummary() {
 
   const totalItems = validProducts.reduce((acc, p) => acc + p.quantity, 0);
 
-  // const subtotal = validProducts.reduce(
-  //   (acc, p) => acc + p.quantity * p.product.price,
-  //   0
-  // );
-
-  // const shipping = subtotal >= 750 || subtotal === 0 ? 0 : 40;
-  // const bulkDiscount = subtotal >= 1000 ? + (subtotal * 0.05) : 0;
-  // const couponDiscount = appliedCoupon
-  //   ? +(((subtotal - bulkDiscount + shipping) * COUPON_DISCOUNT_PERCENT) / 100)
-  //   : 0;
-
-  // const totalDiscount = bulkDiscount + couponDiscount;
-  // const total = subtotal + shipping - totalDiscount;
-
-  // const couponApplyfun = () => {
-  //   if (!coupon) {
-  //     setCouponError("Please enter a coupon code.");
-  //     return;
-  //   }
-  //   if (appliedCoupon) {
-  //     setCouponError("Coupon already applied.");
-  //     return;
-  //   }
-  //   if (coupon.trim().toUpperCase() === VALID_COUPON) {
-  //     setAppliedCoupon(true);
-  //     setCouponError("");
-  //   } else {
-  //     setCouponError("Invalid coupon code.");
-  //   }
-  //   setCoupon("");
-  // };
-
   const handleContinue = () => {
-    // setCheckoutData({
-    //   validProducts,
-    //   user,
-    //   subtotal,
-    //   shipping,
-    //   discount: totalDiscount,
-    //   total,
-    // });
-
     router.push("/payment");
   }
 
@@ -185,34 +144,6 @@ export default function OrderSummary() {
               ))}
             </div>
 
-            {/* Coupon */}
-            {/* <div className={styles.card}>
-              <div className={styles.cardHeader}>
-                <div className={styles.title}>
-                  <Tag size={18} />
-                  <h2>Apply Coupon</h2>
-                </div>
-              </div>
-
-              <div className={styles.couponBox}>
-                <input
-                  type="text"
-                  placeholder="Enter coupon code"
-                  value={coupon}
-                  onChange={(e) => setCoupon(e.target.value)}
-                  disabled={appliedCoupon}
-                />
-                <button onClick={couponApplyfun} disabled={appliedCoupon}>
-                  {appliedCoupon ? "Applied" : "Apply"}
-                </button>
-              </div>
-              {couponError && <p className={styles.couponError}>{couponError}</p>}
-              {appliedCoupon && (
-                <p className={styles.couponSuccess}>
-                  Coupon applied: {COUPON_DISCOUNT_PERCENT}% off
-                </p>
-              )}
-            </div> */}
 
             {/* Promise */}
             <div className={styles.card}>

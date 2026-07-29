@@ -15,11 +15,16 @@ app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 
+
+app.get("/", (req,res) => {
+    return res.json({message: 'server is working....'})
+})
 app.use("/skinova/wishlist",wishListRouter);
 app.use("/skinova/cart",cartRouter);
 app.use("/skinova/reviews",reviewRouter);
 app.use("/skinova/order",orderRouter);
 app.use("/skinova",userRouter);
+
 
 
 const MONGO_URL = process.env.MONGO_URL;

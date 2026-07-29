@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./styles.module.css";
 import { useRouter } from "next/router";
 import {
@@ -11,6 +11,7 @@ import {
   Star,
 } from "lucide-react";
 import Link from "next/link";
+import { clientServer } from "@/index";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -20,6 +21,20 @@ export default function Dashboard() {
   SKN1026: "Delivered",
   SKN1027: "Processing",
 });
+  const [token, setToken] = useState("");
+  const [orders,setOrders] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    if(storedToken){
+      setToken(storedToken);
+    }else{
+      router.push("/login");
+    }
+  },[])
+
 
   const handleStatusChange = (orderId, value) => {
   setOrderStatus((prev) => ({
@@ -28,10 +43,47 @@ export default function Dashboard() {
   }));
 };
 
+  const getAllorders = async() => {
+    try {
+      let res = await clientServer.get("/order/getallorders",{
+        headers:{
+          Authorization:token
+        }
+      });
+
+      let users = await clientServer.get("/getallusers",{
+        headers:{
+          Authorization:token
+        }
+      })
+
+      let product = await clientServer.get("/",{
+        headers:{
+          Authorization:token
+        }
+      });
+
+
+
+      // console.log("product is this ==>",product.data);
+      setOrders(res.data.orders);
+      setUsers(users.data)
+      setProducts(product.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
+  useEffect(() => {
+    getAllorders();
+  },[token]);
+
+  // console.log(orders)
+
 
   return (
     <div className={styles.container}>
-      {/* ================= HEADER ================= */}
 
       <div className={styles.header}>
 
@@ -46,12 +98,12 @@ export default function Dashboard() {
         </div>
 
         <div style={{display:'flex',gap:'1rem'}}>
-          <button className={styles.exportBtn}>
+          {/* <button className={styles.exportBtn}>
           Export Report
-        </button>
-        {/* <button className={styles.exportBtn} onClick={() => router.push("/authorDashboard/orders")}>
-          Orders
         </button> */}
+        <button className={styles.exportBtn} >
+          View Orders
+        </button>
         </div>
 
       </div>
@@ -73,7 +125,7 @@ export default function Dashboard() {
               Total Orders
             </p>
 
-            <h2>1,254</h2>
+            <h2>{orders.length}</h2>
 
             <span className={styles.green}>
               <TrendingUp size={15} />
@@ -123,7 +175,7 @@ export default function Dashboard() {
               Customers
             </p>
 
-            <h2>846</h2>
+            <h2>{users.length}</h2>
 
             <span className={styles.green}>
               <TrendingUp size={15} />
@@ -148,7 +200,7 @@ export default function Dashboard() {
               Products
             </p>
 
-            <h2>82</h2>
+            <h2>{products.length}</h2>
 
             <span className={styles.red}>
               <TrendingDown size={15} />
@@ -167,7 +219,7 @@ export default function Dashboard() {
 
         {/* Revenue Chart */}
 
-        <div className={styles.chartCard}>
+        {/* <div className={styles.chartCard}>
 
           <div className={styles.cardHeader}>
 
@@ -197,11 +249,11 @@ export default function Dashboard() {
 
           </div>
 
-        </div>
+        </div> */}
 
         {/* Revenue Summary */}
 
-        <div className={styles.summaryCard}>
+        {/* <div className={styles.summaryCard}>
 
           <h2>Revenue Summary</h2>
 
@@ -267,7 +319,7 @@ export default function Dashboard() {
 
           </div>
 
-        </div>
+        </div> */}
 
       </div>
 
@@ -275,7 +327,8 @@ export default function Dashboard() {
 
       {/* ================= RECENT ORDERS ================= */}
 
-      <div className={styles.bottomGrid}>
+      {/* {orders.slice(0,5).map((data,idx) => ( */}
+        <div className={styles.bottomGrid}>
 
         <div className={styles.orderCard}>
 
@@ -289,28 +342,63 @@ export default function Dashboard() {
           <table className={styles.orderTable}>
 
             <thead>
-
               <tr>
                 <th>Order</th>
                 <th>Customer</th>
                 <th>Amount</th>
                 <th>Status</th>
               </tr>
-
             </thead>
 
             <tbody>
+              
+              {orders.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0,5).map((data,idx) => (
+              <tr key={idx}>
+                <td>#{data._id.slice(-6).toUpperCase()}</td>
+                <td>{data?.user?.fullname}</td>
+                <td>₹{Math.ceil(data?.total)}</td>
+                <td>
+                <span className={styles.pending}>
+                  {data.orderStatus}
+                </span>
 
-              <tr>
+                  <br />
+                  <br />
 
-                <td>#SKN1024</td>
+                  {/* <select
+                    className={styles.statusSelect}
+                    value={orderStatus["SKN1024"]}
+                    onChange={(e) =>
+                      handleStatusChange("SKN1024", e.target.value)
+                    }
+                  >
+                    <option value="Placed">Placed</option>
+                    <option value="Confirmed">Confirmed</option>
+                    <option value="Packed">Packed</option>
+                    <option value="Shipped">Shipped</option>
+                    <option value="Out for Delivery">Out for Delivery</option>
+                    <option value="Delivered">Delivered</option>
+                    <option value="Cancelled">Cancelled</option>
+                  </select> */}
 
-                <td>Priya Sharma</td>
+                </td>
 
-                <td>₹1,250</td>
+              </tr>
+              ))
+              }
+
+              {/* <tr>
+
+                <td>#SKN1025</td>
+
+                <td>Rahul Verma</td>
+
+                <td>₹899</td>
 
                 <td>
-
+                  <span className={styles.pending}>
+                    Pending
+                  </span>
                   <span
                     className={`${styles.statusBadge} ${
                       orderStatus["SKN1024"] === "Placed"
@@ -330,101 +418,18 @@ export default function Dashboard() {
                   >
                     {orderStatus["SKN1024"]}
                   </span>
-
-                  <br />
-                  <br />
-
-                  <select
-                    className={styles.statusSelect}
-                    value={orderStatus["SKN1024"]}
-                    onChange={(e) =>
-                      handleStatusChange("SKN1024", e.target.value)
-                    }
-                  >
-                    <option value="Placed">Placed</option>
-                    <option value="Confirmed">Confirmed</option>
-                    <option value="Packed">Packed</option>
-                    <option value="Shipped">Shipped</option>
-                    <option value="Out for Delivery">Out for Delivery</option>
-                    <option value="Delivered">Delivered</option>
-                    <option value="Cancelled">Cancelled</option>
-                  </select>
-
                 </td>
 
               </tr>
-
-              <tr>
-
-                <td>#SKN1025</td>
-
-                <td>Rahul Verma</td>
-
-                <td>₹899</td>
-
-                <td>
-                  <span className={styles.pending}>
-                    Pending
-                  </span>
-                </td>
-
-              </tr>
-
-              <tr>
-
-                <td>#SKN1026</td>
-
-                <td>Simran Kaur</td>
-
-                <td>₹2,499</td>
-
-                <td>
-                  <span className={styles.completed}>
-                    Delivered
-                  </span>
-                </td>
-
-              </tr>
-
-              <tr>
-
-                <td>#SKN1027</td>
-
-                <td>Aman Singh</td>
-
-                <td>₹599</td>
-
-                <td>
-                  <span className={styles.processing}>
-                    Processing
-                  </span>
-                </td>
-
-              </tr>
-
-              <tr>
-
-                <td>#SKN1028</td>
-
-                <td>Neha Patel</td>
-
-                <td>₹1,799</td>
-
-                <td>
-                  <span className={styles.cancelled}>
-                    Cancelled
-                  </span>
-                </td>
-
-              </tr>
-
+              */}
             </tbody>
 
           </table>
-
         </div>
 
-        {/* ================= TOP PRODUCTS ================= */}
+      </div>
+
+      {/* ================= TOP PRODUCTS ================= */}
 
         <div className={styles.productCard}>
 
@@ -434,93 +439,20 @@ export default function Dashboard() {
 
           </div>
 
-          <div className={styles.productItem}>
-
-            <img
-              src="/images/skincare1.jpg"
-              alt=""
-            />
-
-            <div>
-
-              <h4>Vitamin C Serum</h4>
-
-              <p>420 Sold</p>
-
+          {products.sort((a,b) => b.sold - a.sold).slice(0,5).map((data, idx) => (
+        
+              <div className={styles.productItem} key={idx}>
+              <img src={data?.images?.[0]?.url} alt="productImages"/>
+              <div>
+                <h4>{data?.name}</h4>
+                <p>{data?.sold}</p>
+              </div>
+              <span className={styles.price}>₹ {data?.price} </span>
             </div>
-
-            <span className={styles.price}>
-              ₹597
-            </span>
-
-          </div>
-
-          <div className={styles.productItem}>
-
-            <img
-              src="/images/skincare2.jpg"
-              alt=""
-            />
-
-            <div>
-
-              <h4>Hydra Moisturizer</h4>
-
-              <p>392 Sold</p>
-
-            </div>
-
-            <span className={styles.price}>
-              ₹325
-            </span>
-
-          </div>
-
-          <div className={styles.productItem}>
-
-            <img
-              src="/images/skincare3.jpg"
-              alt=""
-            />
-
-            <div>
-
-              <h4>SPF 50 Sunscreen</h4>
-
-              <p>351 Sold</p>
-
-            </div>
-
-            <span className={styles.price}>
-              ₹529
-            </span>
-
-          </div>
-
-          <div className={styles.productItem}>
-
-            <img
-              src="/images/skincare4.jpg"
-              alt=""
-            />
-
-            <div>
-
-              <h4>Rosemary Hair Oil</h4>
-
-              <p>280 Sold</p>
-
-            </div>
-
-            <span className={styles.price}>
-              ₹449
-            </span>
-
-          </div>
-
+          )) 
+          }
         </div>
-
-      </div>
+        
 
       {/* ================= LOW STOCK + REVIEWS ================= */}
 
@@ -533,51 +465,24 @@ export default function Dashboard() {
           <div className={styles.cardHeader}>
             <h2>Low Stock Products</h2>
           </div>
-
-          <div className={styles.stockItem}>
-
+          
+          {products.filter((p) => p.quantity <= 20).map((product) => (
+            <div className={styles.stockItem}>
             <div>
-              <h4>Vitamin C Serum</h4>
-              <p>SKU : SKN-001</p>
+              <h4>{product?.name}</h4>
+              <p>{product?.category}</p>
             </div>
-
-            <span className={styles.lowStock}>
-              8 Left
-            </span>
-
+            <span className={styles.lowStock}>{product?.quantity} Left</span>
+            <span onClick={() => router.push(`/product/${product._id}`)} style={{cursor:"pointer",background:"pink",padding:"0.8rem",borderRadius:"12px"}}>See Details</span>
           </div>
+          ))}
 
-          <div className={styles.stockItem}>
-
-            <div>
-              <h4>Hydra Moisturizer</h4>
-              <p>SKU : SKN-002</p>
-            </div>
-
-            <span className={styles.lowStock}>
-              5 Left
-            </span>
-
-          </div>
-
-          <div className={styles.stockItem}>
-
-            <div>
-              <h4>SPF 50 Sunscreen</h4>
-              <p>SKU : SKN-003</p>
-            </div>
-
-            <span className={styles.lowStock}>
-              11 Left
-            </span>
-
-          </div>
 
         </div>
 
         {/* Reviews */}
 
-        <div className={styles.reviewCard}>
+        {/* <div className={styles.reviewCard}>
 
           <div className={styles.cardHeader}>
             <h2>Recent Reviews</h2>
@@ -637,7 +542,7 @@ export default function Dashboard() {
 
           </div>
 
-        </div>
+        </div> */}
 
       </div>
 

@@ -6,7 +6,7 @@ import Product from "../model/product.js";
 export const createNewOrder = async(req,res) => {
     try {
         const user = await User.findById(req.user.id);
-        console.log(user);
+        // console.log(user);
         const {
             products,
             subtotal,
@@ -22,6 +22,24 @@ export const createNewOrder = async(req,res) => {
             })
         }
 
+        products.forEach(async(product) => {
+            let id = product.product;
+            let prod = await Product.findById(id);
+            if(!prod)return res.json("no such product !");
+            prod.quantity -= product.quantity;
+            prod.sold += product.quantity;
+            await prod.save();
+
+        });
+
+        console.log("my products is", products);
+        // console.log("my products is", products.map.quantity);
+        // const id = products[0]?.product;
+        // console.log("my product id is :" , id);
+
+        // const product = await Product.findById(id);
+        // console.log(product)
+
         const order = new Order({
             user: user._id,
             products,
@@ -32,19 +50,11 @@ export const createNewOrder = async(req,res) => {
             paymentMethod,
             // subtotal:subTotal
         });
-        // const order = new Order({
-        //     user: req.user.id,
-        //     products,
-        //     subtotal,
-        //     discount,
-        //     shippingCharge,
-        //     total,
-        //     paymentMethod
-        // });
 
         user.cart = [];
         await order.save();
         await user.save();
+        // await product.save();
 
         return res.status(201).json({ message: "Order placed successfully", order });
     } catch (error) {
@@ -95,16 +105,13 @@ export const getOrder = async(req,res) => {
 export const getAllOrders = async(req,res) => {
     try {
 
-        const userId  = req.user.id;
+        const userId  = req.admin.id;
 
         const user = await User.findById(userId);
-        const orders = await Order.find();
+        const orders = await Order.find().populate("user");
 
         if(!user) return res.status(404).json({message: "User Not Found!"});
-        if(user.role === "author"){
-            return res.json({orders});
-        }
-        return res.status(httpStatus.UNAUTHORIZED).json({"message":"unauthorized request !"});
+        return res.json({orders});
     } catch (error) {
         return res.status(httpStatus.BAD_REQUEST).json({message: error.message});
     }

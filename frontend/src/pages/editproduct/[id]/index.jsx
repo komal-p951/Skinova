@@ -60,13 +60,13 @@ export default function editproduct() {
   const handleUpdateProduct = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await clientServer.patch(`${id}`, data, {
+      const res = await clientServer.patch(`/${id}`, data, {
         headers: {
           Authorization: token,
         },
       });
       setMessage(res?.data?.message);
-      router.push(`/porduct/${id}`);
+      router.back(`/porduct/${id}`);
     } catch (error) {
       setErrorMessage(error?.response?.data?.message || "Something went wrong");
     }

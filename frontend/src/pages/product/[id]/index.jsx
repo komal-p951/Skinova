@@ -183,7 +183,7 @@ function Product() {
     updatedImages[index] = temp;
     setdisplayImages(updatedImages);
   }
-  console.log(product)
+ 
   
   return (
     <DashboardLayout>
@@ -253,6 +253,7 @@ function Product() {
                   <span>({product?.reviews?.length}+ review )</span>
                   {product.quantity > 0 ? <span className={styles.stock}>in stock</span> : <span className={styles.outofstock}>out of Stock</span>}
                 </div>
+                  {product.quantity <= 20 && <p className={styles.leftItems}>Only {product.quantity} left!</p>}
               </div>
 
               <div style={{borderBottom:"2px solid wheat",marginInline:"16px"}}></div>

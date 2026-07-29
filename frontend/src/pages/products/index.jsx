@@ -38,6 +38,7 @@ export default function Products() {
    if(loading) {
     return <DashboardLayout> <Loader/> </DashboardLayout>;
   }
+  console.log("data aagyo")
 
   return (
     <DashboardLayout>
