@@ -68,48 +68,9 @@ const UserSchema = new Schema(
       type:String,
       default:''    
     }
-    // orders:[
-    //   {
-    //     product: {
-    //       type: Schema.Types.ObjectId,
-    //       ref:"Product"
-    //     }
-    //   }
-    // ]
   },
   { timestamps: true }
 );
 
 const User = mongoose.model("User", UserSchema);
 export default User;
-
-
-    // reviews: [
-    //   {
-    //     type: Schema.Types.ObjectId,
-    //     ref: "ProductReview",
-    //   },
-    // ],
-    // products: [
-    //   {
-    //     type: Schema.Types.ObjectId,
-    //     ref: "Product",
-    //   },
-    // ],
-    // categories: [
-    //   {
-    //     type: String,
-    //   },
-    // ],
-    // ratings: {
-    //   average: {
-    //     type: Number,
-    //     default: 0,
-    //     min: 0,
-    //     max: 5,
-    //   },
-    //   count: {
-    //     type: Number,
-    //     default: 0,
-    //   },
-    // },

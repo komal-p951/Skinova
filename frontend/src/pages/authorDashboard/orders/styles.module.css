@@ -77,7 +77,7 @@
     margin-bottom:2rem;
 }
 
-.tableContainer table{
+.table{
     width:100%;
     border-collapse:collapse;
 }
@@ -148,6 +148,33 @@
 .cancelled{
     background:#fde2e2;
     color:#dc2626;
+}
+
+.statusSelect{
+    width:160px;
+    padding:8px 12px;
+    border:1px solid #d9c3d2;
+    border-radius:10px;
+    background:#fff;
+    color:#714f65;
+    font-size:14px;
+    font-weight:500;
+    cursor:pointer;
+    outline:none;
+    transition:all .3s ease;
+}
+
+.statusSelect:hover{
+    border-color:#a8879e;
+}
+
+.statusSelect:focus{
+    border-color:#a8879e;
+    box-shadow:0 0 0 3px rgba(168,135,158,.2);
+}
+
+.statusSelect option{
+    color:#444;
 }
 /* ===========================
    View Button
@@ -227,7 +254,7 @@
 }
 
 .empty img{
-    width:220px;
+    width: 160px;
     margin-bottom:20px;
     opacity:.9;
 }
@@ -287,7 +314,7 @@
     overflow-x:auto;
 }
 
-table{
+.table{
     min-width:850px;
 }
 

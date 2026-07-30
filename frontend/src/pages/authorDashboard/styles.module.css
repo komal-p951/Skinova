@@ -59,6 +59,22 @@
     box-shadow:0 10px 25px rgba(164,132,153,.25);
 }
 
+.mobileAddBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  background: linear-gradient(135deg, #a8879e, #a48499, #9f7f96);
+  transition: 0.3s;
+}
+
 /* ===========================
    Statistics Grid
 =========================== */
@@ -86,7 +102,7 @@
 }
 
 .card:hover{
-    transform:translateY(-5px);
+    transform:translateY(-3px);
     box-shadow:0 18px 35px rgba(164,132,153,.18);
 }
 
@@ -539,7 +555,7 @@
 }
 
 .activityItem:hover{
-    transform:translateY(-5px);
+    transform:translateY(-3px);
     background:#fff;
     box-shadow:0 10px 25px rgba(164,132,153,.15);
 }
@@ -723,29 +739,4 @@ to{
 
 }
 
-.statusSelect{
-    width:160px;
-    padding:8px 12px;
-    border:1px solid #d9c3d2;
-    border-radius:10px;
-    background:#fff;
-    color:#714f65;
-    font-size:14px;
-    font-weight:500;
-    cursor:pointer;
-    outline:none;
-    transition:all .3s ease;
-}
 
-.statusSelect:hover{
-    border-color:#a8879e;
-}
-
-.statusSelect:focus{
-    border-color:#a8879e;
-    box-shadow:0 0 0 3px rgba(168,135,158,.2);
-}
-
-.statusSelect option{
-    color:#444;
-}

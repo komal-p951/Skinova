@@ -252,3 +252,22 @@ export const editProduct = async(req,res) => {
     return res.status(httpStatus.BAD_REQUEST).json({ message: error.message });  
   }
 }
+
+
+export const getNewuserCount = async(req,res) => {
+    try {
+        let today = new Date();
+        today.setHours = (0,0,0,0);
+        let tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const newUser = await User.countDocuments({
+            createdAt:{
+                $gte:today,
+                $lt:tomorrow
+            },
+        });
+       return res.status(200).json(newUser);
+    } catch (error) {
+        return res.status(httpStatus.BAD_REQUEST).json({message: error.message});
+    }
+}

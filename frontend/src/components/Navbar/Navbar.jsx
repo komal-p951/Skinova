@@ -73,13 +73,7 @@ export default function Navbar() {
             className={styles.mobileAddBtn}
             onClick={() => router.push("/authorDashboard")}
             ><LayoutDashboard size={20} /><span>Dashboard</span></button>
-            <button
-              className={styles.mobileAddBtn}
-              onClick={() => router.push("/addProduct")}
-            >
-              <Plus size={18} />
-              <span>Add</span>
-            </button></>
+            </>
           )}
 
           <span onClick={() => router.push("/wishlist")}><Heart /></span>

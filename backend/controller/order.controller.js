@@ -6,7 +6,6 @@ import Product from "../model/product.js";
 export const createNewOrder = async(req,res) => {
     try {
         const user = await User.findById(req.user.id);
-        // console.log(user);
         const {
             products,
             subtotal,
@@ -32,14 +31,6 @@ export const createNewOrder = async(req,res) => {
 
         });
 
-        console.log("my products is", products);
-        // console.log("my products is", products.map.quantity);
-        // const id = products[0]?.product;
-        // console.log("my product id is :" , id);
-
-        // const product = await Product.findById(id);
-        // console.log(product)
-
         const order = new Order({
             user: user._id,
             products,
@@ -47,14 +38,12 @@ export const createNewOrder = async(req,res) => {
             discount,
             shippingCharge,
             total,
-            paymentMethod,
-            // subtotal:subTotal
+            paymentMethod
         });
 
         user.cart = [];
         await order.save();
         await user.save();
-        // await product.save();
 
         return res.status(201).json({ message: "Order placed successfully", order });
     } catch (error) {

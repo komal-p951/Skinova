@@ -9,6 +9,7 @@ import {
   TrendingUp,
   TrendingDown,
   Star,
+  Plus,
 } from "lucide-react";
 import Link from "next/link";
 import { clientServer } from "@/index";
@@ -25,6 +26,7 @@ export default function Dashboard() {
   const [orders,setOrders] = useState([]);
   const [users, setUsers] = useState([]);
   const [products, setProducts] = useState([]);
+  const [newUser, setNewUser] = useState(0);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
@@ -50,7 +52,7 @@ export default function Dashboard() {
           Authorization:token
         }
       });
-
+      console.log(res.data)
       let users = await clientServer.get("/getallusers",{
         headers:{
           Authorization:token
@@ -63,12 +65,17 @@ export default function Dashboard() {
         }
       });
 
+      let newUsers = await clientServer.get("/user/newUser",{
+        headers:{
+          Authorization:token
+        }
+      });
 
-
-      // console.log("product is this ==>",product.data);
+      
       setOrders(res.data.orders);
-      setUsers(users.data)
-      setProducts(product.data)
+      setUsers(users.data);
+      setProducts(product.data);
+      setNewUser(newUsers.data);
     } catch (error) {
       console.log(error)
     }
@@ -79,9 +86,11 @@ export default function Dashboard() {
     getAllorders();
   },[token]);
 
-  // console.log(orders)
+  const pendingDelieveries = orders.filter((o) => ["Order Confirmed","Shipped","Out For Delivery"].includes(o.orderStatus));
+  const todayNewOrders = orders.filter((o) => o.orderStatus == "Order Confirmed");
 
-
+ 
+  
   return (
     <div className={styles.container}>
 
@@ -101,8 +110,12 @@ export default function Dashboard() {
           {/* <button className={styles.exportBtn}>
           Export Report
         </button> */}
-        <button className={styles.exportBtn} >
+        <button className={styles.exportBtn} onClick={() => router.push("/authorDashboard/orders")}>
           View Orders
+        </button>
+        <button className={styles.mobileAddBtn} onClick={() => router.push("/addProduct")}>
+          <Plus size={18} />
+          <span>Add New Product</span>
         </button>
         </div>
 
@@ -557,7 +570,7 @@ export default function Dashboard() {
         <div className={styles.activityGrid}>
 
           <div className={styles.activityItem}>
-            <h3>26</h3>
+            <h3>{todayNewOrders?.length}</h3>
             <p>New Orders</p>
           </div>
 
@@ -567,12 +580,12 @@ export default function Dashboard() {
           </div>
 
           <div className={styles.activityItem}>
-            <h3>8</h3>
+            <h3>{newUser}</h3>
             <p>New Customers</p>
           </div>
 
           <div className={styles.activityItem}>
-            <h3>4</h3>
+            <h3>{pendingDelieveries?.length}</h3>
             <p>Pending Deliveries</p>
           </div>
 
