@@ -105,3 +105,21 @@ export const getAllOrders = async(req,res) => {
         return res.status(httpStatus.BAD_REQUEST).json({message: error.message});
     }
 }
+
+export const updateOrderStatus = async(req,res) => {
+    try {
+        const { orderId , status, paymentStatus} = req.body;
+
+        const order = await Order.findById(orderId);
+        if(!order)return res.json({message:"no order found !"});
+
+        if(status) order.orderStatus = status;
+        if(paymentStatus) order.paymentStatus = paymentStatus;
+
+        await order.save();
+        return res.json({message:"status updated !"});
+
+    } catch (error) {
+        return res.status(httpStatus.BAD_REQUEST).json({message: error.message});
+    }
+}

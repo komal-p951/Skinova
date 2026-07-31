@@ -17,7 +17,7 @@ export default function Orders() {
     const storedToken = localStorage.getItem("token");
     if (storedToken) setToken(storedToken);
     else router.push("/login");
-  });
+  },[]);
   const fetchOrders = async () => {
     try {
       const res = await clientServer.get("/order/getallorders", {
@@ -25,7 +25,6 @@ export default function Orders() {
           Authorization: token,
         },
       });
-      console.log(res.data.orders)
       setOrders(res.data.orders);
     } catch (err) {
       console.log(err);
@@ -48,13 +47,38 @@ export default function Orders() {
   if (loading) {
     return <h2 className={styles.loading}>Loading...</h2>;
   }
+  console.log(orders);
+  const handleStatusChange = async(id,newStatus,payStatus) => {
+    const previousOrders  = [...orders];
+    try {
+      setOrders(prevOrders => 
+        prevOrders.map((order) => 
+          order._id === id ? {...order, 
+            orderStatus: newStatus ?? order.orderStatus,
+            paymentStatus: payStatus ?? order.paymentStatus
+          }
+          :
+          order
+        )
+      );
 
-  const handleStatusChange = (orderId, value) => {
-  setOrderStatus((prev) => ({
-    ...prev,
-    [orderId]: value,
-  }));
-};
+      const updateStatus = await clientServer.patch("/order/updatestatus",{
+        orderId:id,
+        status:newStatus,
+        paymentStatus : payStatus
+      },{
+        headers: {
+          Authorization: token
+        }
+      });
+      
+      fetchOrders();
+    } catch (error) {
+      console.log(error);
+      setOrders(previousOrders);
+    }
+  }
+
 
   return (
     <div className={styles.container}>
@@ -94,23 +118,31 @@ export default function Orders() {
                 <td>{order._id.slice(-8).toUpperCase()}</td>
                 <td>{order?.user?.fullname || "Customer"}</td>
                 <td>₹{order.total}</td>
-                <td><span className={order.paymentStatus === "Paid" ? styles.paid : styles.pending}>{order.paymentStatus}</span></td>
-{/* className={order.orderStatus === "Delivered" ? styles.delivered : order.orderStatus === "Cancelled" ? styles.cancelled : styles.processing} */}
                 <td>
                   <span >
                   <select
+                    onChange={(e) => handleStatusChange(order._id,order.orderStatus,e.target.value)} className={order.paymentStatus === "Paid" ? styles.paid : styles.pending} value={order.paymentStatus}>
+                    <option value="Pending">Pending</option>
+                    <option value="Paid">Paid</option>
+                    <option value="Failed">Failed</option>
+                  </select>
+                  </span>
+                </td>
+                <td>
+                  <span >
+                  <select
+                    onChange={(e) =>
+                      handleStatusChange(order._id, e.target.value,order.paymentStatus)
+                    }
                     className={styles.statusSelect}
                     value={order.orderStatus}
-                    onChange={(e) =>
-                      handleStatusChange("SKN1024", e.target.value)
-                    }
                   >
-                    <option value="Confirmed">Order Confirmed</option>
+                    <option value="Order Confirmed">Order Confirmed</option>
                     <option value="Shipped">Shipped</option>
-                    <option value="Out for Delivery">Out for Delivery</option>
+                    <option value="Out For Delivery">Out for Delivery</option>
                     <option value="Delivered">Delivered</option>
                     <option value="Cancelled">Cancelled</option>
-                    <option value="Placed">Returned</option>
+                    <option value="Returned">Returned</option>
                   </select>
                   </span>
                 </td>

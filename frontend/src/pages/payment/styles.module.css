@@ -3,6 +3,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 2rem;
+  margin-top: 8rem;
 }
 .moveLeft svg{
     margin-top: 2rem;
