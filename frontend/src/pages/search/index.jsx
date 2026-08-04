@@ -42,21 +42,6 @@ export default function Index() {
    }
 
 
-
-  // const recentSearches = [
-  //   "Vitamin C Serum",
-  //   "Rosemary Hair Oil",
-  //   "Lipstick",
-  //   "Foundation",
-  // ];
-
-  // const trending = [
-  //   "Sunscreen SPF 50",
-  //   "Cleanser",
-  //   "Compact Powder",
-  //   "Moisturizer",
-  // ];
-
   const categories = [
     "Skincare",
     "Makeup",

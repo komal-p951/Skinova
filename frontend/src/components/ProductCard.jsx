@@ -57,7 +57,6 @@ export default function ProductCard({product}) {
   const reviewlength = product?.reviews?.length;
 
   const avgRating = reviewlength > 0 ? totalReviewRatingCount/reviewlength : 0;
-  // console.log(avgRating);
 
   return (
     <>
@@ -72,7 +71,6 @@ export default function ProductCard({product}) {
             <div className={styles.badge}>New</div>
             <span className={styles.stars}>{avgRating}<Star fill='#714f65' color='#714f65' height={'0.8rem'} width={'0.8rem'}/>({reviewlength})
             </span>
-            {/* <div onClick={isAdded ? deleteFromwishList : addToWishList} className={isAdded ? styles.liked : styles.like}> <Heart /> </div> */}
             </div>
         </div>
 
@@ -97,16 +95,3 @@ export default function ProductCard({product}) {
     </>
   )
 }
-
-
-
- {/* {isHovered && (
-            <div className={styles.overlay}>
-              <button 
-                className={`${styles.addToCartBtn} ${isAdded ? styles.added : ''}`}
-                onClick={() => viewProductDetail(product._id)}
-              >
-                {isAdded ? ' ' : 'view Product'}
-              </button>
-            </div>
-          )} */}

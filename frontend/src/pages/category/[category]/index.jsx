@@ -12,6 +12,7 @@ export default function index() {
 
     const findProductsByCategory = async() => {
         try {
+            if(!category) return;
             const res = await clientServer.get(`/category/${category}`);
             setProducts(res.data);
         } catch (error) {

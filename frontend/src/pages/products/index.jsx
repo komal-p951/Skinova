@@ -48,7 +48,7 @@ export default function Products() {
         </div>
 
         <div className={styles.midContainer}>
-          <img src="/images/bar.jpeg" alt="barImg" />
+          <img src="/herobanerimages/skinova_banner.png" alt="barImg" />
         </div>
         <div className={styles.bottomContainer}>
           <div className={styles.productContainer}>

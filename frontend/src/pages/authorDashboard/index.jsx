@@ -10,8 +10,8 @@ import {
   TrendingDown,
   Star,
   Plus,
+  MoveLeft,
 } from "lucide-react";
-import Link from "next/link";
 import { clientServer } from "@/index";
 
 export default function Dashboard() {
@@ -89,6 +89,8 @@ export default function Dashboard() {
   const pendingDelieveries = orders.filter((o) => ["Order Confirmed","Shipped","Out For Delivery"].includes(o.orderStatus));
   const todayNewOrders = orders.filter((o) => o.orderStatus == "Order Confirmed");
 
+  const totalRevenue = orders.reduce((acc, or) => (acc + or.total),0);
+
  
   
   return (
@@ -96,20 +98,15 @@ export default function Dashboard() {
 
       <div className={styles.header}>
 
-        <div>
-          <h1 className={styles.title}>
-            Welcome Back 👋
-          </h1>
-
-          <p className={styles.subtitle}>
-            Here's what's happening with your Skinova Store today.
-          </p>
+        <div style={{display:'flex',alignItems:'center',justifyContent:'center',gap:'1.5rem'}}>
+          <MoveLeft style={{cursor:'pointer',color:'#714f65'}} onClick={() => router.back()}/>
+          <div>
+            <h1 className={styles.title}>Welcome Back 👋</h1>
+            <p className={styles.subtitle}>Here's what's happening with your Skinova Store today.</p>
+          </div>
         </div>
 
         <div style={{display:'flex',gap:'1rem'}}>
-          {/* <button className={styles.exportBtn}>
-          Export Report
-        </button> */}
         <button className={styles.exportBtn} onClick={() => router.push("/authorDashboard/orders")}>
           View Orders
         </button>
@@ -121,112 +118,49 @@ export default function Dashboard() {
 
       </div>
 
-      {/* ================= STATS ================= */}
-
       <div className={styles.statsGrid}>
-
-        {/* Orders */}
-
         <div className={styles.card}>
-
-          <div className={styles.iconBox}>
-            <ShoppingBag size={28} />
-          </div>
-
+          <div className={styles.iconBox}><ShoppingBag size={28} /></div>
           <div>
-            <p className={styles.cardTitle}>
-              Total Orders
-            </p>
-
+            <p className={styles.cardTitle}>Total Orders</p>
             <h2>{orders.length}</h2>
+            <span className={styles.green}><TrendingUp size={15} />+12%</span>
+          </div>
+        </div>
 
-            <span className={styles.green}>
-              <TrendingUp size={15} />
-              +12%
-            </span>
 
+        <div className={styles.card}>
+          <div className={styles.iconBoxPink}><IndianRupee size={28} /></div>
+
+          <div>
+            <p className={styles.cardTitle}>Revenue</p>
+            <h2>₹{Math.ceil(totalRevenue)}</h2>
+            <span className={styles.green}><TrendingUp size={15} />+8%</span>
           </div>
 
         </div>
 
-        {/* Revenue */}
 
         <div className={styles.card}>
-
-          <div className={styles.iconBoxPink}>
-            <IndianRupee size={28} />
-          </div>
-
+          <div className={styles.iconBoxPurple}><Users size={28} /></div>
           <div>
-
-            <p className={styles.cardTitle}>
-              Revenue
-            </p>
-
-            <h2>₹2,84,500</h2>
-
-            <span className={styles.green}>
-              <TrendingUp size={15} />
-              +8%
-            </span>
-
-          </div>
-
-        </div>
-
-        {/* Customers */}
-
-        <div className={styles.card}>
-
-          <div className={styles.iconBoxPurple}>
-            <Users size={28} />
-          </div>
-
-          <div>
-
-            <p className={styles.cardTitle}>
-              Customers
-            </p>
-
+            <p className={styles.cardTitle}>Customers</p>
             <h2>{users.length}</h2>
-
-            <span className={styles.green}>
-              <TrendingUp size={15} />
-              +15%
-            </span>
-
+            <span className={styles.green}><TrendingUp size={15} />+15%</span>
           </div>
-
         </div>
 
-        {/* Products */}
 
         <div className={styles.card}>
-
-          <div className={styles.iconBoxOrange}>
-            <Package size={28} />
-          </div>
-
+          <div className={styles.iconBoxOrange}><Package size={28} /></div>
           <div>
-
-            <p className={styles.cardTitle}>
-              Products
-            </p>
-
+            <p className={styles.cardTitle}>Products</p>
             <h2>{products.length}</h2>
-
-            <span className={styles.red}>
-              <TrendingDown size={15} />
-              -2%
-            </span>
-
+            <span className={styles.red}><TrendingDown size={15} />-2%</span>
           </div>
-
         </div>
-
       </div>
 
-      {/* ================= CHART + SUMMARY ================= */}
 
       <div className={styles.chartGrid}>
 
@@ -336,113 +270,64 @@ export default function Dashboard() {
 
       </div>
 
-      {/* Part 2 me niche Recent Orders aur Top Selling Products aayenge */}
 
-      {/* ================= RECENT ORDERS ================= */}
-
-      {/* {orders.slice(0,5).map((data,idx) => ( */}
-        <div className={styles.bottomGrid}>
-
-        <div className={styles.orderCard}>
-
-          <div className={styles.cardHeader}>
-            <h2>Recent Orders</h2>
-            <button className={styles.viewBtn}>
-              View All
-            </button>
+          <div className={styles.bottomGrid}>
+          <div className={styles.orderCard}>
+            <div className={styles.cardHeader}>
+              <h2>Recent Orders</h2>
+              <button className={styles.viewBtn}>
+                View All
+              </button>
+            </div>
+            <table className={styles.orderTable}>
+              <thead>
+                <tr>
+                  <th>Order</th>
+                  <th>Customer</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+          
+                {orders.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0,5).map((data,idx) => (
+                <tr key={idx}>
+                  <td>#{data._id.slice(-6).toUpperCase()}</td>
+                  <td>{data?.user?.fullname}</td>
+                  <td>₹{Math.ceil(data?.total)}</td>
+                  <td>
+                  <span className={styles.pending}>
+                    {data.orderStatus}
+                  </span>
+                    <br />
+                    <br />
+                  </td>
+                </tr>
+                ))
+                }
+              </tbody>
+            </table>
+          </div>
+          </div>
+          <div className={styles.lastGrid}>
+          <div className={styles.lowStockCard}>
+            <div className={styles.cardHeader}>
+              <h2>Low Stock Products</h2>
+            </div>
+          
+            {products.filter((p) => p.quantity <= 20).map((product) => (
+              <div className={styles.stockItem}>
+              <div>
+                <h4>{product?.name}</h4>
+                <p>{product?.category}</p>
+              </div>
+              <span className={styles.lowStock}>{product?.quantity} Left</span>
+              <span onClick={() => router.push(`/product/${product._id}`)} style={{cursor:"pointer",background:"pink",padding:"0.8rem",borderRadius:"12px"}}>See Details</span>
+            </div>
+            ))}
+          </div>
           </div>
 
-          <table className={styles.orderTable}>
-
-            <thead>
-              <tr>
-                <th>Order</th>
-                <th>Customer</th>
-                <th>Amount</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              
-              {orders.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0,5).map((data,idx) => (
-              <tr key={idx}>
-                <td>#{data._id.slice(-6).toUpperCase()}</td>
-                <td>{data?.user?.fullname}</td>
-                <td>₹{Math.ceil(data?.total)}</td>
-                <td>
-                <span className={styles.pending}>
-                  {data.orderStatus}
-                </span>
-
-                  <br />
-                  <br />
-
-                  {/* <select
-                    className={styles.statusSelect}
-                    value={orderStatus["SKN1024"]}
-                    onChange={(e) =>
-                      handleStatusChange("SKN1024", e.target.value)
-                    }
-                  >
-                    <option value="Placed">Placed</option>
-                    <option value="Confirmed">Confirmed</option>
-                    <option value="Packed">Packed</option>
-                    <option value="Shipped">Shipped</option>
-                    <option value="Out for Delivery">Out for Delivery</option>
-                    <option value="Delivered">Delivered</option>
-                    <option value="Cancelled">Cancelled</option>
-                  </select> */}
-
-                </td>
-
-              </tr>
-              ))
-              }
-
-              {/* <tr>
-
-                <td>#SKN1025</td>
-
-                <td>Rahul Verma</td>
-
-                <td>₹899</td>
-
-                <td>
-                  <span className={styles.pending}>
-                    Pending
-                  </span>
-                  <span
-                    className={`${styles.statusBadge} ${
-                      orderStatus["SKN1024"] === "Placed"
-                        ? styles.placed
-                        : orderStatus["SKN1024"] === "Confirmed"
-                        ? styles.confirmed
-                        : orderStatus["SKN1024"] === "Packed"
-                        ? styles.packed
-                        : orderStatus["SKN1024"] === "Shipped"
-                        ? styles.shipped
-                        : orderStatus["SKN1024"] === "Out for Delivery"
-                        ? styles.outForDelivery
-                        : orderStatus["SKN1024"] === "Delivered"
-                        ? styles.delivered
-                        : styles.cancelled
-                    }`}
-                  >
-                    {orderStatus["SKN1024"]}
-                  </span>
-                </td>
-
-              </tr>
-              */}
-            </tbody>
-
-          </table>
-        </div>
-
-      </div>
-
-      {/* ================= TOP PRODUCTS ================= */}
 
         <div className={styles.productCard}>
 
@@ -465,117 +350,18 @@ export default function Dashboard() {
           )) 
           }
         </div>
-        
-
-      {/* ================= LOW STOCK + REVIEWS ================= */}
-
-      <div className={styles.lastGrid}>
-
-        {/* Low Stock */}
-
-        <div className={styles.lowStockCard}>
-
-          <div className={styles.cardHeader}>
-            <h2>Low Stock Products</h2>
-          </div>
-          
-          {products.filter((p) => p.quantity <= 20).map((product) => (
-            <div className={styles.stockItem}>
-            <div>
-              <h4>{product?.name}</h4>
-              <p>{product?.category}</p>
-            </div>
-            <span className={styles.lowStock}>{product?.quantity} Left</span>
-            <span onClick={() => router.push(`/product/${product._id}`)} style={{cursor:"pointer",background:"pink",padding:"0.8rem",borderRadius:"12px"}}>See Details</span>
-          </div>
-          ))}
-
-
-        </div>
-
-        {/* Reviews */}
-
-        {/* <div className={styles.reviewCard}>
-
-          <div className={styles.cardHeader}>
-            <h2>Recent Reviews</h2>
-          </div>
-
-          <div className={styles.reviewItem}>
-
-            <div>
-
-              <h4>Priya Sharma</h4>
-
-              <div className={styles.stars}>
-                ⭐⭐⭐⭐⭐
-              </div>
-
-              <p>
-                Amazing quality. Loved the Vitamin C Serum.
-              </p>
-
-            </div>
-
-          </div>
-
-          <div className={styles.reviewItem}>
-
-            <div>
-
-              <h4>Rahul Verma</h4>
-
-              <div className={styles.stars}>
-                ⭐⭐⭐⭐☆
-              </div>
-
-              <p>
-                Sunscreen texture is very lightweight.
-              </p>
-
-            </div>
-
-          </div>
-
-          <div className={styles.reviewItem}>
-
-            <div>
-
-              <h4>Neha Patel</h4>
-
-              <div className={styles.stars}>
-                ⭐⭐⭐⭐⭐
-              </div>
-
-              <p>
-                Moisturizer is perfect for dry skin.
-              </p>
-
-            </div>
-
-          </div>
-
-        </div> */}
-
-      </div>
-
-      {/* ================= TODAY OVERVIEW ================= */}
 
       <div className={styles.activityCard}>
 
-        <div className={styles.cardHeader}>
-          <h2>Today's Activity</h2>
-        </div>
-
+        <div className={styles.cardHeader}><h2>Today's Activity</h2></div>
         <div className={styles.activityGrid}>
-
           <div className={styles.activityItem}>
             <h3>{todayNewOrders?.length}</h3>
             <p>New Orders</p>
           </div>
 
           <div className={styles.activityItem}>
-            <h3>₹12,420</h3>
+            <h3>₹{Math.ceil(totalRevenue)}</h3>
             <p>Today's Revenue</p>
           </div>
 
@@ -588,12 +374,9 @@ export default function Dashboard() {
             <h3>{pendingDelieveries?.length}</h3>
             <p>Pending Deliveries</p>
           </div>
-
         </div>
-
       </div>
-
-      
+    
     </div>
   );
 }

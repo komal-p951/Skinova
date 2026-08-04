@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./styles.module.css";
-import { Search, Eye } from "lucide-react";
+import { Search, MoveLeft } from "lucide-react";
 import { useRouter } from "next/router";
 import { clientServer } from "@/index";
 
@@ -11,7 +11,6 @@ export default function Orders() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [token, setToken] = useState("");
-  const [orderStatus,setOrderStatus] = useState("");
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
@@ -62,7 +61,7 @@ export default function Orders() {
         )
       );
 
-      const updateStatus = await clientServer.patch("/order/updatestatus",{
+      await clientServer.patch("/order/updatestatus",{
         orderId:id,
         status:newStatus,
         paymentStatus : payStatus
@@ -83,10 +82,12 @@ export default function Orders() {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <div>
-          <h1>Orders</h1>
-
-          <p>Manage all customer orders</p>
+        <div style={{display:'flex',alignItems:'center',gap:'1.5rem'}}>
+          <MoveLeft style={{cursor:'pointer',color:'#714f65'}} onClick={() => router.back()}/>
+          <div>
+            <h1>Orders</h1>
+            <p>Manage all customer orders</p>
+          </div>
         </div>
 
         <div className={styles.searchBox}>
@@ -167,7 +168,6 @@ export default function Orders() {
         )}
       </div>
 
-      {/* Order Summary */}
 
       <div className={styles.summaryGrid}>
         <div className={styles.summaryCard}>

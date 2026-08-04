@@ -39,6 +39,7 @@ function Product() {
 
   
   let fetchdata = async()=> {
+  if(!id) return;
   try {
   let response = await clientServer.get(`/${id}`);
   let getCartProducts  = await clientServer.get("/cart",{
@@ -210,7 +211,7 @@ function Product() {
           <></>
         )}
           <div className={styles.mainTopContainer}>
-            <div className={styles.discount}><img src="/images/bar.jpeg" alt="" /></div>
+            <div className={styles.discount}><img src="/herobanerimages/skinova_banner.png" alt="" /></div>
             <div className={styles.path}>
               <span onClick={(e) => {
                 e.preventDefault();

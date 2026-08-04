@@ -88,7 +88,7 @@ export default function Payment() {
         <div className={styles.paymentCard}>
           <div className={styles.left}>
             <div style={{display:'flex',alignItems:'center',gap:'0.7rem'}} onClick={() => router.back("/cart")}>
-              <MoveLeft />
+              <MoveLeft style={{cursor:'pointer',color:'#714f65'}} />
               &nbsp;
               <div>
                 <p>step 3 of 3</p>

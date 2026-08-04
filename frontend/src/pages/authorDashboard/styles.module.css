@@ -1,6 +1,4 @@
-/* ===========================
-   Dashboard Container
-=========================== */
+/* Dashboard Container */
 
 .container{
     width:100%;
@@ -9,9 +7,7 @@
     padding:2rem;
 }
 
-/* ===========================
-   Header
-=========================== */
+   /* Header */
 
 .header{
     display:flex;
@@ -32,9 +28,7 @@
     font-size:15px;
 }
 
-/* ===========================
-   Export Button
-=========================== */
+   /* Export Button */
 
 .exportBtn{
     border:none;
@@ -75,9 +69,7 @@
   transition: 0.3s;
 }
 
-/* ===========================
-   Statistics Grid
-=========================== */
+   /* Statistics Grid */
 
 .statsGrid{
     display:grid;
@@ -86,9 +78,7 @@
     margin-bottom:2rem;
 }
 
-/* ===========================
-   Stat Card
-=========================== */
+   /* Stat Card */
 
 .card{
     background:#fff;
@@ -117,9 +107,7 @@
     font-size:15px;
 }
 
-/* ===========================
-   Icon Boxes
-=========================== */
+   /* Icon Boxes */
 
 .iconBox,
 .iconBoxPink,
@@ -151,9 +139,7 @@
     background:#F2A654;
 }
 
-/* ===========================
-   Growth Indicators
-=========================== */
+   /* Growth Indicators */
 
 .green{
     display:flex;
@@ -173,11 +159,9 @@
     font-weight:600;
 }
 
-/* ===========================
-   Chart Section
-=========================== */
+   /* Chart Section */
 
-.chartGrid{
+/* .chartGrid{
     display:grid;
     grid-template-columns:2fr 1fr;
     gap:1.5rem;
@@ -212,13 +196,11 @@
     background:#fff;
     color:#714f65;
     cursor:pointer;
-}
+} */
 
-/* ===========================
-   Chart Placeholder
-=========================== */
+   /* Chart Placeholder */
 
-.chartPlaceholder{
+/* .chartPlaceholder{
     height:300px;
     display:flex;
     align-items:flex-end;
@@ -249,11 +231,9 @@
 .bar4{height:230px;}
 .bar5{height:200px;}
 .bar6{height:260px;}
-.bar7{height:170px;}
+.bar7{height:170px;} */
 
-/* ===========================
-   Revenue Summary
-=========================== */
+   /* Revenue Summary */
 
 .summaryItem{
     display:flex;
@@ -302,13 +282,11 @@
     color:#888;
 }
 
-/* ===========================
-   Bottom Grid
-=========================== */
+   /* Bottom Grid */
 
 .bottomGrid{
     display:grid;
-    grid-template-columns:2fr 1fr;
+    grid-template-columns: 1fr;
     gap:1.5rem;
     margin-bottom:2rem;
 }
@@ -322,9 +300,7 @@
     margin-bottom: 2rem;
 }
 
-/* ===========================
-   Orders Table
-=========================== */
+   /* Orders Table */
 
 .orderTable{
     width:100%;
@@ -349,14 +325,10 @@
     background:#faf7f9;
 }
 
-/* ===========================
-   Status Badges
-=========================== */
+   /* Status Badges */
 
-.completed,
-.pending,
-.processing,
-.cancelled{
+
+.pending{
     padding:.45rem .9rem;
     border-radius:20px;
     font-size:13px;
@@ -383,9 +355,7 @@
     color:#d93b3b;
 }
 
-/* ===========================
-   View Button
-=========================== */
+   /* View Button */
 
 .viewBtn{
     border:none;
@@ -403,9 +373,7 @@
     color:white;
 }
 
-/* ===========================
-   Top Products
-=========================== */
+   /* Top Products */
 
 .productItem{
     display:flex;
@@ -445,19 +413,16 @@
     font-weight:700;
 }
 
-/* ===========================
-   Last Grid
-=========================== */
+   /* Last Grid */
 
 .lastGrid{
     display:grid;
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:1fr;
     gap:1.5rem;
     margin-bottom:2rem;
 }
 
 .lowStockCard,
-.reviewCard,
 .activityCard{
     background:#fff;
     border-radius:18px;
@@ -465,9 +430,7 @@
     box-shadow:0 12px 30px rgba(164,132,153,.10);
 }
 
-/* ===========================
-   Low Stock
-=========================== */
+   /* Low Stock */
 
 .stockItem{
     display:flex;
@@ -500,39 +463,8 @@
     font-weight:600;
 }
 
-/* ===========================
-   Reviews
-=========================== */
-
-.reviewItem{
-    padding:1rem 0;
-    border-bottom:1px solid #f2f2f2;
-}
-
-.reviewItem:last-child{
-    border-bottom:none;
-}
-
-.reviewItem h4{
-    color:#714f65;
-    margin-bottom:.4rem;
-}
-
-.reviewItem p{
-    color:#666;
-    line-height:1.5;
-    margin-top:.4rem;
-}
-
-.stars{
-    color:#ffb400;
-    font-size:15px;
-    letter-spacing:2px;
-}
-
-/* ===========================
-   Activity
-=========================== */
+  
+   /* Activity */
 
 .activityCard{
     margin-top:2rem;
@@ -571,10 +503,6 @@
     font-size:14px;
 }
 
-/* ===========================
-   Scrollbar
-=========================== */
-
 ::-webkit-scrollbar{
     width:8px;
 }
@@ -588,9 +516,6 @@
     background:#f7f2f5;
 }
 
-/* ===========================
-   Responsive
-=========================== */
 
 @media(max-width:1200px){
 
@@ -598,9 +523,9 @@
     grid-template-columns:repeat(2,1fr);
 }
 
-.chartGrid{
+/* .chartGrid{
     grid-template-columns:1fr;
-}
+} */
 
 .bottomGrid{
     grid-template-columns:1fr;
@@ -645,13 +570,13 @@
     overflow-x:auto;
 }
 
-.chartPlaceholder{
+/* .chartPlaceholder{
     height:220px;
-}
+} */
 
-.chartPlaceholder div{
+/* .chartPlaceholder div{
     width:28px;
-}
+} */
 
 .productItem img{
     width:55px;
@@ -710,17 +635,12 @@
 
 }
 
-/* ===========================
-   Animation
-=========================== */
+   /* Animation */
 
 .card,
-.chartCard,
-.summaryCard,
 .orderCard,
 .productCard,
 .lowStockCard,
-.reviewCard,
 .activityCard{
     animation:fadeIn .5s ease;
 }

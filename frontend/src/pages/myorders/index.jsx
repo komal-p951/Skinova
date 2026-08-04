@@ -47,18 +47,14 @@ export default function Myorder() {
     switch (status) {
       case "Delivered":
         return styles.delivered;
-
       case "Shipped":
         return styles.shipped;
-
       case "Cancelled":
         return styles.cancelled;
-
       default:
         return styles.placed;
     }
   };
-  // console.log(new Date(myOrders[0]?.createdAt).getTime());
 
   return (
     <div className={styles.container}>

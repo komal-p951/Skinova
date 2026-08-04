@@ -133,17 +133,13 @@
   font-weight: 600;
   padding: 10px 22px;
   border-radius: 10px;
-
   background: linear-gradient(135deg, #a8879e, #a48499, #9f7f96);
-
   transition: 0.3s;
 }
 
 .changeBtn:hover {
   transform: translateY(-2px);
 }
-
-/* ================= Product ================= */
 
 .productCard {
   display: flex;
@@ -190,14 +186,10 @@
 .quantity button {
   width: 38px;
   height: 38px;
-
   border: none;
   cursor: pointer;
-
   border-radius: 10px;
-
   color: white;
-
   background: linear-gradient(135deg, #a8879e, #a48499, #9f7f96);
 }
 
@@ -211,11 +203,8 @@
   display: flex;
   align-items: center;
   gap: 10px;
-
   color: #777;
 }
-
-/* ================= Coupon ================= */
 
 .couponBox {
   display: flex;
@@ -225,11 +214,8 @@
 .couponBox input {
   flex: 1;
   padding: 15px;
-
   border-radius: 10px;
-
   outline: none;
-
   border: 1px solid #ead8e2;
 }
 
@@ -239,19 +225,12 @@
 
 .couponBox button {
   padding: 0 28px;
-
   border: none;
-
   cursor: pointer;
-
   border-radius: 10px;
-
   color: white;
-
   background: linear-gradient(135deg, #a8879e, #a48499, #9f7f96);
 }
-
-/* ================= Promise ================= */
 
 .promise {
   list-style: none;
@@ -259,110 +238,73 @@
 
 .promise li {
   margin-bottom: 15px;
-
   color: #666;
-
   font-size: 16px;
 }
 
-/* ================= Price Card ================= */
 
 .priceCard {
   background: white;
-
   border-radius: 22px;
-
   padding: 28px;
-
   box-shadow: 0 12px 30px rgba(164, 132, 153, 0.12);
-
   border: 1px solid #f2e7ec;
 }
 
 .priceCard h2 {
   color: #714f65;
-
   margin-bottom: 25px;
 }
 
 .row {
   display: flex;
-
   justify-content: space-between;
-
   margin-bottom: 18px;
-
   color: #666;
 }
 
 .discount {
   color: #16a34a;
-
   font-weight: 600;
 }
 
 .free {
   color: #16a34a;
-
   font-weight: 700;
 }
 
 .total {
   display: flex;
-
   justify-content: space-between;
-
   margin-top: 25px;
-
   font-size: 22px;
-
   color: #714f65;
-
   font-weight: 700;
 }
 
-/* ================= Button ================= */
 
 .paymentBtn {
   width: 100%;
-
   margin-top: 30px;
-
   border: none;
-
   cursor: pointer;
-
   display: flex;
-
   align-items: center;
-
   justify-content: center;
-
-  /* gap: 10px; */
-
   padding: 16px;
-
   border-radius: 12px;
-
   color: white;
-
   font-size: 17px;
-
   font-weight: 600;
-
   background: linear-gradient(135deg, #a8879e, #a48499, #9f7f96);
-
   transition: 0.35s;
 }
 
 .paymentBtn:hover {
   transform: translateY(-3px);
-
   box-shadow: 0 15px 30px rgba(164, 132, 153, 0.28);
 }
 
-
-/* ================= Scrollbar ================= */
 
 ::-webkit-scrollbar {
   width: 8px;
@@ -373,7 +315,6 @@
   border-radius: 20px;
 }
 
-/* ================= Tablet ================= */
 
 @media (max-width: 1000px) {
   .container {
@@ -389,27 +330,18 @@
   }
 
   .productCard {
-    /* flex-direction:column; */
     align-items: flex-start;
   }
-
-  /* .productImage{
-    width:100%;
-    height:260px;
-} */
 }
 
-/* ================= Mobile ================= */
 
 @media (max-width: 768px) {
   .container {
     padding: 20px 16px 120px;
   }
-
   .header h1 {
     font-size: 30px;
   }
-
   .stepper {
     gap: 8px;
   }
@@ -417,9 +349,7 @@
   .activeStep,
   .inactiveStep {
     min-width: 90px;
-
     padding: 10px;
-
     font-size: 14px;
   }
 
@@ -432,10 +362,7 @@
   }
 
   .cardHeader {
-    /* flex-direction:column; */
-
     align-items: flex-start;
-
     gap: 15px;
   }
 
@@ -447,53 +374,8 @@
   .couponBox button {
     height: 50px;
   }
-
-  /* .priceCard {
-    display: none;
-  } */
-
-  .mobileBottom {
-    position: fixed;
-
-    bottom: 0;
-
-    left: 0;
-
-    width: 100%;
-
-    background: white;
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    padding: 15px;
-
-    box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.08);
-
-    border-top: 1px solid #eee;
-  }
-
-  .mobileBottom h3 {
-    color: #714f65;
-
-    font-size: 22px;
-  }
-
-  .mobileBottom small {
-    color: #777;
-  }
-
-  .mobileBottom .paymentBtn {
-    width: 180px;
-
-    margin-top: 0;
-  }
 }
 
-/* ================= Small Mobile ================= */
 
 @media (max-width: 480px) {
   .header h1 {
@@ -510,15 +392,5 @@
 
   .productInfo h3 {
     font-size: 22px;
-  }
-
-  .mobileBottom {
-    flex-direction: column;
-
-    gap: 15px;
-  }
-
-  .mobileBottom .paymentBtn {
-    width: 100%;
   }
 }

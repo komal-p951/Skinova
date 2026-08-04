@@ -4,6 +4,7 @@ import httpStatus from "http-status";
 import jwt from "jsonwebtoken";
 import Product from "../model/product.js";
 import ProductRreview from "../model/productReview.js";
+import Order from "../model/order.js";
 
 
 export const RegisterUser = async (req, res) => {
@@ -92,10 +93,11 @@ export const getAllUsers = async(req, res) => {
 export const getProfile = async(req, res) => {
   try {
     const user = await User.findById(req.user.id).select("-password");
+    const order = await Order.find({user : req.user.id});
     if(!user){
       return res.status(httpStatus.NOT_FOUND).json({ message:"User Not Found!" });
     }
-    return res.status(httpStatus.OK).json(user);
+    return res.status(httpStatus.OK).json({user,order});
   } catch (error) {
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ message:error.message });
   }

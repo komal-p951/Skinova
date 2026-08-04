@@ -16,12 +16,22 @@
 .footerDiv{
   margin-top: 8rem;
 }
+@media screen and (max-width : 800px) {
+  .navDiv{
+    margin-bottom: 11.5rem;
+  }
+}
 @media screen and (width <= 650px) {
   .navDiv{
     margin-bottom: calc(100px + 5rem);
   }
 }
 @media screen and (width <= 450px) {
+  .navDiv{
+    margin-bottom: calc(65px + 6.8rem);
+  }
+}
+@media screen and (width <= 388px) {
   .navDiv{
     margin-bottom: calc(100px + 6.8rem);
   }

@@ -29,7 +29,6 @@ export default function OrderSummary() {
   const { checkoutData } = useCheckout();
   const router = useRouter();
 
-  // Load token once on mount
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     if (storedToken) {
@@ -50,11 +49,10 @@ export default function OrderSummary() {
       setCartProducts(userCartProducts.data);
       setLoading(false);
     } catch (error) {
-      console.log(error); //?.response?.data?.message || error.message
+      console.log(error);
     }
   };
 
-  // Only fetch once we actually have a token - avoids a wasted call with an empty header
   useEffect(() => {
     if (token) {
       fetchdata();
@@ -78,10 +76,9 @@ export default function OrderSummary() {
 
 
   return (
-    // <DashboardLayout>
       <div className={styles.container}>
         <div className={styles.header}>
-          <MoveLeft style={{cursor:'pointer'}} onClick={() => router.back("/cart")}/>
+          <MoveLeft style={{cursor:'pointer',color:'#714f65'}} onClick={() => router.back("/cart")}/>
           <div className={styles.headbar}>
             <h1> Order Summary</h1>
           </div>
@@ -97,9 +94,7 @@ export default function OrderSummary() {
         </div>
 
         <div className={styles.mainSection}>
-          {/* Left Section */}
           <div className={styles.leftSection}>
-            {/* Address */}
             <div className={styles.card}>
               <div className={styles.cardHeader}>
                 <div className={styles.title}>
@@ -120,7 +115,6 @@ export default function OrderSummary() {
               </div>
             </div>
 
-            {/* Products */}
             <div className={styles.card}>
               {validProducts.map((p) => (
                 <div className={styles.productCard} key={p._id}>
@@ -145,7 +139,6 @@ export default function OrderSummary() {
             </div>
 
 
-            {/* Promise */}
             <div className={styles.card}>
               <div className={styles.cardHeader}>
                 <div className={styles.title}>
@@ -163,7 +156,6 @@ export default function OrderSummary() {
             </div>
           </div>
 
-          {/* Right Section */}
           <div className={styles.rightSection}>
             <div className={styles.priceCard}>
               <h2>Price Details</h2>
@@ -199,16 +191,6 @@ export default function OrderSummary() {
             </div>
           </div>
         </div>
-
-        {/* Mobile Bottom */}
-        {/* <div className={styles.mobileBottom}>
-          <div>
-            <h3>₹ {total.toFixed(2)}</h3>
-            <small>Total Amount</small>
-          </div>
-
-          <button className={styles.paymentBtn}>Continue</button>
-        </div> */}
       </div>
   );
 }
