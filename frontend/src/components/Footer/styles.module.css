@@ -5,7 +5,7 @@
   overflow: hidden;
 }
 
-/* ===== Main section ===== */
+/* Main section */
 
 .mainSection {
   background: #fbf1f5;
@@ -20,7 +20,7 @@
   margin: 0 auto;
 }
 
-/* --- Brand column --- */
+/*  Brand column */
 
 .logoRow {
   display: flex;
@@ -91,7 +91,7 @@
   background: #8f5372;
 }
 
-/* --- Link columns --- */
+/*  Link columns */
 
 .colTitle {
   color: #b06c8c;
@@ -123,7 +123,7 @@
   color: #a8577e;
 }
 
-/* --- Newsletter column --- */
+/* Newsletter column */
 
 .newsletterText {
   color: #7a6b72;
@@ -170,46 +170,6 @@
 .newsletterButton:hover {
   background: #8f4468;
 }
-
-/* .perksGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px 12px;
-}
-
-.perkItem {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-}
-
-.perkIcon {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: #f3dbe6;
-  color: #a8577e;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 15px;
-  flex-shrink: 0;
-}
-
-.perkTitle {
-  color: #3a2c33;
-  font-size: 12px;
-  font-weight: 600;
-  margin: 0;
-}
-
-.perkSubtitle {
-  color: #9a8c92;
-  font-size: 11px;
-  margin: 2px 0 0;
-} */
-
-/* ===== Trust bar ===== */
 
 .trustBar {
   background: #f3dbe6;
@@ -262,7 +222,7 @@
   margin: 2px 0 0;
 }
 
-/* ===== Bottom bar ===== */
+/*  Bottom bar  */
 
 .bottomBar {
   background: #8f5372;
@@ -352,7 +312,7 @@
   background: #8f4468;
 }
 
-/* ===== Responsive ===== */
+/* Responsive  */
 
 @media (max-width: 1024px) {
   .footerContainer {

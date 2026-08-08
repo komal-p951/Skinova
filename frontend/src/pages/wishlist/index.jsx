@@ -4,6 +4,7 @@ import styles from "./styles.module.css";
 import { ChevronRight, Dot, Heart, ShoppingBag, TrashIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { clientServer } from "@/index";
+import toast from "react-hot-toast";
 
 function WishList() {
   const router = useRouter();
@@ -28,41 +29,39 @@ function WishList() {
       });
       setUserData(res.data);
     } catch (error) {
-      console.log(error?.response?.data?.message);
+      toast.error(error?.response?.data?.message);
     }
   };
 
   useEffect(() => {
-    fetchdata();
+    if(token) fetchdata();
   }, [token]);
 
   const addToCart = async(productId) => {
     try {
-      let res = await clientServer.post(`/cart/${productId}`,{},{
+      await clientServer.post(`/cart/${productId}`,{},{
         headers:{
           Authorization:token
         }
       })
     } catch (error) {
-      console.log(error);
+      toast.error(error?.response?.data?.message || "Something went wrong");
     }
   }
   const removeFromWishList = async(productId) => {
     try {
-      let res = await clientServer.delete(`wishlist/${productId}`,{
+      const res = await clientServer.delete(`wishlist/${productId}`,{
         headers:{
           Authorization:token
         }
       });
+      toast.success(res.data?.message || "removed from wishList!");
       fetchdata();
       
     } catch (error) {
-      console.log(error);
+      toast.error(error?.response?.data?.message || "Something went wrong");
     }
   }
-  // const moveAlltocart = async(userData){
-    
-  // }
 
   return (
     <DashboardLayout>
@@ -82,9 +81,6 @@ function WishList() {
               <h5>saved for later</h5>
             </div>
           </div>
-          {/* <div className={styles.headButton}>
-            <ShoppingBag /> Move All to Cart
-          </div> */}
         </div>
 
         <div className={styles.cardsContainer}>
@@ -118,7 +114,6 @@ function WishList() {
                   </button>
                 </div>
               </div>
-
             </div>
 
           ))}

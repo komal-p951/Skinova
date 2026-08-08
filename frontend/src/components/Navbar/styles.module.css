@@ -123,11 +123,8 @@
 
   .categoryBar {
     overflow-x: auto;
-
     justify-content: flex-start;
-
     padding-inline: 20px;
-
     gap: 25px;
   }
 }

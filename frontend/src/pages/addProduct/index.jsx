@@ -5,13 +5,12 @@ import { useRouter } from "next/router";
 import DashboardLayout from "@/layout/DashboardLayout";
 import { CloudUpload, X } from "lucide-react";
 import { clientServer } from "@/index";
+import Loader from "@/components/Loader/Loader";
+import toast from "react-hot-toast";
 
 export default function addProduct() {
 
   const [item,setItem] = useState("");
-  const [token, setToken] = useState("");
-  const [message, setMessage] = useState("");
-  const [errormessage, setErrorMessage] = useState("");
   const [data,setData] = useState({
     name:"",
     description:"",
@@ -35,6 +34,7 @@ export default function addProduct() {
         router.push("/");
       }
     } catch (error) {
+      toast.error("Please login to continue !")
       router.push("/");
     }
   }, []);
@@ -45,7 +45,7 @@ export default function addProduct() {
       const mergedFiles = [...oldFiles, ...newFiles]; 
 
       if(mergedFiles.length > 4){
-        alert("you can upload at max 4 images");
+        toast.error("you can upload at max 4 images");
         return;
       }
       setData({...data, images: mergedFiles});
@@ -67,7 +67,7 @@ export default function addProduct() {
       formdata.append("ingredients",JSON.stringify(data.ingredients))
 
       for(let i = 0;i < data.images.length;i++){
-        formdata.append("images",data.images[i]);
+          formdata.append("images", data.images[i]);
       }
       const res = await clientServer.post("/addproduct",
         formdata,
@@ -78,8 +78,7 @@ export default function addProduct() {
         }
       });
 
-      console.log(res.data)
-      setMessage(res?.data?.message);
+      toast.success(res?.data?.message);
       setData({
         name:"",
         description:"",
@@ -93,20 +92,11 @@ export default function addProduct() {
       });
       router.push("/");
     } catch (error) {
-      setErrorMessage(error?.response?.data?.message || "Something went wrong");
+      toast.error(error?.response?.data?.message || "Something went wrong");
     }
   }
 
- useEffect(() => {
-  if (message || errormessage) {
-    const timer = setTimeout(() => {
-      setMessage("");
-      setErrorMessage("");
-    }, 2000);
-
-    return () => clearTimeout(timer);
-  }
-}, [message, errormessage]);
+ 
 
   const removeIngredient = (item) => {
     setData({...data,ingredients:[...data.ingredients.filter((i) => i !== item)]});
@@ -123,8 +113,7 @@ export default function addProduct() {
   return (
     <DashboardLayout>
       <div className={styles.container}>
-        {message.length > 0 ? <p style={{background:"#b3fdb0",border: "1px solid #337433"}} className={styles.message}>{message}</p> : <></>}
-        {errormessage.length > 0 ? <p className={styles.message} style={{background:"#ffbaba",border: "1px solid #f72b2b"}}>{errormessage} </p> : <></> }
+              
         <div className={styles.mainContainer}>
 
           <div style={{marginInline:"2rem",color:"#714f65"}} className={styles.links}>
@@ -159,7 +148,7 @@ export default function addProduct() {
 
                 <div className={styles.uploadedImages}>
                   {data.images.map((file,idx) => (
-                    <div className={styles.singleImage}>
+                    <div className={styles.singleImage} key={idx}>
                       <img
                           src={URL.createObjectURL(file)}  
                           alt={file.name}
@@ -256,6 +245,23 @@ export default function addProduct() {
                         <input className={styles.input}  placeholder="Add ingredient and press enter" value={item} onChange={(e) => e.target.value  && setItem(e.target.value)}/>
                         <button className={styles.addIngredientBtn} onClick={() => {addIngredient(item), setItem("")}}>Add</button>
                       </div>
+
+                      {/* <div style={{ display: "flex", gap: "1rem" }}>
+                        <input
+                          className={styles.input}
+                          placeholder="Add ingredient and press enter"
+                          value={item}
+                          onChange={(e) => setItem(e.target.value)}
+                        />
+                        <button
+                          className={styles.addIngredientBtn}
+                          onClick={() => {
+                            (addIngredient(item), setItem(""));
+                          }}
+                        >
+                          Add
+                        </button>
+                      </div> */}
 
                     </div>
 

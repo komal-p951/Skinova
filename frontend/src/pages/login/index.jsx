@@ -2,6 +2,8 @@ import styles from "./styles.module.css";
 import { useEffect, useState } from "react";
 import { clientServer } from "@/index";
 import { useRouter } from "next/router";
+import toast from "react-hot-toast";
+
 
 export default function LoginRegister() {
   const router = useRouter();
@@ -13,8 +15,6 @@ export default function LoginRegister() {
     phone: "",
     password: "",
   });
-  const [message, setMessage] = useState("");
-  const [errorMessage,setErrorMessage] = useState("");
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -25,7 +25,7 @@ export default function LoginRegister() {
     e.preventDefault();
     try {
       let res = await clientServer.post("/auth", formData);
-      setMessage(res.data.message);
+      toast.success(res.data?.message);
 
       setFormData({
         fullname: "",
@@ -35,9 +35,8 @@ export default function LoginRegister() {
         password: "",
       });
       setIsLogin(true);
-      setErrorMessage("");
     } catch (error) {
-      setErrorMessage(error?.response?.data?.message || "something went wrong!");
+      toast.error(error?.response?.data?.message || "something went wrong!");
     }
   };
 
@@ -54,33 +53,15 @@ export default function LoginRegister() {
         phone: "",
         password: "",
       });
-      setMessage(res.data.message);
-      setErrorMessage("");
+      toast.success(res.data?.message);
       router.push("/");
     } catch (error) {
-      setErrorMessage(error?.response?.data?.message || "something went wrong!");
+      toast.error(error?.response?.data?.message || "something went wrong!");
     }
   };
 
-  // setTimeout(() => {
-  //   setMessage("");
-  // }, 8000);
-
   return (
     <div className={styles.auth_container}>
-      {message.length > 0 ? (
-        <div className={styles.message}>{message}</div>
-      ) : (
-        <div
-          style={{
-            width: "300px",
-            height: "30px",
-            paddingTop: "1rem",
-            marginBottom: "25px",
-          }}
-        ></div>
-      )}
-
       <div className={styles.auth_card}>
         {/* Left Side */}
         <div className={styles.left_panel}>
@@ -105,7 +86,6 @@ export default function LoginRegister() {
             >
               Login
             </button>
-
             <button
               onClick={() => setIsLogin(false)}
               className={!isLogin ? styles.active : ""}
@@ -113,7 +93,6 @@ export default function LoginRegister() {
               Register
             </button>
           </div>
-          {errorMessage ? <div style={{color:"red",}}>{errorMessage}</div> : <></> }
 
           {isLogin ? (
             <>

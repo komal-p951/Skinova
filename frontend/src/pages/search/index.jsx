@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import styles from "./styles.module.css";
-import { Search, Clock3, TrendingUp, MoveUpLeft } from "lucide-react";
+import { Search, MoveUpLeft } from "lucide-react";
 import DashboardLayout from "@/layout/DashboardLayout";
 import Loader from "@/components/Loader/Loader";
 import { clientServer } from "@/index";
-import Rating from "@/components/Rating";
 import { useRouter } from "next/router";
+import toast from "react-hot-toast";
 
 export default function Index() {
   const [search, setSearch] = useState("");
@@ -20,7 +20,7 @@ export default function Index() {
         const products = await clientServer.get("/");
         setProducts(products.data);
       } catch (error) {
-        console.log(error);
+        toast.error(error?.response?.data?.message || "Something went wrong");
       }
       finally{
         setLoading(false);
@@ -89,30 +89,6 @@ export default function Index() {
               )}
         </div>
       }
-
-      {/* <div className={styles.section}>
-        <h2>
-          <Clock3 size={20} /> Recent Searches
-        </h2>
-
-        <div className={styles.tags}>
-          {recentSearches.map((item, index) => (
-            <span key={index}>{item}</span>
-          ))}
-        </div>
-      </div> */}
-
-      {/* <div className={styles.section}>
-        <h2>
-          <TrendingUp size={20} /> Trending Searches
-        </h2>
-
-        <div className={styles.tags}>
-          {trending.map((item, index) => (
-            <span key={index}>{item}</span>
-          ))}
-        </div>
-      </div> */}
 
       <div className={styles.section}>
         <h2>Popular Categories</h2>

@@ -15,6 +15,8 @@ export const createNewOrder = async(req,res) => {
             paymentMethod
         } = req.body;
 
+        
+
         if(products.length === 0) {
             return res.status(400).json({
                 message: "Products required"

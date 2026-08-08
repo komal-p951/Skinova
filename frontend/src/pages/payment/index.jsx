@@ -7,12 +7,12 @@ import {
   Landmark,
   Truck,
   ShieldCheck,
-  Lock,
   MoveLeft,
   CircleQuestionMark,
 } from "lucide-react";
 import { clientServer } from "@/index";
 import { useCheckout } from "@/context/CheckoutContext";
+import toast from "react-hot-toast";
 
 export default function Payment() {
   const [method, setMethod] = useState("COD");
@@ -38,7 +38,7 @@ export default function Payment() {
         });
         setCartProducts(userCartProducts.data);
       } catch (error) {
-        console.log(error?.response?.data?.message || error.message);
+        toast.error(error?.response?.data?.message || "Something went wrong");
       }
     };
   
@@ -48,16 +48,13 @@ export default function Payment() {
         fetchdata();
       }
     }, [token]);
-    // cartProducts.map((prod) => console.log("------",prod));
-    console.log(cartProducts)
-
 
     const handleOrderPlace = async () => {
       const body = {
-        products : cartProducts.map((item) => ({
-          product : item?.product._id,
+        products : cartProducts.filter(item => item.product).map((item) => ({
+          product : item?.product?._id,
           quantity : item?.quantity,
-          price : item?.product.price
+          price : item?.product?.price
         })),
         subtotal : checkoutData?.subtotal + checkoutData?.productOriginalPrice,
         shippingCharge : checkoutData?.shipping,
@@ -65,17 +62,16 @@ export default function Payment() {
         total : checkoutData?.total,
         paymentMethod : method
       }
+      
       try {
-        const res = await clientServer.post("/order/neworder",body,{
+        await clientServer.post("/order/neworder",body,{
           headers:{
             Authorization: token
           }
         });
-        console.log(res.data);
-
         router.push("/myorders");
       } catch (error) {
-        console.log(error)
+        toast.error(error?.response?.data?.message || "Something went wrong");
       }
     }
 
@@ -114,7 +110,6 @@ export default function Payment() {
                 className={`${styles.method} ${
                   method === "card" ? styles.active : ""
                 }`}
-                // onClick={() => setMethod("card")}
               >
                 <span><CreditCard />Credit / Debit Card</span>
                 <span>unavailable<CircleQuestionMark /></span>
@@ -124,7 +119,6 @@ export default function Payment() {
                 className={`${styles.method} ${
                   method === "upi" ? styles.active : ""
                 }`}
-                // onClick={() => setMethod("upi")}
               >
                 <span><Smartphone />UPI</span>
                 <span>unavailable<CircleQuestionMark /></span>
@@ -134,7 +128,6 @@ export default function Payment() {
                 className={`${styles.method} ${
                   method === "bank" ? styles.active : ""
                 }`}
-                // onClick={() => setMethod("bank")}
               >
                 <span><Landmark />Net Banking</span>
                 <span>unavailable<CircleQuestionMark /></span>

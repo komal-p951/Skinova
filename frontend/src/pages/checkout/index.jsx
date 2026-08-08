@@ -14,17 +14,13 @@ import { clientServer } from "@/index";
 import Rating from "@/components/Rating";
 import Loader from "@/components/Loader/Loader";
 import { useCheckout } from "@/context/CheckoutContext";
+import toast from "react-hot-toast";
 
-const VALID_COUPON = "HAXFILDE1254";
-const COUPON_DISCOUNT_PERCENT = 5;
 
 export default function OrderSummary() {
   const [user, setUser] = useState({});
   const [token, setToken] = useState("");
   const [cartProducts, setCartProducts] = useState([]);
-  const [coupon, setCoupon] = useState("");
-  const [appliedCoupon, setAppliedCoupon] = useState(false);
-  const [couponError, setCouponError] = useState("");
   const [loading,setLoading] = useState(true);
   const { checkoutData } = useCheckout();
   const router = useRouter();
@@ -37,6 +33,7 @@ export default function OrderSummary() {
       router.push("/login");
     }
   }, []);
+  
   const fetchdata = async () => {
     try {
       const res = await clientServer.get("/user", {
@@ -49,7 +46,7 @@ export default function OrderSummary() {
       setCartProducts(userCartProducts.data);
       setLoading(false);
     } catch (error) {
-      console.log(error);
+      toast.error(error?.response?.data?.message || "Something went wrong");
     }
   };
 
@@ -184,7 +181,7 @@ export default function OrderSummary() {
                 <span>₹ {Math.ceil(checkoutData?.total)}</span>
               </div>
 
-              <button onClick={handleContinue} disabled={ validProducts.length===0 || !user.address } className={styles.paymentBtn}>
+              <button onClick={handleContinue} className={styles.paymentBtn}>
                 Continue to Payment
                 <ChevronRight size={20} />
               </button>

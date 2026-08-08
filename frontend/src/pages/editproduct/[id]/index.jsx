@@ -6,6 +6,7 @@ import DashboardLayout from "@/layout/DashboardLayout";
 import { CloudUpload, X } from "lucide-react";
 import { clientServer } from "@/index";
 import Loader from "@/components/Loader/Loader";
+import toast from "react-hot-toast";
 
 export default function editproduct() {
   const router = useRouter();
@@ -22,8 +23,7 @@ export default function editproduct() {
     SkinType: "",
     ingredients: [],
   });
-  const [message, setMessage] = useState("");
-  const [errormessage, setErrorMessage] = useState("");
+  
   const [loading, setLoading] = useState(true);
 
   let fetchdata = async () => {
@@ -32,7 +32,7 @@ export default function editproduct() {
       let response = await clientServer.get(`/${id}`);
       setData(response.data);
     } catch (error) {
-      console.log(error);
+      toast.error(error?.response?.data?.message || "Something went wrong");
     } finally {
       setLoading(false);
     }
@@ -52,10 +52,8 @@ export default function editproduct() {
   }, []);
 
   useEffect(() => {
-    fetchdata();
+    if(id) fetchdata();
   }, [id]);
-
-  
 
   const handleUpdateProduct = async () => {
     try {
@@ -65,23 +63,12 @@ export default function editproduct() {
           Authorization: token,
         },
       });
-      setMessage(res?.data?.message);
+      toast.success(res?.data?.message);
       router.back(`/porduct/${id}`);
     } catch (error) {
-      setErrorMessage(error?.response?.data?.message || "Something went wrong");
+      toast.error(error?.response?.data?.message || "Something went wrong");
     }
   };
-
-  useEffect(() => {
-    if (message || errormessage) {
-      const timer = setTimeout(() => {
-        setMessage("");
-        setErrorMessage("");
-      }, 2000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [message, errormessage]);
 
   const removeIngredient = (item) => {
     setData({
@@ -91,7 +78,16 @@ export default function editproduct() {
   };
 
   const addIngredient = (newIngredient) => {
-    setData({ ...data, ingredients: [...data.ingredients, newIngredient] });
+    const trimmed = newIngredient.trim();
+    if (!trimmed) return;
+    setData({ ...data, ingredients: [...data.ingredients, trimmed] });
+  };
+
+  const removeImage = (idx) => {
+    setData((prev) => ({
+      ...prev,
+      images: prev.images.filter((_, i) => i !== idx),
+    }));
   };
 
   if (loading) {
@@ -105,43 +101,20 @@ export default function editproduct() {
   return (
     <DashboardLayout>
       <div className={styles.container}>
-        {message.length > 0 ? (
-          <p
-            style={{ background: "#b3fdb0", border: "1px solid #337433" }}
-            className={styles.message}
-          >
-            {message}
-          </p>
-        ) : (
-          <></>
-        )}
-        {errormessage.length > 0 ? (
-          <p
-            className={styles.message}
-            style={{ background: "#ffbaba", border: "1px solid #f72b2b" }}
-          >
-            {errormessage}{" "}
-          </p>
-        ) : (
-          <></>
-        )}
+        
         <div className={styles.mainContainer}>
           <div className={styles.addproductdetails}>
-            <div style={{ marginInline: "2rem" }} className={styles.product}>
-              <div style={{ fontSize: "2rem", fontWeight: "500" }}>
-                Edit Product
-              </div>
-              <p style={{ opacity: "0.6" }}>Update Your Details </p>
+            <div className={styles.pageHeading}>
+              <div className={styles.pageTitle}>Edit Product</div>
+              <p className={styles.pageSubtitle}>Update your product details</p>
             </div>
 
             <div className={styles.addProductContainer}>
               <div className={styles.leftContainer}>
                 <div className={styles.product}>
-                  <div style={{ fontSize: "1.2rem", fontWeight: "450" }}>
-                    Product Images
-                  </div>
-                  <p style={{ opacity: "0.6" }}>
-                    Upload multiple images of your Product
+                  <div className={styles.sectionTitle}>Product Images</div>
+                  <p className={styles.sectionSubtitle}>
+                    Upload multiple images of your product
                   </p>
                 </div>
 
@@ -149,48 +122,41 @@ export default function editproduct() {
                   <div className={styles.uploadsvg}>
                     <CloudUpload />
                   </div>
-                  <div style={{ fontWeight: "450", fontSize: "1.2rem" }}>
-                    Drag & Drop images here
-                  </div>
-                  <div>or</div>
+                  <div className={styles.uploadTitle}>Drag & Drop images here</div>
+                  <div className={styles.uploadOr}>or</div>
                   <div>
-                    <label
-                      htmlFor="productimage"
-                      className={styles.browsfilesbtn}
-                    >
+                    <label htmlFor="productimage" className={styles.browsfilesbtn}>
                       Browse Files
                     </label>
-                    <input
-                      type="file"
-                      id="productimage"
-                      style={{ display: "none" }}
-                    />
+                    <input type="file" id="productimage" style={{ display: "none" }} />
                   </div>
-                  <p style={{ opacity: "0.6" }}>
-                    You can upload up to 4 images
-                  </p>
+                  <p className={styles.uploadHint}>You can upload up to 4 images</p>
                 </div>
 
                 <div className={styles.uploadedImages}>
-                   {data.images.map((file,idx) => (
-                    <><span className={styles.cancel}><X/></span>
-                    <div className={styles.singleImage} key={idx}>
-                      <img
-                          src={file.url} 
-                          alt={file.name}
-                        />
-                    </div>
-                    </>
-                  )) }
+                  {data.images.length > 0 ? (
+                    data.images.map((file, idx) => (
+                      <div className={styles.singleImage} key={file.url || idx}>
+                        <img src={file.url} alt={file.name || `product-image-${idx}`} />
+                        <span
+                          className={styles.cancel}
+                          onClick={() => removeImage(idx)}
+                          role="button"
+                          aria-label="Remove image"
+                        >
+                          <X size={14} />
+                        </span>
+                      </div>
+                    ))
+                  ) : (
+                    <p className={styles.noImages}>No images uploaded yet</p>
+                  )}
                 </div>
-
               </div>
 
               <div className={styles.rightContainer}>
                 <div className={styles.product}>
-                  <div style={{ fontSize: "1.2rem", fontWeight: "450" }}>
-                    Product Information
-                  </div>
+                  <div className={styles.sectionTitle}>Product Information</div>
                 </div>
 
                 <div className={styles.productInfoData}>
@@ -203,9 +169,7 @@ export default function editproduct() {
                         type="text"
                         id="productname"
                         placeholder="Product Name"
-                        onChange={(e) =>
-                          setData({ ...data, name: e.target.value })
-                        }
+                        onChange={(e) => setData({ ...data, name: e.target.value })}
                         value={data.name}
                       />
                     </div>
@@ -217,9 +181,7 @@ export default function editproduct() {
                         className={styles.input}
                         id="category"
                         value={data.category}
-                        onChange={(e) =>
-                          setData({ ...data, category: e.target.value })
-                        }
+                        onChange={(e) => setData({ ...data, category: e.target.value })}
                       >
                         <option value="Select">--- Select ---</option>
                         <option value="Skincare">Skincare</option>
@@ -227,9 +189,7 @@ export default function editproduct() {
                         <option value="Haircare">Haircare</option>
                         <option value="Fragrance">Fragrance</option>
                         <option value="Bath & Body">Bath & Body</option>
-                        <option value="Tools & Accessories">
-                          Tools & Accessories
-                        </option>
+                        <option value="Tools & Accessories">Tools & Accessories</option>
                         <option value="Supplements">Supplements</option>
                       </select>
                     </div>
@@ -237,43 +197,37 @@ export default function editproduct() {
 
                   <div className={styles.secondR}>
                     <div className={styles.divInput} style={{ flex: "0.6" }}>
-                      <label htmlFor="productname">Brand</label>
+                      <label htmlFor="brand">Brand</label>
                       <input
                         className={styles.input}
                         type="text"
-                        id="productname"
+                        id="brand"
                         placeholder="Brand"
-                        onChange={(e) =>
-                          setData({ ...data, brand: e.target.value })
-                        }
+                        onChange={(e) => setData({ ...data, brand: e.target.value })}
                         value={data.brand}
                       />
                     </div>
 
                     <div className={styles.divInput} style={{ flex: "0.2" }}>
-                      <label htmlFor="productname">Price</label>
+                      <label htmlFor="price">Price</label>
                       <input
                         className={styles.input}
                         type="number"
-                        id="productname"
+                        id="price"
                         placeholder="Price"
-                        onChange={(e) =>
-                          setData({ ...data, price: e.target.value })
-                        }
+                        onChange={(e) => setData({ ...data, price: e.target.value })}
                         value={data.price}
                       />
                     </div>
 
                     <div className={styles.divInput} style={{ flex: "0.2" }}>
-                      <label htmlFor="productname">Stock Quantity</label>
+                      <label htmlFor="quantity">Stock Quantity</label>
                       <input
                         className={styles.input}
                         type="number"
-                        id="productname"
+                        id="quantity"
                         placeholder="quantity"
-                        onChange={(e) =>
-                          setData({ ...data, quantity: e.target.value })
-                        }
+                        onChange={(e) => setData({ ...data, quantity: e.target.value })}
                         value={data.quantity}
                       />
                     </div>
@@ -283,19 +237,16 @@ export default function editproduct() {
                     <label htmlFor="description">Description</label>
                     <textarea
                       className={styles.textarea}
-                      name=""
                       id="description"
                       rows="6"
-                      onChange={(e) =>
-                        setData({ ...data, description: e.target.value })
-                      }
+                      onChange={(e) => setData({ ...data, description: e.target.value })}
                       value={data.description}
                     ></textarea>
                   </div>
 
                   <div className={styles.fourthR}>
-                    <div style={{ flex: "0.5" }} className={styles.ingredients}>
-                      <p>Ingredients</p>
+                    <div className={styles.ingredients}>
+                      <p className={styles.fieldLabel}>Ingredients</p>
 
                       <div className={styles.box}>
                         {data?.ingredients?.map((item) => (
@@ -314,11 +265,19 @@ export default function editproduct() {
                           placeholder="Add ingredient and press enter"
                           value={item}
                           onChange={(e) => setItem(e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                              e.preventDefault();
+                              addIngredient(item);
+                              setItem("");
+                            }
+                          }}
                         />
                         <button
                           className={styles.addIngredientBtn}
                           onClick={() => {
-                            (addIngredient(item), setItem(""));
+                            addIngredient(item);
+                            setItem("");
                           }}
                         >
                           Add
@@ -326,100 +285,38 @@ export default function editproduct() {
                       </div>
                     </div>
 
-                    <div
-                      style={{ flex: "0.5", padding: "0.5rem" }}
-                      className={styles.skinTypes}
-                    >
-                      <p>
-                        Skin type
-                        <span style={{ opacity: "0.7" }}>(optional)</span>
+                    <div className={styles.skinTypes}>
+                      <p className={styles.fieldLabel}>
+                        Skin type <span className={styles.optionalTag}>(optional)</span>
                       </p>
 
                       <div className={styles.skinTypesOptions}>
-                        <div className={styles.checkOption}>
-                          <input
-                            type="radio"
-                            name="SkinType"
-                            id="dry"
-                            value="Dry"
-                            checked={data.SkinType === "Dry"}
-                            onChange={(e) =>
-                              setData({ ...data, SkinType: e.target.value })
-                            }
-                          />
-                          <label htmlFor="dry">Dry</label>{" "}
-                        </div>
-
-                        <div className={styles.checkOption}>
-                          <input
-                            type="radio"
-                            name="SkinType"
-                            id="oily"
-                            value="Oily"
-                            checked={data.SkinType === "Oily"}
-                            onChange={(e) =>
-                              setData({ ...data, SkinType: e.target.value })
-                            }
-                          />
-                          <label htmlFor="oily">Oily</label>{" "}
-                        </div>
-
-                        <div className={styles.checkOption}>
-                          <input
-                            type="radio"
-                            name="SkinType"
-                            id="sensitive"
-                            value="Sensitive"
-                            checked={data.SkinType === "Sensitive"}
-                            onChange={(e) =>
-                              setData({ ...data, SkinType: e.target.value })
-                            }
-                          />
-                          <label htmlFor="sensitive">Sensitive</label>{" "}
-                        </div>
-
-                        <div className={styles.checkOption}>
-                          <input
-                            type="radio"
-                            name="SkinType"
-                            id="combination"
-                            value="Combination"
-                            checked={data.SkinType === "Combination"}
-                            onChange={(e) =>
-                              setData({ ...data, SkinType: e.target.value })
-                            }
-                          />
-                          <label htmlFor="combination">Combination</label>{" "}
-                        </div>
-
-                        <div className={styles.checkOption}>
-                          <input
-                            type="radio"
-                            name="SkinType"
-                            id="normal"
-                            value="Normal"
-                            checked={data.SkinType === "Normal"}
-                            onChange={(e) =>
-                              setData({ ...data, SkinType: e.target.value })
-                            }
-                          />
-                          <label htmlFor="normal">Normal</label>{" "}
-                        </div>
+                        {["Dry", "Oily", "Sensitive", "Combination", "Normal"].map((type) => (
+                          <div className={styles.checkOption} key={type}>
+                            <input
+                              type="radio"
+                              name="SkinType"
+                              id={type.toLowerCase()}
+                              value={type}
+                              checked={data.SkinType === type}
+                              onChange={(e) => setData({ ...data, SkinType: e.target.value })}
+                            />
+                            <label htmlFor={type.toLowerCase()}>{type}</label>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </div>
                 </div>
-
-                <div className={styles.addProductInfo}></div>
               </div>
             </div>
           </div>
           <div className={styles.btns}>
-            <div className={styles.btn} onClick={() => router.push("/")}>
-              cancel
+            <div className={styles.btn} onClick={() => router.back()}>
+              Cancel
             </div>
 
-            <div className={styles.btn} onClick={handleUpdateProduct}>
+            <div className={`${styles.btn} ${styles.primaryBtn}`} onClick={handleUpdateProduct}>
               Save changes
             </div>
           </div>

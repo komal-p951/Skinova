@@ -99,45 +99,6 @@ export default function Footer() {
                 <i className="ti ti-mail" aria-hidden="true"><Search/></i>
               </button>
             </form>
-
-            {/* <div className={styles.perksGrid}>
-              <div className={styles.perkItem}>
-                <span className={styles.perkIcon}>
-                  <i className="ti ti-truck-delivery" aria-hidden="true"></i>
-                </span>
-                <div>
-                  <p className={styles.perkTitle}>Free Shipping</p>
-                  <p className={styles.perkSubtitle}>On orders over $50</p>
-                </div>
-              </div>
-              <div className={styles.perkItem}>
-                <span className={styles.perkIcon}>
-                  <i className="ti ti-shield-check" aria-hidden="true"></i>
-                </span>
-                <div>
-                  <p className={styles.perkTitle}>Secure Payment</p>
-                  <p className={styles.perkSubtitle}>100% secure checkout</p>
-                </div>
-              </div>
-              <div className={styles.perkItem}>
-                <span className={styles.perkIcon}>
-                  <i className="ti ti-refresh" aria-hidden="true"></i>
-                </span>
-                <div>
-                  <p className={styles.perkTitle}>Easy Returns</p>
-                  <p className={styles.perkSubtitle}>30-day return policy</p>
-                </div>
-              </div>
-              <div className={styles.perkItem}>
-                <span className={styles.perkIcon}>
-                  <i className="ti ti-paw" aria-hidden="true"></i>
-                </span>
-                <div>
-                  <p className={styles.perkTitle}>Cruelty Free</p>
-                  <p className={styles.perkSubtitle}>Not tested on animals</p>
-                </div>
-              </div>
-            </div> */}
           </div>
 
         </div>

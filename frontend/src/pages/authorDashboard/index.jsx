@@ -13,15 +13,12 @@ import {
   MoveLeft,
 } from "lucide-react";
 import { clientServer } from "@/index";
+import toast from "react-hot-toast";
+
 
 export default function Dashboard() {
   const router = useRouter();
-  const [orderStatus, setOrderStatus] = useState({
-  SKN1024: "Placed",
-  SKN1025: "Pending",
-  SKN1026: "Delivered",
-  SKN1027: "Processing",
-});
+
   const [token, setToken] = useState("");
   const [orders,setOrders] = useState([]);
   const [users, setUsers] = useState([]);
@@ -38,12 +35,7 @@ export default function Dashboard() {
   },[])
 
 
-  const handleStatusChange = (orderId, value) => {
-  setOrderStatus((prev) => ({
-    ...prev,
-    [orderId]: value,
-  }));
-};
+  
 
   const getAllorders = async() => {
     try {
@@ -52,7 +44,6 @@ export default function Dashboard() {
           Authorization:token
         }
       });
-      console.log(res.data)
       let users = await clientServer.get("/getallusers",{
         headers:{
           Authorization:token
@@ -70,20 +61,21 @@ export default function Dashboard() {
           Authorization:token
         }
       });
-
       
       setOrders(res.data.orders);
       setUsers(users.data);
       setProducts(product.data);
       setNewUser(newUsers.data);
     } catch (error) {
-      console.log(error)
+      toast.error(error?.response?.data?.message || "Something went wrong");
     }
   }
 
 
   useEffect(() => {
-    getAllorders();
+    if(token){
+      getAllorders();
+    }
   },[token]);
 
   const pendingDelieveries = orders.filter((o) => ["Order Confirmed","Shipped","Out For Delivery"].includes(o.orderStatus));
@@ -315,8 +307,8 @@ export default function Dashboard() {
               <h2>Low Stock Products</h2>
             </div>
           
-            {products.filter((p) => p.quantity <= 20).map((product) => (
-              <div className={styles.stockItem}>
+            {products.filter((p) => p.quantity <= 20).map((product,idx) => (
+              <div className={styles.stockItem} key={idx}>
               <div>
                 <h4>{product?.name}</h4>
                 <p>{product?.category}</p>

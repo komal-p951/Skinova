@@ -4,6 +4,7 @@ import DashboardLayout from '@/layout/DashboardLayout';
 import styles from './styles.module.css';
 import { clientServer } from '@/index';
 import ProductCard from '@/components/ProductCard';
+import toast from "react-hot-toast";
 
 export default function index() {
     const [products, setProducts] = useState([]);
@@ -16,7 +17,7 @@ export default function index() {
             const res = await clientServer.get(`/category/${category}`);
             setProducts(res.data);
         } catch (error) {
-            console.log(error);
+            toast.error(error?.response?.data?.message || "Something went wrong");
         }
     }
     useEffect(() => {

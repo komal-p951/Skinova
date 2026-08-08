@@ -16,33 +16,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./styles.module.css";
 import { useRouter } from "next/router";
 import { clientServer } from "@/index";
-
-const SHOPPING_STATS = [
-  {
-    key: "orders",
-    icon: ShoppingBag,
-    count: 12,
-    label: "my orders",
-    cta: "view all orders",
-    path: "/myorders",
-  },
-  {
-    key: "wishlist",
-    icon: Heart,
-    count: 8,
-    label: "wishlist items",
-    cta: "view wishlist",
-    path: "/wishlist",
-  },
-  {
-    key: "cart",
-    icon: ShoppingCart,
-    count: 5,
-    label: "items in cart",
-    cta: "view cart",
-    path: "/cart",
-  },
-];
+import toast from "react-hot-toast";
 
 const BENEFITS = [
   { icon: TruckIcon, title: "Free Shipping", desc: "on orders over 550" },
@@ -93,16 +67,16 @@ function Profile() {
         },
       });
 
-      console.log("user = ", res.data);
+      
       setUser(res.data.user);
       setOrder(res.data.order);
     } catch (error) {
-      console.log(error);
+      toast.error(error?.response?.data?.message || "Something went wrong");
     }
   };
 
   useEffect(() => {
-    fetchData();
+    if(token) fetchData();
   }, [token]);
 
   useEffect(() => {
@@ -127,12 +101,13 @@ function Profile() {
           Authorization: token,
         },
       });
-      console.log(res.data.message, res.data);
+
+      toast.success(res.data?.message || "user updated !");
       setUser(res.data.user);
       setOpen(false);
       setIsupdate(false);
     } catch (error) {
-      console.log(error.message);
+      toast.error(error?.response?.data?.message || "Something went wrong");
     }
   };
 
@@ -161,7 +136,6 @@ function Profile() {
   return (
     <>
       <div className={styles.mainContainer}>
-        {/* ---------- Page header ---------- */}
         <div className={styles.pageHeader}>
           <h1>My Profile</h1>
           <div className={styles.breadcrumb}>
@@ -174,7 +148,6 @@ function Profile() {
           </p>
         </div>
 
-        {/* ---------- Profile card ---------- */}
         <div className={styles.profile}>
           <div className={styles.profilepicture}>
             <div>
@@ -326,7 +299,6 @@ function Profile() {
           </div>
         </div>
 
-        {/* ---------- Shopping summary ---------- */}
         <div className={styles.userShoppingDetails}>
           <div>
           <div onClick={() => router.push("/myorders")}>
@@ -372,7 +344,6 @@ function Profile() {
         </div>
         
 
-        {/* ---------- Benefits strip ---------- */}
         <div className={styles.benefits}>
           {BENEFITS.map(({ icon: Icon, title, desc }) => (
             <div className={styles.orderbanefits} key={title}>

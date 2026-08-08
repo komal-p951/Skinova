@@ -174,12 +174,15 @@ export const getProduct  = async(req,res) => {
 }
 
 export const addProduct = async (req, res) => {
+  console.log("addProduct controller called");
   try {
-    const { name, description, category, brand, price, quantity, SkinType } = req.body;
+    const { name, description, category, brand, price, quantity, SkinType, ingredients } = req.body;
+
+    console.log("body data is ===> ", req.body);
 
     
     if (!req.files || req.files.length === 0) {
-      return res.status(400).json({ message: "Koi image upload nahi hui" });
+      return res.status(400).json({ message: "no image uploaded" });
     }
 
 
@@ -187,6 +190,8 @@ export const addProduct = async (req, res) => {
       url: file.path,    
       filename: file.filename
     }));
+    const parsedIngredients = typeof ingredients === "string" ? JSON.parse(ingredients) : ingredients;
+
 
     const newProduct = new Product({
       name,
@@ -196,19 +201,18 @@ export const addProduct = async (req, res) => {
       price,
       quantity,
       SkinType,
-      images
+      images,
+      ingredients: parsedIngredients
     });
 
     await newProduct.save();
-    console.log(newProduct);
     return res.status(201).json({ 
       message: "Product added!", 
       product: newProduct 
     });
 
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({ message: "Server error", error });
+    return res.status(500).json({ message:error.message });
   }
 };
 

@@ -7,6 +7,7 @@ import Rating from '@/components/Rating';
 import { useRouter } from 'next/router';
 import FireConfetti from '@/components/FireConfetti';
 import { useCheckout } from '@/context/CheckoutContext';
+import toast from "react-hot-toast";
 
 function Cart() {
   const [products, setProducts] = useState([]);
@@ -33,10 +34,9 @@ function Cart() {
       });
       setProducts(res.data);
     } catch (error) {
-      console.log(error);
+      toast.error(error?.response?.data?.message || "Something went wrong");
     }
   }
-  // console.log("products = ",products);
 
   const subtotal = products
   .filter((p) => p.product !== null)
@@ -46,7 +46,6 @@ function Cart() {
   .filter((p) => p.product !== null)
   .reduce((acc, p) => acc + Math.ceil(p?.product?.price * 1.15 * p?.quantity), 0);
 
-  // console.warn(productOriginalPrice)
 
   productOriginalPrice = productOriginalPrice - subtotal;
 
@@ -55,7 +54,9 @@ function Cart() {
   const total = subtotal + shipping - discount;
 
   useEffect(() => {
-    fetchdata();
+    if(token){
+      fetchdata();
+    }
   },[token]);
 
   const handleContinue = () => {
@@ -77,10 +78,10 @@ function Cart() {
         Authorization:token
       }
     });
-    
+    toast.success(res.data?.message || "Item removed from cart",{position:"bottom-center"})
     fetchdata();
     } catch (error) {
-      console.log(error);
+      toast.error(error?.response?.data?.message || "Something went wrong");
     }
   }
 

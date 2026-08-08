@@ -3,6 +3,7 @@ import styles from "./styles.module.css";
 import { Search, MoveLeft } from "lucide-react";
 import { useRouter } from "next/router";
 import { clientServer } from "@/index";
+import toast from "react-hot-toast";
 
 export default function Orders() {
   const router = useRouter();
@@ -17,6 +18,7 @@ export default function Orders() {
     if (storedToken) setToken(storedToken);
     else router.push("/login");
   },[]);
+
   const fetchOrders = async () => {
     try {
       const res = await clientServer.get("/order/getallorders", {
@@ -25,15 +27,15 @@ export default function Orders() {
         },
       });
       setOrders(res.data.orders);
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Something went wrong");
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchOrders();
+    if(token) fetchOrders();
   }, [token]);
 
   const filteredOrders = orders.filter((item) => {
@@ -46,7 +48,7 @@ export default function Orders() {
   if (loading) {
     return <h2 className={styles.loading}>Loading...</h2>;
   }
-  console.log(orders);
+  
   const handleStatusChange = async(id,newStatus,payStatus) => {
     const previousOrders  = [...orders];
     try {
@@ -73,7 +75,7 @@ export default function Orders() {
       
       fetchOrders();
     } catch (error) {
-      console.log(error);
+      toast.error(error?.response?.data?.message || "Something went wrong");
       setOrders(previousOrders);
     }
   }

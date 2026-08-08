@@ -8,35 +8,33 @@ import ReviewCard from '@/components/ReviewCard';
 import Loader from '@/components/Loader/Loader';
 import { jwtDecode } from 'jwt-decode';
 import Rating from '@/components/Rating';
+import toast from 'react-hot-toast';
 
 function Product() {
 
 
+  const router = useRouter();
   let [count,setCount] = useState(1);
   const [product, setProduct] = useState({images:[]});
-  const router = useRouter();
   const { id } = router.query;
   const [loading,setLoading] = useState(true);
   const [isowner ,setIsOwner] = useState(false);
-  const [message, setMessage] = useState("");
-  const [errormessage, setErrorMessage] = useState("");
   const [token ,setToken] = useState("");
   const [isAdded, setIsAdded] = useState(false);
   const [isAddedInWishlist, setIsAddedInWishlist] = useState(false);
   const [cartProducts, setCartProducts] = useState([]);
   const [wishlistProducts, setWishListProducts] = useState([]);
   const [displayImages,setdisplayImages] = useState([]);
-
-  
+  const [isDescription, setIsDescription] = useState(true);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     if (storedToken) {
       setToken(storedToken);
+    }else{
+      router.push("/login");
     }
   },[]);
-
-
   
   let fetchdata = async()=> {
   if(!id) return;
@@ -52,13 +50,12 @@ function Product() {
       Authorization:token
     }
   });
-  
   setCartProducts(getCartProducts.data);
   setWishListProducts(getWishlistProducts.data);
   setProduct(response.data);
 
   } catch (error) {
-  console.log(error);
+  toast.error(error?.response?.data?.message || "Something went wrong");
   }
   finally{
   setLoading(false);
@@ -76,30 +73,18 @@ function Product() {
 
 
   useEffect(() => {
-  if ((product?._id && cartProducts.length > 0) || (product._id && wishlistProducts.length > 0)) {
-    const existsInCart = cartProducts.some((item) => item?.product?._id === product._id);
+  if ((product?._id && cartProducts.length > 0) || (product?._id && wishlistProducts.length > 0)) {
+    const existsInCart = cartProducts.some((item) => item?.product?._id === product?._id);
     if (existsInCart) setIsAdded(true);
-    const existsInWishlist = wishlistProducts.some((item) => item._id == product._id);
+    const existsInWishlist = wishlistProducts.some((item) => item._id == product?._id);
     if (existsInWishlist) setIsAddedInWishlist(true);
   }
 }, [cartProducts, product._id, wishlistProducts]);
 
   useEffect (() => {
-    if(!id) return;
-    if(!token) return;
-    fetchdata();
+    if(id && token) fetchdata();
   },[id,token]);
 
-  useEffect(() => {
-    if (message || errormessage) {
-      const timer = setTimeout(() => {
-        setMessage("");
-        setErrorMessage("");
-      }, 2000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [message, errormessage]);
 
 
   useEffect(() => {
@@ -117,11 +102,13 @@ function Product() {
         Authorization:token
       }
     });
+    toast.success(res.data?.message,{position: "bottom-center"});
     setIsAdded(true);
     } catch (error) {
-      console.log(error);
+      toast.error(error?.response?.data?.message || "Something went wrong");
     }
   }
+
   const handleDelete = async (id) => {
     if(token){
       try {
@@ -131,11 +118,11 @@ function Product() {
       }
     });
 
-    setMessage(res?.data?.message);
+    toast.success(res?.data?.message || "Product deleted!",{position:"bottom-center"});
     router.push("/");
 
     } catch (error) {
-      setErrorMessage(error?.response?.data?.message || "Something went wrong");
+      toast.error(error?.response?.data?.message || "Something went wrong");
     }
     }else{
       router.push("/login");
@@ -149,9 +136,10 @@ function Product() {
         Authorization: token
       }
     });
+    toast.success(res.data?.message || "added to wishlist",{position: "bottom-center"});
     setIsAddedInWishlist(true);
     } catch (error) {
-      console.log(error);
+      toast.error(error?.response?.data?.message || "Something went wrong");
     }
   }
 
@@ -162,9 +150,10 @@ function Product() {
           Authorization : token
         }
       });
+      toast.success(res.data?.message || "product removed from wishList!",{position:"bottom-center"});
       setIsAddedInWishlist(false);
     } catch (error) {
-      console.log(error);
+      toast.error(error?.response?.data?.message || "Something went wrong");
     }
   }
   
@@ -190,26 +179,7 @@ function Product() {
     <DashboardLayout>
       
         <div className={styles.mainContainer}>
-          {message.length > 0 ? (
-          <p
-            style={{ background: "#b3fdb0", border: "1px solid #337433" }}
-            className={styles.message}
-          >
-            {message}
-          </p>
-        ) : (
-          <></>
-        )}
-        {errormessage.length > 0 ? (
-          <p
-            className={styles.message}
-            style={{ background: "#ffbaba", border: "1px solid #f72b2b" }}
-          >
-            {errormessage}{" "}
-          </p>
-        ) : (
-          <></>
-        )}
+          
           <div className={styles.mainTopContainer}>
             <div className={styles.discount}><img src="/herobanerimages/skinova_banner.png" alt="" /></div>
             <div className={styles.path}>
@@ -248,7 +218,7 @@ function Product() {
 
               <div className={styles.productMidBar}>
                 <h1 className={styles.productName}>{product.name}</h1>
-                <h4 style={{marginTop:'1rem',opacity:"0.7"}}>{product.description}</h4>
+                {/* <h4 style={{marginTop:'1rem',opacity:"0.7"}}>{product.description}</h4> */}
                 <div className={styles.reviewStar}>
                   <span><Rating product={product}/></span>
                   <span>({product?.reviews?.length}+ review )</span>
@@ -258,7 +228,6 @@ function Product() {
               </div>
 
               <div style={{borderBottom:"2px solid wheat",marginInline:"16px"}}></div>
-
 
               <div className={styles.priceBar}>
                 <div className={styles.priceDev}>
@@ -278,7 +247,16 @@ function Product() {
                   <span onClick={() => setCount(count + 1)}> <Plus/> </span>
                 </div>
               </div>
+
               <div className={styles.addToCartBtn} onClick={() => addTocart(product._id)}><ShoppingCart/>{isAdded ? <p onClick={() => router.push("/cart")}>Go to cart</p> : <p>Add to cart</p>}</div>
+
+              <div className={styles.aboutProduct}>
+                <div className={styles.tabs}>
+                  <button className={isDescription ? styles.active : ""} onClick={() => setIsDescription(true)} >Description</button>
+                  <button onClick={() => setIsDescription(false)} className={!isDescription ? styles.active : ""}>Ingrediants</ button>
+                </div>
+              {isDescription ? <p>{product?.description}</p> : product?.ingredients.map((e,idx) => <span key={idx}>{e}{" , "}</span>)}
+              </div>
 
             </div>
           </div>

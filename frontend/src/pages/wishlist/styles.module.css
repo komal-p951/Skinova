@@ -29,16 +29,6 @@
     border-radius: 9px;
     background: whitesmoke;
 }
-/* .headButton{
-    display: flex;
-    gap: 0.2rem;
-    align-items: center;
-    background: #a7728d;
-    color: white;
-    border-radius: 9px;
-    padding: 0.6rem;
-    cursor: pointer;
-} */
 
 .subheading{
     margin-left: 1rem;
@@ -92,11 +82,6 @@
     color: #a7728d;
 }
 .stock{
-    /* width: fit-content; */
-    /* margin-block: 0.6rem; */
-    /* padding-inline: 0.6rem; */
-    /* background-color: whitesmoke; */
-    /* border-radius:9px; */
     display: flex;
     align-items: center;
 }
@@ -168,9 +153,6 @@
         flex-direction: column;
         gap: 0.8rem;
     }
-    .headButton{
-        display: none;
-    }
 }
 @media screen and (max-width:610px) {
     .mainContainer{
@@ -185,9 +167,6 @@
         overflow: hidden;
         text-overflow: ellipsis;
     }
-    /* .cardsContainer{
-        grid-template-columns: 1fr;
-    } */
     .buttonsBar{
         flex-direction: column;
         gap: 0.8rem;

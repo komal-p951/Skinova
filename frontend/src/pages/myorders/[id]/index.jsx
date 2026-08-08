@@ -12,13 +12,13 @@ import {
 } from "lucide-react";
 import { clientServer } from "@/index";
 import Loader from "@/components/Loader/Loader";
+import toast from "react-hot-toast";
 
 
 export default function OrderDetails() {
 
   const router = useRouter();
   const { id } = router.query;
-  console.log(id);
 
   const [token, setToken] = useState("");
   const [loading, setLoading] = useState(true);
@@ -43,18 +43,16 @@ export default function OrderDetails() {
           },
         }
       );
-      console.log("resdata = ",res.data);
       setOrder(res.data.order);
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Something went wrong");
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    if (!id || !token) return;
-    fetchOrder();
+    if (id && token) fetchOrder();
   }, [id, token]);
 
 

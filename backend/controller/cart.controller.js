@@ -10,6 +10,11 @@ export const getCartProducts = async(req,res) => {
         path:"reviews"
       }
     });
+    const validCart = user.cart.filter(item => item.product);
+
+    user.cart = validCart;
+    await user.save();
+
     return res.status(httpStatus.OK).json(user.cart);
   } catch (error) {
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({message: error.message});

@@ -3,18 +3,7 @@
   overflow-x: hidden;
 }
 
-.message{
-    width: 30rem;
-    max-width: 90vw;
-    position: fixed;
-    left: 50%;
-    transform: translateX(-50%);
-    top: 5rem;
-    padding-block: 1rem;
-    text-align: center;
-    border-radius: 1.5rem;
-    z-index: 10;
-}
+
 .like svg, .liked svg{
     height: 2rem;
     width: 2rem;
@@ -27,13 +16,11 @@
 }
 
 .discount{
-  /* height: 10rem; */
   width: 100%;
   overflow: hidden;
 }
 .discount img{
   min-height: 6rem;
-  /* height: 135px; */
   width: 100%;
   object-fit: contain;
   border-radius: 1rem;
@@ -262,6 +249,34 @@
   transform: scale(1.02);
 }
 
+.aboutProduct{
+  margin-top: 1.5rem;
+  border: 1px solid #a6859c;
+  padding: 1rem;
+  border-radius: 1rem;
+}
+
+.tabs{
+  display:flex;
+  gap:25px;
+  margin-bottom:20px;
+  border-bottom: 1px solid #a18197;
+}
+
+.tabs button{
+  border:none;
+  background:none;
+  font-size:18px;
+  cursor:pointer;
+  color:#676767;
+  padding-bottom:10px;
+}
+
+.tabs .active{
+  color:#9F7F96;
+  border-bottom:3px solid #4d1539;
+}
+
 .reviewsContainer{
   border: 2px solid black;
 }
@@ -337,7 +352,7 @@
   }
 }
 
-/* ---------- Tablets ---------- */
+/*  Tablets */
 @media screen and (max-width: 900px) {
   .path{
     margin-left: 1.5rem;
@@ -352,7 +367,6 @@
   }
 }
 
-/* ---------- Small tablets / large phones ---------- */
 @media screen and (max-width: 768px) {
   .leftContainer{
     flex-direction: column;
@@ -386,7 +400,7 @@
   }
 }
 
-/* ---------- Phones ---------- */
+/*  Phones */
 @media screen and (max-width: 576px) {
   .mainTopContainer{
     width: 100%;

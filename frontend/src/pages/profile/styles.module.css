@@ -31,7 +31,7 @@
   box-sizing: border-box;
 }
 
-/* ---------- Page header ---------- */
+/*  Page header  */
 .pageHeader {
   margin-bottom: 2rem;
 }
@@ -80,7 +80,7 @@
   margin-top: 0.35rem;
 }
 
-/* ---------- Profile card ---------- */
+/*  Profile card */
 .profile {
   display: flex;
   background: var(--paper);
@@ -182,7 +182,7 @@
   transform: translateY(0);
 }
 
-/* ---------- Data sections ---------- */
+/*  Data sections  */
 .profiledata {
   display: flex;
   gap: 2.5rem;
@@ -275,7 +275,7 @@
   background: var(--mauve-tint-2);
 }
 
-/* ---------- Shopping stats ---------- */
+/*   Shopping stats   */
 .userShoppingDetails {
   margin-top: 1.75rem;
   display: grid;
@@ -345,7 +345,7 @@
   transform: translateX(3px);
 }
 
-/* ---------- Benefits strip ---------- */
+/*   Benefits strip   */
 .benefits {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -387,7 +387,7 @@
   margin: 0.15rem 0 0;
 }
 
-/* ---------- Add-address modal ---------- */
+/*   Add-address modal   */
 .overlay {
   background: rgba(44, 34, 40, 0.5);
   height: 100dvh;
@@ -461,9 +461,7 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ============================================================
-   RESPONSIVE
-   ============================================================ */
+/* RESPONSIVE */
 
 @media screen and (max-width: 900px) {
   .benefits {

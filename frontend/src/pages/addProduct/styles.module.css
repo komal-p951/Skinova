@@ -3,16 +3,6 @@
     background: aliceblue;
     padding-block: 2rem;
 }
-.message{
-    width: 30rem;
-    position: absolute;
-    align-self: center;
-    justify-self: center;
-    top: 8rem;
-    padding-block: 1rem;
-    text-align: center;
-    border-radius: 1.5rem;
-}
 .product{
     margin-block: 1rem;
     line-height: 2rem;

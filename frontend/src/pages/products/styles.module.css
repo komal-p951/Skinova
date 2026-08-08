@@ -3,7 +3,6 @@
 }
 .topContainer{
   width: 100vw;
-  /* margin-top: 8.5rem; */
 }
 .midContainer{
   width: 100%;
@@ -19,9 +18,6 @@
   margin-left: 1rem;
 }
 
-/* .center {
-  font-size: 1.8rem;
-}  */
 .makeup {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -32,25 +28,8 @@
 }
 .productContainer{
   border-radius: 25px;
-  /* margin-bottom: 1rem; */
   color: #714f65;
 }
-/* .explore{
-  color: #fff;
-  cursor: pointer;
-  background: linear-gradient(135deg, #a8879e, #a48499, #9f7f96);
-  border-radius: 8px;
-  justify-content: center;
-  align-items: center;
-  width: 11rem;
-  min-height: 38px;
-  padding: 0.6rem;
-  font-weight: 500;
-  transition: all .3s;
-  display: flex;
-  align-self: center;
-  font-size: larger;
-} */
 
 @media screen and  (width <= 1192px){
     .makeup{

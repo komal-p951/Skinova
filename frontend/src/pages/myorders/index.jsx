@@ -9,6 +9,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { clientServer } from "@/index";
+import toast from "react-hot-toast";
 
 export default function Myorder() {
   const [myOrders, setMyOrders] = useState([]);
@@ -26,8 +27,7 @@ export default function Myorder() {
   }, []);
 
   useEffect(() => {
-    if (!token) return;
-    fetchOrders();
+    if (token) fetchOrders();
   }, [token]);
 
   const fetchOrders = async () => {
@@ -38,8 +38,8 @@ export default function Myorder() {
         },
       });
       setMyOrders(res.data.order);
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Something went wrong");
     }
   };
 
