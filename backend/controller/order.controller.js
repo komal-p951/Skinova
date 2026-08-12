@@ -23,15 +23,18 @@ export const createNewOrder = async(req,res) => {
             })
         }
 
-        products.forEach(async(product) => {
-            let id = product.product;
-            let prod = await Product.findById(id);
-            if(!prod)return res.json("no such product !");
-            prod.quantity -= product.quantity;
-            prod.sold += product.quantity;
+        for(const item of products){
+            const prod = await Product.findById(item.product);
+            if(!prod){
+                return res.status(404).json({message: "Product not found"});
+            }
+            if (prod.quantity < item.quantity) {
+                return res.status(400).json({ message: `${prod.name} is out of stock`});
+            }
+            prod.quantity -= item.quantity;
+            prod.sold += item.quantity;
             await prod.save();
-
-        });
+        }
 
         const order = new Order({
             user: user._id,
@@ -80,7 +83,7 @@ export const getOrder = async(req,res) => {
             return res.status(404).json({message: "User Not Found!"});
         }
 
-        const orderData = await Order.findById(orderId).populate("user")
+        const orderData = await Order.findOne({_id: orderId,user: req.user._id}).populate("user")
            .populate("products.product");
         if(!orderData){
             return res.status(httpStatus.NOT_FOUND).json({message:"No order found!"});

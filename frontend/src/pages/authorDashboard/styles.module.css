@@ -139,101 +139,7 @@
     background:#F2A654;
 }
 
-   /* Growth Indicators */
-
-.green{
-    display:flex;
-    align-items:center;
-    gap:.3rem;
-    color:#2db84d;
-    font-size:14px;
-    font-weight:600;
-}
-
-.red{
-    display:flex;
-    align-items:center;
-    gap:.3rem;
-    color:#e53935;
-    font-size:14px;
-    font-weight:600;
-}
-
-   /* Chart Section */
-
-/* .chartGrid{
-    display:grid;
-    grid-template-columns:2fr 1fr;
-    gap:1.5rem;
-    margin-bottom:2rem;
-}
-
-.chartCard,
-.summaryCard{
-    background:#fff;
-    border-radius:18px;
-    padding:1.5rem;
-    box-shadow:0 12px 30px rgba(164,132,153,.10);
-}
-
-.cardHeader{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:1.5rem;
-}
-
-.cardHeader h2{
-    color:#714f65;
-    font-size:1.3rem;
-}
-
-.select{
-    border:1px solid #e5d8e0;
-    outline:none;
-    padding:.55rem 1rem;
-    border-radius:8px;
-    background:#fff;
-    color:#714f65;
-    cursor:pointer;
-} */
-
-   /* Chart Placeholder */
-
-/* .chartPlaceholder{
-    height:300px;
-    display:flex;
-    align-items:flex-end;
-    justify-content:space-evenly;
-    gap:1rem;
-    padding:1rem;
-}
-
-.chartPlaceholder div{
-    width:45px;
-    border-radius:10px 10px 0 0;
-    background:linear-gradient(
-        to top,
-        #9F7F96,
-        #A8879E,
-        #E8D8E3
-    );
-    transition:.3s;
-}
-
-.chartPlaceholder div:hover{
-    transform:scaleY(1.08);
-}
-
-.bar1{height:120px;}
-.bar2{height:180px;}
-.bar3{height:140px;}
-.bar4{height:230px;}
-.bar5{height:200px;}
-.bar6{height:260px;}
-.bar7{height:170px;} */
-
-   /* Revenue Summary */
+/* Revenue Summary */
 
 .summaryItem{
     display:flex;
@@ -523,10 +429,6 @@
     grid-template-columns:repeat(2,1fr);
 }
 
-/* .chartGrid{
-    grid-template-columns:1fr;
-} */
-
 .bottomGrid{
     grid-template-columns:1fr;
 }
@@ -569,14 +471,6 @@
     display:block;
     overflow-x:auto;
 }
-
-/* .chartPlaceholder{
-    height:220px;
-} */
-
-/* .chartPlaceholder div{
-    width:28px;
-} */
 
 .productItem img{
     width:55px;
@@ -658,5 +552,3 @@ to{
 }
 
 }
-
-

@@ -14,10 +14,12 @@ export const isLogginUser = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.SECRET);
 
     const user = await User.findById(decoded.id);
-
+    if (!user) {
+      return res.status(401).json({ message: "User not found" });
+    }
     req.user = user;
     next();
   } catch (error) {
-    throw error;
+    return res.status(httpStatus.BAD_REQUEST).json({message: error.message});
   }
 };

@@ -38,10 +38,20 @@ export const addToCart = async(req,res) => {
     if(existingProduct){
       return res.status(httpStatus.BAD_REQUEST).json({ message: "Product Already in cart!" });
     }
+
+    if (!Number.isInteger(quantity) || quantity < 1) {
+      return res.status(400).json({
+        message: "Invalid quantity"
+      });
+    }
+    if (quantity > product.quantity) {
+      return res.status(400).json({ message: "Insufficient stock" });
+    }
     user.cart.push({
       product: product._id,
       quantity: quantity
     });
+
     await user.save();
     return res.status(httpStatus.OK).json({message: "Item Added in Cart!"});
   } catch (error) {

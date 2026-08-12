@@ -6,6 +6,7 @@ import { Heart, Star } from 'lucide-react';
 import { jwtDecode } from 'jwt-decode';
 import Rating from './Rating';
 import { clientServer } from '..';
+import toast from 'react-hot-toast';
 
 export default function ProductCard({product}) {
   const [isAdded, setIsAdded] = useState(false);
@@ -38,7 +39,7 @@ export default function ProductCard({product}) {
         setIsAdded(exists);
       }
       } catch (error) {
-        console.log(error.message);
+        toast.error(error);
       }
     }
     if(token){

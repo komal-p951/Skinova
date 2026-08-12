@@ -67,7 +67,7 @@ function Profile() {
         },
       });
 
-      
+      console.log(res.data)
       setUser(res.data.user);
       setOrder(res.data.order);
     } catch (error) {

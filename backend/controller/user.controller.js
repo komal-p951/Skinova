@@ -106,16 +106,19 @@ export const getProfile = async(req, res) => {
 
 export const updatedProfileData = async(req,res) => {
   try {
-    const data = req.body;
+    const {fullname, username, email, phone, address} = req.body;
     const user = await User.findById(req.user.id).select("-password");
     if(!user){
       return res.status(httpStatus.NOT_FOUND).json({ message:"User Not Found!" });
     }
 
-    Object.assign(user,data);
+    user.fullname = fullname;
+    user.username = username;
+    user.email = email;
+    user.phone = phone;
+    user.address = address;
 
     await user.save();
-    console.log(user);
 
     return res.json({message:"Profile updated successfully!",user});
   } catch (error) {
@@ -174,7 +177,7 @@ export const getProduct  = async(req,res) => {
 }
 
 export const addProduct = async (req, res) => {
-  console.log("addProduct controller called");
+  
   try {
     const { name, description, category, brand, price, quantity, SkinType, ingredients } = req.body;
 
@@ -263,7 +266,7 @@ export const editProduct = async(req,res) => {
 export const getNewuserCount = async(req,res) => {
     try {
         let today = new Date();
-        today.setHours = (0,0,0,0);
+        today.setHours(0, 0, 0, 0);
         let tomorrow = new Date(today);
         tomorrow.setDate(tomorrow.getDate() + 1);
         const newUser = await User.countDocuments({

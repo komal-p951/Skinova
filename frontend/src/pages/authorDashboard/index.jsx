@@ -6,9 +6,6 @@ import {
   IndianRupee,
   Users,
   Package,
-  TrendingUp,
-  TrendingDown,
-  Star,
   Plus,
   MoveLeft,
 } from "lucide-react";
@@ -82,8 +79,6 @@ export default function Dashboard() {
   const todayNewOrders = orders.filter((o) => o.orderStatus == "Order Confirmed");
 
   const totalRevenue = orders.reduce((acc, or) => (acc + or.total),0);
-
- 
   
   return (
     <div className={styles.container}>
@@ -116,7 +111,7 @@ export default function Dashboard() {
           <div>
             <p className={styles.cardTitle}>Total Orders</p>
             <h2>{orders.length}</h2>
-            <span className={styles.green}><TrendingUp size={15} />+12%</span>
+            {/* <span className={styles.green}><TrendingUp size={15} />+12%</span> */}
           </div>
         </div>
 
@@ -127,7 +122,7 @@ export default function Dashboard() {
           <div>
             <p className={styles.cardTitle}>Revenue</p>
             <h2>₹{Math.ceil(totalRevenue)}</h2>
-            <span className={styles.green}><TrendingUp size={15} />+8%</span>
+            {/* <span className={styles.green}><TrendingUp size={15} />+8%</span> */}
           </div>
 
         </div>
@@ -138,7 +133,7 @@ export default function Dashboard() {
           <div>
             <p className={styles.cardTitle}>Customers</p>
             <h2>{users.length}</h2>
-            <span className={styles.green}><TrendingUp size={15} />+15%</span>
+            {/* <span className={styles.green}><TrendingUp size={15} />+15%</span> */}
           </div>
         </div>
 
@@ -148,7 +143,7 @@ export default function Dashboard() {
           <div>
             <p className={styles.cardTitle}>Products</p>
             <h2>{products.length}</h2>
-            <span className={styles.red}><TrendingDown size={15} />-2%</span>
+            {/* <span className={styles.red}><TrendingDown size={15} />-2%</span> */}
           </div>
         </div>
       </div>
