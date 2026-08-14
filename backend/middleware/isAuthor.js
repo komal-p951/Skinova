@@ -6,7 +6,7 @@ export const authAdmin = async (req, res, next) => {
   try {
     const token = req.headers.authorization;
     if (!token) {
-      return res.status(httpStatus.NOT_FOUND).json({ message: "token not provided!" });
+      return res.status(httpStatus.UNAUTHORIZED).json({ message: "token not provided!" });
     }
     const decode = jwt.verify(token, process.env.SECRET);
     const admin = await User.findOne({
@@ -23,6 +23,9 @@ export const authAdmin = async (req, res, next) => {
     req.admin = admin;
     next();
   } catch (error) {
-    return res.status(httpStatus.NOT_ACCEPTABLE).json({ message: "Unauthorized" });
+    if (error.name === "TokenExpiredError") {
+      return res.status(httpStatus.UNAUTHORIZED).json({ code: "TOKEN_EXPIRED", message: "Your session has expired. Please log in again." });
+    }
+    return res.status(httpStatus.UNAUTHORIZED).json({ code: "TOKEN_INVALID", message: "Invalid token" });
   }
 };

@@ -20,6 +20,9 @@ export const isLogginUser = async (req, res, next) => {
     req.user = user;
     next();
   } catch (error) {
-    return res.status(httpStatus.BAD_REQUEST).json({message: error.message});
+    if (error.name === "TokenExpiredError") {
+      return res.status(httpStatus.UNAUTHORIZED).json({ code: "TOKEN_EXPIRED", message: "Your session has expired. Please log in again." });
+    }
+    return res.status(httpStatus.UNAUTHORIZED).json({ code: "TOKEN_INVALID", message: "Invalid token" });
   }
 };

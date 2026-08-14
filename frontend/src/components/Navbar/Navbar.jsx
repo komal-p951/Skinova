@@ -11,6 +11,7 @@ import {
   LayoutDashboard,
 } from "lucide-react";
 import { jwtDecode } from "jwt-decode";
+import toast from "react-hot-toast";
 
 export default function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -40,7 +41,7 @@ export default function Navbar() {
         setIsOwner(true);
       }
     } catch (err) {
-      console.log(err.message);
+      toast.error(err.response.data.message);
     }
   }, [token]);
 

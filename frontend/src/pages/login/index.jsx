@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { clientServer } from "@/index";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
+import { scheduleTokenExpiry } from "@/utils/auth";
 
 
 export default function LoginRegister() {
@@ -45,6 +46,7 @@ export default function LoginRegister() {
     try {
       let res = await clientServer.post("/login", formData);
       localStorage.setItem("token",res.data.token);
+      scheduleTokenExpiry();
 
       setFormData({
         fullname: "",

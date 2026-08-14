@@ -14,34 +14,43 @@ export default function ProductCard({product}) {
   const [isLoggedIn, setIsloggedIn] = useState(false);
   const [user, setUser] = useState("");
 
+
+  
+  
   const router = useRouter();
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     if(storedToken){
+      const decoded = jwtDecode(storedToken)
+      const expiryDate = new Date(decoded.exp * 1000); // milliseconds mein convert
+      console.log(expiryDate);
+
       setToken(storedToken);
       setIsloggedIn(true);
     }else{
       setIsloggedIn(false);
     }
   },[]);
+  
 
-  useEffect(() => {
-    const fetchdata = async() => {
-      try {
-      let res = await clientServer.get("/wishlist",{
-        headers:{
-          Authorization:token
-        }
-      });
-      const exists = res.data.some((item) => item?._id === product?._id);
-      if(exists){
-        setIsAdded(exists);
+  const fetchdata = async() => {
+    try {
+    let res = await clientServer.get("/wishlist",{
+      headers:{
+        Authorization:token
       }
-      } catch (error) {
-        toast.error(error);
-      }
+    });
+    const exists = res.data.some((item) => item?._id === product?._id);
+    if(exists){
+      setIsAdded(exists);
     }
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "somethig went wrong!");
+    }
+  }
+  
+  useEffect(() => {
     if(token){
       fetchdata();
     }

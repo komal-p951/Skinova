@@ -45,27 +45,25 @@ export default function Products() {
           <img src="/herobanerimages/skinova_banner.png" alt="barImg" />
         </div>
         <div className={styles.bottomContainer}>
-          {categories.map((category,idx) => 
+          {categories.map((category,idx) => {
+            const filteredProducts = products
+                  .filter((product) =>  product.category !== null && product.category === category)
+                  .slice(0, 4);
+                  if(filteredProducts.length === 0) return null;
+            return (
             <div className={styles.productContainer} key={idx}>
               <div className={styles.makeup}>
-                {products
-                  .filter((product) => product.category === category)
-                  .slice(0, 4)
-                  .map((product) => (
+                {filteredProducts.map((product) => (
                     <ProductCard key={product._id} product={product} />
                   ))}
               </div>
             </div>
-          )}
+            );
+          })
+          }
         </div>
       </div>
     </DashboardLayout>
   );
 }
 
-{/* <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:"2rem",paddingInline:"2rem"}}>
-              <p className={styles.center}>Skincare</p>
-              <div className={styles.explore}
-              onClick={() => router.push(`/category/${"Skincare"}`)}
-              >Explore more &nbsp; <MoveRight/></div>
-            </div> */}
