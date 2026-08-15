@@ -47,14 +47,14 @@ export default function Products() {
         <div className={styles.bottomContainer}>
           {categories.map((category,idx) => {
             const filteredProducts = products
-                  .filter((product) =>  product.category !== null && product.category === category)
+                  .filter((product) =>  product?.category !== null && product?.category === category)
                   .slice(0, 4);
                   if(filteredProducts.length === 0) return null;
             return (
             <div className={styles.productContainer} key={idx}>
               <div className={styles.makeup}>
                 {filteredProducts.map((product) => (
-                    <ProductCard key={product._id} product={product} />
+                    <ProductCard key={product?._id} product={product} />
                   ))}
               </div>
             </div>

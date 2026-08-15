@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export const clientServer = axios.create({
-    baseURL:'http://localhost:9090/skinova'
+    baseURL:'https://skinova-k3bm.onrender.com/'
 });
