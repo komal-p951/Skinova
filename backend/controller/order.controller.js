@@ -23,6 +23,8 @@ export const createNewOrder = async(req,res) => {
             })
         }
 
+        // Validate all products and stock availability first
+        const productsToUpdate = [];
         for(const item of products){
             const prod = await Product.findById(item.product);
             if(!prod){
@@ -31,8 +33,13 @@ export const createNewOrder = async(req,res) => {
             if (prod.quantity < item.quantity) {
                 return res.status(400).json({ message: `${prod.name} is out of stock`});
             }
-            prod.quantity -= item.quantity;
-            prod.sold += item.quantity;
+            productsToUpdate.push({ prod, quantity: item.quantity });
+        }
+
+        // Perform quantity updates and save only after all products are validated
+        for(const { prod, quantity } of productsToUpdate){
+            prod.quantity -= quantity;
+            prod.sold += quantity;
             await prod.save();
         }
 

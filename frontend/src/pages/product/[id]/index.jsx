@@ -73,13 +73,22 @@ function Product() {
 
 
   useEffect(() => {
-  if ((product?._id && cartProducts.length > 0) || (product?._id && wishlistProducts.length > 0)) {
-    const existsInCart = cartProducts.some((item) => item?.product?._id === product?._id);
-    if (existsInCart) setIsAdded(true);
-    const existsInWishlist = wishlistProducts.some((item) => item._id == product?._id);
-    if (existsInWishlist) setIsAddedInWishlist(true);
-  }
-}, [cartProducts, product._id, wishlistProducts]);
+    setIsAdded(false);
+    setIsAddedInWishlist(false);
+    setCount(1);
+  }, [id]);
+
+  useEffect(() => {
+    if (product?._id) {
+      const existsInCart = cartProducts.some((item) => item?.product?._id === product?._id);
+      setIsAdded(existsInCart);
+      const existsInWishlist = wishlistProducts.some((item) => item._id == product?._id);
+      setIsAddedInWishlist(existsInWishlist);
+    } else {
+      setIsAdded(false);
+      setIsAddedInWishlist(false);
+    }
+  }, [cartProducts, product?._id, wishlistProducts]);
 
   useEffect (() => {
     if(id && token) fetchdata();
@@ -248,14 +257,14 @@ function Product() {
                 </div>
               </div>
 
-              <div className={styles.addToCartBtn} onClick={() => addTocart(product._id)}><ShoppingCart/>{isAdded ? <p onClick={() => router.push("/cart")}>Go to cart</p> : <p>Add to cart</p>}</div>
+              <div className={styles.addToCartBtn} onClick={() => addTocart(product._id)}><ShoppingCart/>{isAdded ? <p onClick={(e) => { e.stopPropagation(); router.push("/cart"); }}>Go to cart</p> : <p>Add to cart</p>}</div>
 
               <div className={styles.aboutProduct}>
                 <div className={styles.tabs}>
                   <button className={isDescription ? styles.active : ""} onClick={() => setIsDescription(true)} >Description</button>
                   <button onClick={() => setIsDescription(false)} className={!isDescription ? styles.active : ""}>Ingrediants</ button>
                 </div>
-              {isDescription ? <p>{product?.description}</p> : product?.ingredients.map((e,idx) => <span key={idx}>{e}{" , "}</span>)}
+              {isDescription ? <p>{product?.description}</p> : (product?.ingredients || []).map((e,idx) => <span key={idx}>{e}{" , "}</span>)}
               </div>
 
             </div>

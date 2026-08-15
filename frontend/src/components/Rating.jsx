@@ -12,7 +12,7 @@ export default function Rating({product}) {
   return (
     <div>
         {[...Array(5)].map((_,i) => 
-            i < avgRating ? (
+            i < Math.round(avgRating) ? (
             <FaStar key={i} color='#a3748b'/>
             ) :
             (

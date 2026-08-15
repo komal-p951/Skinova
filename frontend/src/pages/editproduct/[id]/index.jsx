@@ -64,7 +64,7 @@ export default function editproduct() {
         },
       });
       toast.success(res?.data?.message);
-      router.back(`/porduct/${id}`);
+      router.push(`/product/${id}`);
     } catch (error) {
       toast.error(error?.response?.data?.message || "Something went wrong");
     }
@@ -88,6 +88,26 @@ export default function editproduct() {
       ...prev,
       images: prev.images.filter((_, i) => i !== idx),
     }));
+  };
+
+  const handleImage = (e) => {
+    const files = Array.from(e.target.files);
+    const totalImages = data.images.length + files.length;
+    if (totalImages > 4) {
+      toast.error("You can upload at max 4 images");
+      return;
+    }
+
+    files.forEach((file) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setData((prev) => ({
+          ...prev,
+          images: [...prev.images, { url: reader.result, filename: file.name }],
+        }));
+      };
+      reader.readAsDataURL(file);
+    });
   };
 
   if (loading) {
@@ -128,7 +148,7 @@ export default function editproduct() {
                     <label htmlFor="productimage" className={styles.browsfilesbtn}>
                       Browse Files
                     </label>
-                    <input type="file" id="productimage" style={{ display: "none" }} />
+                    <input type="file" id="productimage" style={{ display: "none" }} multiple onChange={handleImage} />
                   </div>
                   <p className={styles.uploadHint}>You can upload up to 4 images</p>
                 </div>

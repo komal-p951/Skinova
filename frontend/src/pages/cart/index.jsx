@@ -96,12 +96,21 @@ function Cart() {
                 <span style={{cursor:'pointer'}} onClick={() => router.push("/")}>Home</span>&nbsp; / &nbsp;
                 <span style={{cursor:'pointer'}}>Cart</span></div>
             </div>
-            {!subtotal-total >= 1 && 
-            <div className={styles.right}>
-              <Truck color='#714f65'/>
-              <div><p style={{fontWeight:"600"}}>Congratulations! You are eligible for free shipping</p><p style={{opacity:"0.6"}}>Add $2D more to your cart and get free shipping</p></div>
-            </div>
-            }
+            {subtotal > 0 && (
+              <div className={styles.right}>
+                <Truck color='#714f65'/>
+                {shipping === 0 ? (
+                  <div>
+                    <p style={{fontWeight:"600"}}>Congratulations! You are eligible for free shipping</p>
+                  </div>
+                ) : (
+                  <div>
+                    <p style={{fontWeight:"600"}}>You are not eligible for free shipping yet</p>
+                    <p style={{opacity:"0.6"}}>Add ₹{750 - subtotal} more to your cart and get free shipping</p>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
           {!products.length && <div className={styles.EmptyCartMessage}><span>Your Cart is Empty </span></div>}
           {products.length >= 1 && 

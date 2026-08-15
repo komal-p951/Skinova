@@ -96,7 +96,7 @@ useEffect(() => {
     let past = new Date(dateString);
     let diff = Math.floor((now - past) / (1000 * 60 * 60 * 24))
     if(diff < 1) return "Today";
-    else if(diff > 1 &&diff < 7) return `${diff} Days ago`;
+    else if(diff >= 1 && diff < 7) return `${diff} ${diff === 1 ? "Day" : "Days"} ago`;
     else if(diff >= 7 && diff < 30) return `${Math.floor(diff/7)} Weeks ago`;
     else if(diff >= 30 && diff < 365) return `${Math.floor(diff/30)} Months ago`;
     else return `${Math.floor(diff/365)} Years ago`;
@@ -117,7 +117,7 @@ useEffect(() => {
             <p className={styles.avgRating}>{avgRating.toFixed(1)}</p>
             <div>
             {[...Array(5)].map((_,i) => 
-            i < avgRating ? (
+            i < Math.round(avgRating) ? (
               <FaStar key={i} color='#a3748b'/>
             ) :
             (
@@ -185,10 +185,10 @@ useEffect(() => {
           {reviews?.map((review) => (
             <div key={review._id} className={styles.reviewCard} >
               <div className={styles.reviewCardhead}>
-                <p className={styles.username}>{review?.user?.fullname.slice(0,1).toUpperCase()}</p>
+                <p className={styles.username}>{(review?.user?.fullname || "?").slice(0,1).toUpperCase()}</p>
 
                 <div className={styles.userDetail}>
-                  <p style={{fontSize:"1.3rem"}}>{review?.user?.fullname}</p>
+                  <p style={{fontSize:"1.3rem"}}>{review?.user?.fullname || "Anonymous"}</p>
                   <p style={{opacity:"0.6"}}>{formatDate(review?.createdAt)}</p>
                 </div>
 

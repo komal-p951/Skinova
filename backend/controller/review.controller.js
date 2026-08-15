@@ -37,6 +37,9 @@ export const deleteReview = async(req,res) => {
     try {
         const { productId, reviewId } = req.params;
         const review = await ProductReview.findById(reviewId);
+        if(!review){
+            return res.status(httpStatus.NOT_FOUND).json({message: "Review not found!"});
+        }
         const isOwner = review.user.toString() === req.user._id.toString();
 
         const isAdmin = req.user.role === "author";

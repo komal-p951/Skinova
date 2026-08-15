@@ -23,6 +23,18 @@ export default function addProduct() {
     ingredients:[]
   });
   
+  const [previews, setPreviews] = useState([]);
+
+  useEffect(() => {
+    if (!data.images) return;
+    const newPreviews = data.images.map((file) => URL.createObjectURL(file));
+    setPreviews(newPreviews);
+
+    return () => {
+      newPreviews.forEach((url) => URL.revokeObjectURL(url));
+    };
+  }, [data.images]);
+  
   const router = useRouter();
   
   useEffect(() => {
@@ -147,11 +159,11 @@ export default function addProduct() {
                 </div>
 
                 <div className={styles.uploadedImages}>
-                  {data.images.map((file,idx) => (
+                  {previews.map((url,idx) => (
                     <div className={styles.singleImage} key={idx}>
                       <img
-                          src={URL.createObjectURL(file)}  
-                          alt={file.name}
+                          src={url}  
+                          alt={`preview-${idx}`}
                           key={idx}
                         />
                     </div>

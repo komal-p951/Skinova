@@ -80,6 +80,12 @@ export default function Dashboard() {
 
   const totalRevenue = orders.reduce((acc, or) => (acc + or.total),0);
   
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const todayRevenue = orders
+    .filter((o) => new Date(o.createdAt) >= today)
+    .reduce((acc, or) => acc + or.total, 0);
+  
   return (
     <div className={styles.container}>
 
@@ -348,7 +354,7 @@ export default function Dashboard() {
           </div>
 
           <div className={styles.activityItem}>
-            <h3>₹{Math.ceil(totalRevenue)}</h3>
+            <h3>₹{Math.ceil(todayRevenue)}</h3>
             <p>Today's Revenue</p>
           </div>
 

@@ -39,10 +39,10 @@ export default function Orders() {
   }, [token]);
 
   const filteredOrders = orders.filter((item) => {
-    return (
-      item._id.toLowerCase().includes(search.toLowerCase()) ||
-      item.user?.fullname?.toLowerCase().includes(search.toLowerCase())
-    );
+    const orderId = item._id ? item._id.toLowerCase() : "";
+    const fullname = item.user?.fullname ? item.user.fullname.toLowerCase() : "";
+    const searchStr = search.toLowerCase();
+    return orderId.includes(searchStr) || fullname.includes(searchStr);
   });
 
   if (loading) {

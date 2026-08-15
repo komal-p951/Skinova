@@ -11,17 +11,15 @@ export const scheduleTokenExpiry = () => {
     const currentTime = Date.now();
     const timeUntilExpiry = expiryTime - currentTime;
 
-    console.log("decoded data is", decoded.exp * 1000 - Date.now())
+  
     if (timeUntilExpiry <= 0) {
       localStorage.removeItem("token");
-      // window.location.href = "/login";
       return;
     }
 
     setTimeout(() => {
       localStorage.removeItem("token");
       toast.error("Your session end please login!")
-      // window.location.href = "/login";
     }, timeUntilExpiry);
 
   } catch (error) {
