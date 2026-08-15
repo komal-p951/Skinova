@@ -16,14 +16,14 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 
 
-app.get("/", (req,res) => {
+app.get("/health", (req,res) => {
     return res.json({message: 'server is working....'})
 })
-app.use("/skinova/wishlist",wishListRouter);
-app.use("/skinova/cart",cartRouter);
-app.use("/skinova/reviews",reviewRouter);
-app.use("/skinova/order",orderRouter);
-app.use("/skinova",userRouter);
+app.use("/wishlist",wishListRouter);
+app.use("/cart",cartRouter);
+app.use("/reviews",reviewRouter);
+app.use("/order",orderRouter);
+app.use("/",userRouter);
 
 
 
@@ -31,9 +31,10 @@ const MONGO_URL = process.env.MONGO_URL;
 
 const start = async() => {
     const connectDB = await mongoose.connect(MONGO_URL);
-    app.listen(9090,() => {
-    console.log(`server running on port ${9090}`);
-   })
+    const PORT = process.env.PORT || 9090;
+    app.listen(PORT, () => {
+        console.log(`server running on port ${PORT}`);
+    });
 }
 
 start();
