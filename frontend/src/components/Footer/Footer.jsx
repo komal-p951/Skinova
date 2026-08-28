@@ -1,9 +1,7 @@
 import React from 'react'
 import styles from "./styles.module.css";
-import { ArrowUp, Binoculars, Droplet, FlaskConical, Gem, Leaf, Search } from 'lucide-react';
+import { ArrowUp, Droplet, FlaskConical, Gem, Leaf } from 'lucide-react';
 import { BsFacebook, BsInstagram, BsLinkedin, BsYoutube } from 'react-icons/bs';
-import { LiaLinkedin } from 'react-icons/lia';
-import { BiUpArrow } from 'react-icons/bi';
 
 
 export default function Footer() {
@@ -25,60 +23,60 @@ export default function Footer() {
               glowing skin. Reveal your natural radiance with Skinova.
             </p>
             <div className={styles.socialIcons}>
-              <a href="#" aria-label="Instagram" className={styles.socialIcon}>
+              <p  aria-label="Instagram" className={styles.socialIcon}>
                 <i className="ti ti-brand-instagram" aria-hidden="true"><BsInstagram /></i>
-              </a>
-              <a href="#" aria-label="Facebook" className={styles.socialIcon}>
+              </p>
+              <p aria-label="Facebook" className={styles.socialIcon}>
                 <i className="ti ti-brand-facebook" aria-hidden="true"><BsFacebook /></i>
-              </a>
-              <a href="#" aria-label="Linked in" className={styles.socialIcon}>
+              </p>
+              <p aria-label="Linked in" className={styles.socialIcon}>
                 <i className="ti ti-brand-tiktok" aria-hidden="true"><BsLinkedin/></i>
-              </a>
-              <a href="#" aria-label="YouTube" className={styles.socialIcon}>
+              </p>
+              <p aria-label="YouTube" className={styles.socialIcon}>
                 <i className="ti ti-brand-youtube" aria-hidden="true"><BsYoutube/></i>
-              </a>
+              </p>
             </div>
           </div>
 
           <div className={styles.footerCol}>
             <h4 className={styles.colTitle}>Shop</h4>
             <ul className={styles.linkList}>
-              <li><a href="/products" className={styles.link}>All Products</a></li>
-              <li><a href="/skincare" className={styles.link}>Skincare</a></li>
-              <li><a href="/makeup" className={styles.link}>Makeup</a></li>
-              <li><a href="/haircare" className={styles.link}>Haircare</a></li>
-              <li><a href="/bath-body" className={styles.link}>Bath &amp; Body</a></li>
-              <li><a href="/fragrance" className={styles.link}>Fragrance</a></li>
-              <li><a href="/tools-accessories" className={styles.link}>Tools &amp; Accessories</a></li>
-              <li><a href="/supplements" className={styles.link}>Supplements</a></li>
+              <li  className={styles.link}>All Products</li>
+              <li  className={styles.link}>kincare</li>
+              <li  className={styles.link}>Makeup</li>
+              <li  className={styles.link}>Haircare</li>
+              <li  className={styles.link}>Bath &amp; Body</li>
+              <li  className={styles.link}>Fragrance</li>
+              <li  className={styles.link}>Tools &amp; Accessories</li>
+              <li  className={styles.link}>Supplements</li>
             </ul>
           </div>
 
           <div className={styles.footerCol}>
             <h4 className={styles.colTitle}>Customer Care</h4>
             <ul className={styles.linkList}>
-              <li><a href="/account" className={styles.link}>My Account</a></li>
-              <li><a href="/orders-returns" className={styles.link}>Orders &amp; Returns</a></li>
-              <li><a href="/shipping-policy" className={styles.link}>Shipping Policy</a></li>
-              <li><a href="/return-policy" className={styles.link}>Return Policy</a></li>
-              <li><a href="/payment-methods" className={styles.link}>Payment Methods</a></li>
-              <li><a href="/faq" className={styles.link}>FAQ</a></li>
-              <li><a href="/track-order" className={styles.link}>Track Your Order</a></li>
-              <li><a href="/contact" className={styles.link}>Contact Us</a></li>
+              <li  className={styles.link}>My Account </li>
+              <li  className={styles.link}>Orders &amp; Returns </li>
+              <li  className={styles.link}>Shipping Policy </li>
+              <li  className={styles.link}>Return Policy </li>
+              <li  className={styles.link}>Payment Methods </li>
+              <li  className={styles.link}>FAQ </li>
+              <li  className={styles.link}>Track Your Order </li>
+              <li  className={styles.link}>Contact Us </li>
             </ul>
           </div>
 
           <div className={styles.footerCol}>
             <h4 className={styles.colTitle}>About Us</h4>
             <ul className={styles.linkList}>
-              <li><a href="/our-story" className={styles.link}>Our Story</a></li>
-              <li><a href="/ingredients" className={styles.link}>Ingredients</a></li>
-              <li><a href="/reviews" className={styles.link}>Reviews</a></li>
-              <li><a href="/blog" className={styles.link}>Blog</a></li>
-              <li><a href="/sustainability" className={styles.link}>Sustainability</a></li>
-              <li><a href="/careers" className={styles.link}>Careers</a></li>
-              <li><a href="/affiliate-program" className={styles.link}>Affiliate Program</a></li>
-              <li><a href="/press" className={styles.link}>Press</a></li>
+              <li className={styles.link}>Our Story</li>
+              <li className={styles.link}>Ingredients</li>
+              <li className={styles.link}>Blog</li>
+              <li className={styles.link}>Reviews</li>
+              <li className={styles.link}>Sustainability</li>
+              <li className={styles.link}>Careers</li>
+              <li className={styles.link}>Affiliate Program</li>
+              <li className={styles.link}>Press</li>
             </ul>
           </div>
 
@@ -88,17 +86,6 @@ export default function Footer() {
               Subscribe to get special offers, free giveaways, and
               once-in-a-lifetime deals.
             </p>
-            <form className={styles.newsletterForm}>
-              <input
-                type="email"
-                placeholder="Enter your email"
-                required
-                className={styles.newsletterInput}
-              />
-              <button type="submit" className={styles.newsletterButton} aria-label="Subscribe">
-                <i className="ti ti-mail" aria-hidden="true"><Search/></i>
-              </button>
-            </form>
           </div>
 
         </div>
@@ -150,11 +137,11 @@ export default function Footer() {
           <p className={styles.copyright}>&copy; 2024 Skinova. All rights reserved.</p>
 
           <ul className={styles.bottomLinks}>
-            <li><a href="/privacy-policy" className={styles.bottomLink}>Privacy Policy</a></li>
+            <li className={styles.bottomLink}>Privacy Policy</li>
             <li className={styles.divider}>|</li>
-            <li><a href="/terms" className={styles.bottomLink}>Terms &amp; Conditions</a></li>
+            <li className={styles.bottomLink}>Terms &amp; Conditions</li>
             <li className={styles.divider}>|</li>
-            <li><a href="/sitemap" className={styles.bottomLink}>Sitemap</a></li>
+            <li className={styles.bottomLink}>Sitemap</li>
           </ul>
 
           <div className={styles.bottomRight}>

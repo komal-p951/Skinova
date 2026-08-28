@@ -20,7 +20,6 @@
   margin: 0 auto;
 }
 
-/*  Brand column */
 
 .logoRow {
   display: flex;
@@ -91,7 +90,6 @@
   background: #8f5372;
 }
 
-/*  Link columns */
 
 .colTitle {
   color: #b06c8c;
@@ -123,52 +121,12 @@
   color: #a8577e;
 }
 
-/* Newsletter column */
 
 .newsletterText {
   color: #7a6b72;
   font-size: 14px;
   line-height: 1.7;
   margin: 0 0 18px;
-}
-
-.newsletterForm {
-  display: flex;
-  margin-bottom: 24px;
-}
-
-.newsletterInput {
-  flex: 1;
-  padding: 12px 14px;
-  border: 1px solid #e6cddb;
-  border-right: none;
-  background: #ffffff;
-  color: #3a2c33;
-  font-size: 13px;
-  border-radius: 6px 0 0 6px;
-  outline: none;
-}
-
-.newsletterInput::placeholder {
-  color: #b8a6ae;
-}
-
-.newsletterButton {
-  width: 46px;
-  background: #a8577e;
-  color: #ffffff;
-  border: none;
-  border-radius: 0 6px 6px 0;
-  cursor: pointer;
-  font-size: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.2s ease;
-}
-
-.newsletterButton:hover {
-  background: #8f4468;
 }
 
 .trustBar {

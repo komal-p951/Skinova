@@ -11,16 +11,17 @@ import {
 } from "lucide-react";
 import { clientServer } from "@/index";
 import toast from "react-hot-toast";
+import Loader from "@/components/Loader/Loader";
 
 
 export default function Dashboard() {
   const router = useRouter();
-
   const [token, setToken] = useState("");
   const [orders,setOrders] = useState([]);
   const [users, setUsers] = useState([]);
   const [products, setProducts] = useState([]);
   const [newUser, setNewUser] = useState(0);
+  const [loading,setLoading] = useState(true);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
@@ -65,6 +66,8 @@ export default function Dashboard() {
       setNewUser(newUsers.data);
     } catch (error) {
       toast.error(error?.response?.data?.message || "Something went wrong");
+    }finally{
+      setLoading(false);
     }
   }
 
@@ -85,7 +88,10 @@ export default function Dashboard() {
   const todayRevenue = orders
     .filter((o) => new Date(o.createdAt) >= today)
     .reduce((acc, or) => acc + or.total, 0);
-  
+  if(loading) {
+    return  <Loader/> ;
+  }
+
   return (
     <div className={styles.container}>
 

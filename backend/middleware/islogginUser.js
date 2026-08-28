@@ -9,7 +9,7 @@ export const isLogginUser = async (req, res, next) => {
     if (!token) {
       return res
         .status(httpStatus.NOT_FOUND)
-        .json({ message: "Token not provided!" });
+        .json({ message: "You should be login first!" });
     }
     const decoded = jwt.verify(token, process.env.SECRET);
 

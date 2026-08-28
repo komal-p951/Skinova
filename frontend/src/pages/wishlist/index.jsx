@@ -5,11 +5,13 @@ import { ChevronRight, Dot, Heart, ShoppingBag, TrashIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { clientServer } from "@/index";
 import toast from "react-hot-toast";
+import Loader from "@/components/Loader/Loader";
 
 function WishList() {
   const router = useRouter();
   const [token, setToken] = useState("");
   const [userData, setUserData] = useState([]);
+  const [loading,setLoading] = useState(true);
 
   useEffect(() => {
     const storedtoken = localStorage.getItem("token");
@@ -30,6 +32,8 @@ function WishList() {
       setUserData(res.data);
     } catch (error) {
       toast.error(error?.response?.data?.message);
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -61,6 +65,10 @@ function WishList() {
     } catch (error) {
       toast.error(error?.response?.data?.message || "Something went wrong");
     }
+  }
+
+  if(loading) {
+    return <Loader/> ;
   }
 
   return (

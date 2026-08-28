@@ -31,15 +31,29 @@ function Product() {
     const storedToken = localStorage.getItem("token");
     if (storedToken) {
       setToken(storedToken);
-    }else{
-      router.push("/login");
     }
   },[]);
-  
+  let fetchProductdata = async() => {
+    if(!id) return;
+    console.log(id)
+    try {
+      let response = await clientServer.get(`/${id}`);
+      console.log(response)
+      setProduct(response.data);
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Something went wrong");
+    }finally{
+      setLoading(false);  
+    }
+  }
+
+  useEffect(() => {
+    if(id) fetchProductdata();
+  },[id])
+
   let fetchdata = async()=> {
   if(!id) return;
   try {
-  let response = await clientServer.get(`/${id}`);
   let getCartProducts  = await clientServer.get("/cart",{
     headers:{
       Authorization:token
@@ -52,16 +66,18 @@ function Product() {
   });
   setCartProducts(getCartProducts.data);
   setWishListProducts(getWishlistProducts.data);
-  setProduct(response.data);
 
   } catch (error) {
   toast.error(error?.response?.data?.message || "Something went wrong");
-  }
-  finally{
-  setLoading(false);
+  }finally{
+    setLoading(false);
   }
 }
-  
+
+  useEffect (() => {
+    if(id && token) fetchdata();
+  },[id,token]);
+
   
   useEffect(() => {
     if(!token) return;
@@ -89,10 +105,6 @@ function Product() {
       setIsAddedInWishlist(false);
     }
   }, [cartProducts, product?._id, wishlistProducts]);
-
-  useEffect (() => {
-    if(id && token) fetchdata();
-  },[id,token]);
 
 
 

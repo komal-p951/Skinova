@@ -10,10 +10,12 @@ import {
 } from "lucide-react";
 import { clientServer } from "@/index";
 import toast from "react-hot-toast";
+import Loader from "@/components/Loader/Loader";
 
 export default function Myorder() {
   const [myOrders, setMyOrders] = useState([]);
   const [token, setToken] = useState("");
+  const [loading,setLoading] = useState(true);
 
   const router = useRouter();
 
@@ -40,6 +42,8 @@ export default function Myorder() {
       setMyOrders(res.data.order);
     } catch (error) {
       toast.error(error?.response?.data?.message || "Something went wrong");
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -55,6 +59,9 @@ export default function Myorder() {
         return styles.placed;
     }
   };
+  if(loading) {
+      return <Loader/>;
+    }
 
   return (
     <div className={styles.container}>

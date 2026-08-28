@@ -30,7 +30,7 @@ export default function Products() {
     product();
   }, []);
 
-   if(loading) {
+  if(loading) {
     return <DashboardLayout> <Loader/> </DashboardLayout>;
   }
 

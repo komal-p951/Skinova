@@ -6,7 +6,7 @@ export const authAdmin = async (req, res, next) => {
   try {
     const token = req.headers.authorization;
     if (!token) {
-      return res.status(httpStatus.UNAUTHORIZED).json({ message: "token not provided!" });
+      return res.status(httpStatus.UNAUTHORIZED).json({ message: "You should be login first!" });
     }
     const decode = jwt.verify(token, process.env.SECRET);
     const admin = await User.findOne({

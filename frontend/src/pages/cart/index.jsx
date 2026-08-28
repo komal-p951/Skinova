@@ -8,10 +8,12 @@ import { useRouter } from 'next/router';
 import FireConfetti from '@/components/FireConfetti';
 import { useCheckout } from '@/context/CheckoutContext';
 import toast from "react-hot-toast";
+import Loader from '@/components/Loader/Loader';
 
 function Cart() {
   const [products, setProducts] = useState([]);
   const [token, setToken] = useState("");
+  const [loading,setLoading] = useState(true);
   const { setCheckoutData } = useCheckout();
 
   const router = useRouter();
@@ -35,6 +37,8 @@ function Cart() {
       setProducts(res.data);
     } catch (error) {
       toast.error(error?.response?.data?.message || "Something went wrong");
+    }finally{
+      setLoading(false);
     }
   }
 
@@ -83,6 +87,10 @@ function Cart() {
     } catch (error) {
       toast.error(error?.response?.data?.message || "Something went wrong");
     }
+  }
+
+  if(loading) {
+    return <Loader/>;
   }
 
   return (

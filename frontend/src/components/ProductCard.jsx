@@ -24,7 +24,7 @@ export default function ProductCard({product}) {
     if(storedToken){
       const decoded = jwtDecode(storedToken)
       const expiryDate = new Date(decoded.exp * 1000); // milliseconds mein convert
-      console.log(expiryDate);
+      // console.log(expiryDate);
 
       setToken(storedToken);
       setIsloggedIn(true);

@@ -17,6 +17,7 @@ import styles from "./styles.module.css";
 import { useRouter } from "next/router";
 import { clientServer } from "@/index";
 import toast from "react-hot-toast";
+import Loader from "@/components/Loader/Loader";
 
 const BENEFITS = [
   { icon: TruckIcon, title: "Free Shipping", desc: "on orders over 550" },
@@ -49,6 +50,7 @@ function Profile() {
     },
   });
   const [isupdate, setIsupdate] = useState(false);
+  const [loading,setLoading] = useState(true);
 
   useEffect(() => {
     const stoken = localStorage.getItem("token");
@@ -67,11 +69,12 @@ function Profile() {
         },
       });
 
-      console.log(res.data)
       setUser(res.data.user);
       setOrder(res.data.order);
     } catch (error) {
       toast.error(error?.response?.data?.message || "Something went wrong");
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -132,6 +135,10 @@ function Profile() {
       }));
     }
   };
+
+  if(loading) {
+    return <Loader/> ;
+  }
 
   return (
     <>
