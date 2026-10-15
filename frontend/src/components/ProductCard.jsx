@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import styles from './style.module.css';
 import { useRouter } from 'next/navigation';
-import { FaRegStar, FaStar } from 'react-icons/fa';
-import { Heart, Star } from 'lucide-react';
+import { Star } from 'lucide-react';
 import { jwtDecode } from 'jwt-decode';
-import Rating from './Rating';
 import { clientServer } from '..';
 import toast from 'react-hot-toast';
 
@@ -12,10 +10,6 @@ export default function ProductCard({product}) {
   const [isAdded, setIsAdded] = useState(false);
   const [token, setToken] = useState("");
   const [isLoggedIn, setIsloggedIn] = useState(false);
-  const [user, setUser] = useState("");
-
-
-  
   
   const router = useRouter();
 

@@ -1,38 +1,213 @@
 .mainContainer {
   width: 100%;
   max-width: 100%;
-  overflow-x: hidden;  /* ✅ side scroll band */
+  overflow-x: hidden; 
+}
+.aiContainer {
+  position: fixed;
+  right: 20px;
+  bottom: 35px;
+  width: 9vh;
+  height: 9vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
 }
 
-.navDiv {
+.ai {
   width: 100%;
-  margin-bottom: 9.5rem;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.ai:hover {
+  transform: scale(1.08);
+}
+
+.hovertext {
+  position: absolute;
+  top: 50%;
+  right: 110%;
+  transform: translateY(-50%);
+  color: white;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 8px 14px;
+  border-radius: 5px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
+  white-space: nowrap;
+}
+
+.aiContainer:hover .hovertext {
+  opacity: 1;
+  visibility: visible;
+}
+
+.aiChatWindow {
+  width: 500px;
+  height: 68vh;
+  background-color: rgb(250, 221, 221);
+  position: fixed;
+  right: 10px;
+  bottom: 50px;
+  border-radius: 20px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.top {
+  height: 8vh;
+  flex-shrink: 0;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  background-color: #a48499;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  color: rgb(255, 246, 228);
+  position: relative;
+}
+
+.aiinside {
+  height: 50px;
+  margin-left: 8px;
+  margin-top: 8px;
+  border-radius: 50%;
+}
+
+.closeBtn {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: rgb(255, 246, 228);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.chatmessages {
+  flex: 1;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+}
+
+.msg {
+  max-width: 80%;
+  padding: 9px 12px;
+  border-radius: 12px;
+  font-size: 13.5px;
+  line-height: 1.4;
+}
+
+.msg.bot {
+  align-self: flex-start;
+  background: #ffffff;
+  color: #2c1f28;
+  border-bottom-left-radius: 4px;
+}
+
+.msg.user {
+  align-self: flex-end;
+  background: #a48499;
+  color: #ffffff;
+  border-bottom-right-radius: 4px;
+}
+
+.loader {
+  width: 37px;
+  height: 18px;
+  object-fit: cover;
+  display: block;
+}
+
+.inputRow {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: rgb(250, 221, 221);
+}
+
+.inputRow input {
+  flex: 1;
+  height: 2.6rem;
+  border-radius: 20px;
+  border: 1px solid #d9b7c4;
+  padding: 0 14px;
+  outline: none;
+  font-size: 13.5px;
+}
+
+.inputRow input:focus {
+  border-color: #a48499;
+}
+
+.sendBtn {
+  height: 2.6rem;
+  padding: 0 16px;
+  border-radius: 20px;
+  border: none;
+  background: #a48499;
+  color: #ffffff;
+  font-size: 13.5px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.sendBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .midDiv {
   width: 100%;
   margin-top: 6rem;
 }
-.footerDiv{
+
+.footerDiv {
   margin-top: 8rem;
 }
-@media screen and (max-width : 800px) {
-  .navDiv{
+
+@media screen and (max-width: 800px) {
+  .navDiv {
     margin-bottom: 11.5rem;
   }
 }
 @media screen and (width <= 650px) {
-  .navDiv{
+  .navDiv {
     margin-bottom: calc(100px + 5rem);
+  }
+  .aiChatWindow {
+    width: 400px;
   }
 }
 @media screen and (width <= 450px) {
-  .navDiv{
+  .navDiv {
     margin-bottom: calc(65px + 6.8rem);
+  }
+  .aiChatWindow {
+    width: 318px;
   }
 }
 @media screen and (width <= 388px) {
-  .navDiv{
+  .navDiv {
     margin-bottom: calc(100px + 6.8rem);
+  }
+  .aiChatWindow {
+    width: 270px;
   }
 }

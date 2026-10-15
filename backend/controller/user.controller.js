@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import Product from "../model/product.js";
 import ProductRreview from "../model/productReview.js";
 import Order from "../model/order.js";
+import getOpenAIAPIResponse from "../openai.js";
 
 
 export const RegisterUser = async (req, res) => {
@@ -181,8 +182,6 @@ export const addProduct = async (req, res) => {
   try {
     const { name, description, category, brand, price, quantity, SkinType, ingredients } = req.body;
 
-    console.log("body data is ===> ", req.body);
-
     
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({ message: "no image uploaded" });
@@ -276,6 +275,16 @@ export const getNewuserCount = async(req,res) => {
             },
         });
        return res.status(200).json(newUser);
+    } catch (error) {
+        return res.status(httpStatus.BAD_REQUEST).json({message: error.message});
+    }
+}
+
+export const getResponse = async(req, res) => {
+   try {
+        let { message } = req.body;
+        let response = await getOpenAIAPIResponse(message);
+        return res.json({response});
     } catch (error) {
         return res.status(httpStatus.BAD_REQUEST).json({message: error.message});
     }

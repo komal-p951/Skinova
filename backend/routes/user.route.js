@@ -1,5 +1,5 @@
 import { Router } from'express'
-import { addProduct, deleteProduct, editProduct, getAllProducts, getAllUsers, getNewuserCount, getProduct, getProductsByCategory, getProfile, loginUser, RegisterUser, updatedProfileData } from '../controller/user.controller.js';
+import { addProduct, deleteProduct, editProduct, getAllProducts, getAllUsers, getNewuserCount, getProduct, getProductsByCategory, getProfile, getResponse, loginUser, RegisterUser, updatedProfileData } from '../controller/user.controller.js';
 import { authAdmin } from '../middleware/isAuthor.js';
 import { addReview } from '../controller/review.controller.js';
 import { isLogginUser } from '../middleware/islogginUser.js';
@@ -20,6 +20,7 @@ router.route("/addproduct").post(authAdmin,upload.array("images"),addProduct);
 router.route("/category/:category").get(getProductsByCategory);
 router.route("/user").get(isLogginUser,getProfile);
 router.route("/user/newUser").get(authAdmin, getNewuserCount);
+router.route("/ai/chat").post(getResponse)
 router.route("/user/update").patch(isLogginUser,updatedProfileData);
 router.route("/:id").get(getProduct);
 router.route("/:id")

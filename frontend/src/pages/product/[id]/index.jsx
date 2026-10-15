@@ -35,10 +35,8 @@ function Product() {
   },[]);
   let fetchProductdata = async() => {
     if(!id) return;
-    console.log(id)
     try {
       let response = await clientServer.get(`/${id}`);
-      console.log(response)
       setProduct(response.data);
     } catch (error) {
       toast.error(error?.response?.data?.message || "Something went wrong");

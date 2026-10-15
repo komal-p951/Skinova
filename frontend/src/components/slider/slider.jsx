@@ -12,9 +12,9 @@ function Slider() {
           modules={[Autoplay]}
           loop={true}
           className={styles.swiper}
-          spaceBetween={20}
+          spaceBetween={16}
           grabCursor={true}
-          speed={850}
+          speed={880}
           autoplay={{
             delay: 2000,
             disableOnInteraction: false,
